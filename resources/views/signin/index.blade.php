@@ -118,7 +118,7 @@
                         </div>
                         <a href="#" class="text-link">Forgot Password?</a>
                     </div>
-                    <button type="submit" class="btn btn-primary">Log In</button>
+                    <a href="{{ route('userdash.index') }}" class="btn btn-primary">Log In</a>
                 </form>
                 <div class="text-center my-3">or sign up with</div>
                 <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center">

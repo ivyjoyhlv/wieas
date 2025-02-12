@@ -73,7 +73,8 @@
                 <div class="col-md-8">
                     <h4>Complete your profile</h4>
                     <p>Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur</p>
-                    <button class="btn btn-outline-primary">Complete my Profile</button>
+                    <a href="{{ route('userdash.settings') }}" class="btn btn-outline-primary">Complete my Profile</a>
+
                 </div>
                 <div class="col-md-2 text-end">
                     <img src="{{ asset('images/pic2.jpg') }}" alt="Illustration" class="img-fluid" style="max-width: 150px;">
