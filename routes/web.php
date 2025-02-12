@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SignupController;
+use App\Http\Controllers\UserDashController;
+use App\Http\Controllers\AdminDashController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +22,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/landingpage', [LandingController::class, 'index'])->name('landingpage.index');
+Route::get('/landingpage', [LandingController::class, 'jobs'])->name('landingpage.jobs');
+
+
+Route::get('/signin', [LoginController::class, 'index'])->name('signin.index');
+
+Route::get('/signup', [SignupController::class, 'index'])->name('signup.index');
+
+Route::get('/userdash', [UserDashController::class, 'index'])->name('userdash.index');
+Route::get('/userdash', [UserDashController::class, 'settings'])->name('userdash.settings');
+
+Route::get('/admindash', [AdminDashController::class, 'index'])->name('admindash.index');
+Route::get('/admindash', [AdminDashController::class, 'joblist'])->name('admindash.joblist');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
