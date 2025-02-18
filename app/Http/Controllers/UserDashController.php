@@ -12,5 +12,8 @@ class UserDashController extends Controller
     public function settings(){
         return view('userdash.settings');
     }
+    public function jobopenings(){
+        return view('userdash.jobopenings');
+    }
 }
 

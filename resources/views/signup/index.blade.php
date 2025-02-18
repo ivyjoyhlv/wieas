@@ -73,22 +73,30 @@
                 <img src="{{ asset('images/workforce.png') }}" alt="Logo" width="40"> <strong style="font-size: 25px;">WIEAS</strong>
             </div>
             <h3 class="text-center mb-4 fw-bold">Create Account</h3>
-            <form action="{{ route('register') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
-                </div>
-                <div class="mb-3">
-                    <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
-                </div>
-                <div class="mb-3">
-                    <input type="email" name="email" class="form-control" placeholder="Email" required>
-                </div>
-                <div class="mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="Password" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Sign Up</button>
-            </form>
+            <form method="POST" action="{{ route('signup.store') }}">
+            @csrf
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="first_name" id="first_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="last_name" id="last_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
             <div class="text-center my-3">or sign up with</div>
             <button class="google-btn btn d-flex align-items-center justify-content-center">
                 <img src="{{ asset('images/google.webp') }}" alt="Google" width="20" class="me-2"> Google

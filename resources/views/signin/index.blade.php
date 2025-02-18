@@ -103,23 +103,18 @@
             <div class="login-content">
                 <h4 class="fw-bold">Log in</h4>
                 <p class="text-muted">Welcome back! Please enter your details.</p>
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" placeholder="Enter your email">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-control" placeholder="Enter your password">
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <input type="checkbox" id="rememberMe"> <label for="rememberMe">Remember me</label>
-                        </div>
-                        <a href="#" class="text-link">Forgot Password?</a>
-                    </div>
-                    <a href="{{ route('userdash.index') }}" class="btn btn-primary">Log In</a>
-                </form>
+                <form method="POST" action="{{ route('signin.login') }}">
+            @csrf
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
                 <div class="text-center my-3">or sign up with</div>
                 <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center">
                     <img src="{{ asset('images/google.webp') }}" alt="Google" width="20" class="me-2"> Google
