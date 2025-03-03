@@ -18,9 +18,9 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.index') }}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.jobopenings') }}">Find Jobs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Saved Jobs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">...</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pinned</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Conference</a></li>
                 </ul>
             </div>
             <div class="d-flex align-items-center">
@@ -34,7 +34,7 @@
                 <div class="d-flex align-items-center">
                 <img src="{{ asset('images/bogart.jpg') }}" class="rounded-circle me-2 img-fluid" style="width: 40px; height: 40px;" alt="User Profile">
                 <div>
-                        <span class="d-block fw-bold">{{ session('applicant')->first_name }}</span>
+                        <span class="d-block fw-bold">{{ session('applicant')->first_name }} {{ session('applicant')->last_name }} </span>
                         <small class="text-muted">{{ session('applicant')->email }}</small>
                     </div>
                     <div class="dropdown">
@@ -49,25 +49,7 @@
         </div>
     </nav>
     
-    <div class="container mt-5">
-        <h1 class="fw-bold">Find a job</h1>
-
-        <div class="row g-3 align-items-center mb-4">
-            <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Search Job">
-            </div>
-            <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Country">
-            </div>
-            <div class="col-md-4 d-flex gap-2">
-                <button class="btn btn-outline-secondary">
-                    <i class="bi bi-sliders"></i>
-                </button>
-                <button class="btn btn-primary">
-                    <i class="bi bi-search"></i> Search
-                </button>   
-            </div>
-        </div>
+    <div class="container mt-5">    
 
         <h3 class="mt-4 mb-3">Hello, {{ session('applicant')->first_name }}!</h3>
         
@@ -92,8 +74,8 @@
 </div>
         
         <div class="card p-4">
-            <h4>Saved Jobs</h4>
-            <p>No saved jobs yet.</p>
+            <h4>Pinned</h4>
+            <p>No pinned jobs yet.</p>
         </div>
     </div>
     <script>

@@ -10,7 +10,6 @@
     </head>
     <body>
 
-    <!-- Main Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container d-flex justify-content-between align-items-center">
             <a class="navbar-brand d-flex align-items-center" href="#">
@@ -20,9 +19,9 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.index') }}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.jobopenings') }}">Find Jobs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Saved Jobs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">...</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pinned</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Conference</a></li>
                 </ul>
             </div>
             <div class="d-flex align-items-center">
@@ -44,256 +43,300 @@
             <div class="card p-4 shadow-sm">
                 <h3 class="fw-bold">Settings</h3>
 
-                <!-- Tabs Navigation -->
                 <ul class="nav nav-tabs mt-3" id="settingsTab">
-                    <li class="nav-item">
-                        <a class="nav-link active fw-bold" data-bs-toggle="tab" href="#personal">
-                            <i class="bi bi-person"></i> Personal
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#profile">
-                            <i class="bi bi-person-badge"></i> Profile
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#social">
-                            <i class="bi bi-globe"></i> Social Links
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#account">
-                            <i class="bi bi-gear"></i> Account Setting
-                        </a>
-                    </li>
-                </ul>
-
-        <!-- Tab Content -->
-        <div class="tab-content mt-4">
-                    
-                    <!-- Personal Settings Tab -->
+    <li class="nav-item">
+        <a class="nav-link active fw-bold" data-bs-toggle="tab" href="#personal">
+            <i class="bi bi-person"></i> Personal
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#profile">
+            <i class="bi bi-person-badge"></i> Profile
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#social">
+            <i class="bi bi-globe"></i> Social Links
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#account">
+            <i class="bi bi-gear"></i> Account Setting
+        </a>
+    </li>
+</ul>
+<div class="tab-content mt-4">
     <div class="tab-pane fade show active" id="personal">
-        <h5 class="fw-bold">Basic Information</h5>
+        <!-- Personal content here -->
+        <h4 class="fw-bold">Basic Information</h4>
 
-        <div class="row">
-            <!-- Profile Picture Upload -->
-            <div class="col-md-3">
-                <label class="fw-bold">Profile Picture</label>
-                <div class="border rounded text-center p-3 d-flex flex-column align-items-center justify-content-center" style="height: 150px; position: relative;">
-                    <input type="file" id="profileUpload" class="d-none">
-                    <label for="profileUpload" class="w-100 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer">
-                        <i class="bi bi-cloud-upload fs-3 text-muted"></i>
-                        <p class="small text-muted">Browse photo or drop here</p>
-                        <small class="text-muted">A photo larger than 400 pixels works best. Max photo size 5 MB.</small>
-                    </label>
-                    <img id="profilePreview" src="" class="img-fluid rounded-circle mt-2 d-none" style="width: 100px; height: 100px; object-fit: cover;">
-                </div>
-            </div>
-
-            <div class="col-md-9">
-                <form>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="fw-bold">Full Name</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="fw-bold">Title/Headline</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label class="fw-bold">Experience</label>
-                            <select class="form-select">
-                                <option selected>Select...</option>
-                                <option>Less than 1 year</option>
-                                <option>1-3 years</option>
-                                <option>3-5 years</option>
-                                <option>5+ years</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="fw-bold">Education</label>
-                            <select class="form-select">
-                                <option selected>Select...</option>
-                                <option>High School</option>
-                                <option>Bachelor's Degree</option>
-                                <option>Master's Degree</option>
-                                <option>PhD</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label class="fw-bold">Email Address</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                                <input type="email" class="form-control" placeholder="Email Address">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="fw-bold">Contact</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <label class="fw-bold">City Address</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Provincial Address</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Citizenship</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <label class="fw-bold">Age</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Place of Birthdate</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Religion</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <label class="fw-bold">Passport No.</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Date of Issue</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Place of Issue</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <label class="fw-bold">Name of Spouse</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Occupation</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Name(s) of Children</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-
-                        <div class="col-md-6">
-                            <label class="fw-bold">Name of Father</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="fw-bold">Name of Mother</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label class="fw-bold">Person to Notify in Case of Emergency</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="fw-bold">Relationship</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                    <div class="col-md-6">
-                            <label class="fw-bold">Contact No.</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="fw-bold">Address</label>
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-
-                </form>
-            </div>
-        </div>
-
-        <!-- CV/Resume Section -->
-        <div class="mt-5">
-            <h5 class="fw-bold">Your CV/Resume</h5>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="border p-3 rounded">
-                        <i class="bi bi-file-earmark-text fs-3"></i>
-                        <p class="mb-1">Professional Resume</p>
-                        <small>3.5 MB</small>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="border p-3 rounded position-relative">
-                        <i class="bi bi-file-earmark-text fs-3"></i>
-                        <p class="mb-1">Product Designer</p>
-                        <small>4.7 MB</small>
-                        <div class="dropdown position-absolute top-0 end-0">
-                            <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-three-dots"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Edit Resume</a></li>
-                                <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash"></i> Delete</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="border p-3 rounded">
-                        <i class="bi bi-file-earmark-text fs-3"></i>
-                        <p class="mb-1">Visual Designer</p>
-                        <small>1.3 MB</small>
-                    </div>
-                </div>
-            </div>
-            <!-- Add CV/Resume -->
-            <div class="mt-3">
-                <input type="file" id="cvUpload" hidden>
-                <label for="cvUpload" class="border p-3 rounded d-block text-center w-100 bg-light cursor-pointer" 
-                    style="border: 2px dashed #ccc;">
-                    <i class="bi bi-plus-circle fs-3 text-primary"></i>
-                    <p class="mb-1 fw-bold">Add CV/Resume</p>
-                    <small class="text-muted">Browse file or drop here. Only PDF.</small>
-                </label>
-            </div>
-            <div class="mt-4 text-end">
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
+<div class="row">
+    <div class="col-md-3">
+        <label class="fw-bold">Profile Picture</label>
+        <div class="border rounded text-center p-3 d-flex flex-column align-items-center justify-content-center" style="height: 150px; position: relative;">
+            <input type="file" id="profileUpload" class="d-none">
+            <label for="profileUpload" class="w-100 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer">
+                <i class="bi bi-cloud-upload fs-3 text-muted"></i>
+                <p class="small text-muted">Browse photo or drop here</p>
+                <small class="text-muted">A photo larger than 400 pixels works best. Max photo size 5 MB.</small>
+            </label>
+            <img id="profilePreview" src="" class="img-fluid rounded-circle mt-2 d-none" style="width: 100px; height: 100px; object-fit: cover;">
         </div>
     </div>
 
+    <div class="col-md-9">
+        <form>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="fw-bold">Full Name</label>
+                    <input type="text" class="form-control" placeholder="Full Name">
+                </div>
+                <div class="col-md-6">
+                    <label class="fw-bold">Salutation</label>
+                    <select class="form-select">
+                        <option selected>Select...</option>
+                        <option>Mr.</option>
+                        <option>Ms.</option>
+                        <option>Mrs.</option>
+                    </select>
+                </div>
+            </div>
 
-    <!-- Profile Settings Tab -->
-    <div class="tab-pane fade show active" id="profile">
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="fw-bold">Experience</label>
+                    <select class="form-select">
+                        <option selected>Select...</option>
+                        <option>Less than 1 year</option>
+                        <option>1-3 years</option>
+                        <option>3-5 years</option>
+                        <option>5+ years</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="fw-bold">Education</label>
+                    <select class="form-select">
+                        <option selected>Select...</option>
+                        <option>High School</option>
+                        <option>Bachelor's Degree</option>
+                        <option>Master's Degree</option>
+                        <option>PhD</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="fw-bold">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input type="email" class="form-control" placeholder="Email Address">
+                    </div>
+                </div>
+            <div class="col-md-6">
+                <label class="fw-bold">Contact</label>
+                <input type="tel" class="form-control" placeholder="Enter contact number" oninput="validatePhoneInput(event)">
+            </div>
+
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-4 mb-3">
+                    <label class="fw-bold">Region *</label>
+                    <select name="region" class="form-control form-control-md" id="region" required>
+                        <option value="">Select Region</option>
+                        <!-- Region Options will be populated here -->
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3" id="province-container" style="display:none;">
+                    <label class="fw-bold">Province *</label>
+                    <select name="province" class="form-control form-control-md" id="province" required>
+                        <option value="">Select Province</option>
+                        <!-- Province Options will be populated here -->
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3" id="city-container" style="display:none;">
+                    <label class="fw-bold">City / Municipality *</label>
+                    <select name="city" class="form-control form-control-md" id="city" required>
+                        <option value="">Select City / Municipality</option>
+                        <!-- City Options will be populated here -->
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3" id="barangay-container" style="display:none;">
+                    <label class="fw-bold">Barangay *</label>
+                    <select name="barangay" class="form-control form-control-md" id="barangay" required>
+                        <option value="">Select Barangay</option>
+                        <!-- Barangay Options will be populated here -->
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3" id="street-container" style="display:none;">
+                    <label class="fw-bold">Street (Optional)</label>
+                    <input type="text" class="form-control form-control-md" name="street_text" id="street-text">
+                </div>
+            </div>
+
+
+            <div class="row mt-3">
+            <div class="col-md-4">
+                <label class="fw-bold">Place of Birth</label>
+                <input type="text" class="form-control" id="placeOfBirth" placeholder="ex// Marilao">
+            </div>
+            <div class="col-md-4">
+                <label class="fw-bold">Date of Birth</label>
+                <input type="date" class="form-control" id="dob" onchange="calculateAge()" placeholder="">
+            </div>
+            <div class="col-md-4">
+                <label class="fw-bold">Age</label>
+                <input type="text" class="form-control" id="age" placeholder="" readonly>
+            </div>
+                <div class="col-md-4">
+                <label class="fw-bold">Religion</label>
+                    <select class="form-select">
+                        <option selected>Select...</option>
+                        <option>Roman Catholic</option>
+                        <option>Islam</option>
+                        <option>Iglesia ni Cristo</option>
+                        <option>Seventh Day Adventist</option>
+                        <option>Aglipay</option>
+                        <option>Iglesia Filipina Independiente</option>
+                        <option>Bible Baptist Church</option>
+                        <option>Jehovah's Witness</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-4">
+                <label class="fw-bold">Passport No:</label>
+                <input type="tel" class="form-control" placeholder="Enter Passport Number" oninput="validatePhoneInput(event)">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold">Date of Issue</label>
+                    <input type="date" class="form-control" placeholder="">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold">Place of Issue</label>
+                    <input type="text" class="form-control" placeholder="ex// Cabanatuan" oninput="validateTextInput(event)">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label class="fw-bold">Name of Spouse</label>
+                    <input type="text" class="form-control" placeholder="ex// wife/partner" oninput="validateTextInput(event)">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold">Occupation</label>
+                    <input type="text" class="form-control" placeholder="ex// work" oninput="validateTextInput(event)">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold">Name(s) of Children</label>
+                    <div id="childrenFields">
+                        <!-- Initially no children input field -->
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addChild()">+</button>
+                </div>
+
+
+            <div class="row mt-3">
+
+                <div class="col-md-6">
+                    <label class="fw-bold">Name of Father</label>
+                    <input type="text" class="form-control" placeholder="Enter Father's Name" oninput="validateTextInput(event)">
+                </div>
+                <div class="col-md-6">
+                    <label class="fw-bold">Name of Mother</label>
+                    <input type="text" class="form-control" placeholder="Enter Mother's Name" oninput="validateTextInput(event)">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="fw-bold">Person to Notify in Case of Emergency</label>
+                    <input type="text" class="form-control" placeholder="ex// Father name">
+                </div>
+                <div class="col-md-6">
+                    <label class="fw-bold">Relationship</label>
+                    <select class="form-select">
+                        <option selected>Select...</option>
+                        <option>Father</option>
+                        <option>Mother</option>
+                        <option>Guardian</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+            <div class="col-md-6">
+                <label class="fw-bold">Contact</label>
+                <input type="text" class="form-control" placeholder="Contact No:" required id="contact-input">
+            </div>
+                <div class="col-md-6">
+                    <label class="fw-bold">Address</label>
+                    <input type="text" class="form-control" placeholder="ex// Cabanatuan">
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<!-- CV/Resume Section -->
+<div class="mt-5">
+    <h5 class="fw-bold">Your CV/Resume</h5>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="border p-3 rounded">
+                <i class="bi bi-file-earmark-text fs-3"></i>
+                <p class="mb-1">Professional Resume</p>
+                <small>3.5 MB</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="border p-3 rounded position-relative">
+                <i class="bi bi-file-earmark-text fs-3"></i>
+                <p class="mb-1">Product Designer</p>
+                <small>4.7 MB</small>
+                <div class="dropdown position-absolute top-0 end-0">
+                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Edit Resume</a></li>
+                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash"></i> Delete</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="border p-3 rounded">
+                <i class="bi bi-file-earmark-text fs-3"></i>
+                <p class="mb-1">Visual Designer</p>
+                <small>1.3 MB</small>
+            </div>
+        </div>
+    </div>
+    <!-- Add CV/Resume -->
+    <div class="mt-3">
+        <input type="file" id="cvUpload" hidden>
+        <label for="cvUpload" class="border p-3 rounded d-block text-center w-100 bg-light cursor-pointer" 
+            style="border: 2px dashed #ccc;">
+            <i class="bi bi-plus-circle fs-3 text-primary"></i>
+            <p class="mb-1 fw-bold">Add CV/Resume</p>
+            <small class="text-muted">Browse file or drop here. Only PDF.</small>
+        </label>
+    </div>
+    <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+</div>
+</div>
+    </div>
+    <div class="tab-pane fade" id="profile">
+        <!-- Profile content here -->
+        <div class="tab-pane fade show active" id="profile">
         <h5 class="fw-bold">Profile Information</h5>
 
         <div class="row">
@@ -474,9 +517,11 @@
         </div>
     </div>
 
-
-                    <!-- Social Links Tab -->
-                    <div class="tab-pane fade" id="social">
+    
+    </div>
+    <div class="tab-pane fade" id="social">
+        <!-- Social content here -->
+        <div class="tab-pane fade show active" id="social">
                         <h5 class="fw-bold">Social Links</h5>
 
                         <form id="socialLinksForm">
@@ -558,8 +603,10 @@
                     </div>
 
 
-                    <!-- Account Settings Tab -->
+    </div>
     <div class="tab-pane fade" id="account">
+        <!-- Account content here -->
+        <div class="tab-pane fade show active" id="account">
         <h5 class="fw-bold">Account Settings</h5>
 
         <!-- Contact Info Section -->
@@ -691,13 +738,13 @@
     </div>
 
 
+    </div>
+</div>
 
-                </div>
-            </div>
-        </div>
+  
 
         <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
             <!-- JavaScript for Dynamic Social Links -->
         <script>
@@ -766,6 +813,293 @@
                     updateSocialIcon(select.parentElement);
                 });
             });
-        </script>
+
+            document.getElementById('contact-input').addEventListener('input', function(e) {
+    // Only allow numbers
+    this.value = this.value.replace(/[^0-9]/g, '');
+});
+
+const regions = {
+    "Region 3": {
+        provinces: {
+            "Aurora": {
+                cities: {
+                    "Baler": ["Barangay 1", "Barangay 2", "Barangay 3"],
+                    "Casiguran": ["Barangay A", "Barangay B", "Barangay C"],
+                    "Dingalan": ["Barangay X", "Barangay Y", "Barangay Z"],
+                    "Maria Aurora": ["Barangay P", "Barangay Q", "Barangay R"],
+                    "Dilasag": ["Barangay I", "Barangay II", "Barangay III"],
+                    "San Luis": ["Barangay L", "Barangay M", "Barangay N"],
+                    "Dipaculao": ["Barangay D1", "Barangay D2", "Barangay D3"],
+                    "Dinalungan": ["Barangay E1", "Barangay E2", "Barangay E3"],
+                    "Aurora": ["Barangay F1", "Barangay F2", "Barangay F3"]
+                }
+            },
+            "Bataan": {
+                cities: {
+                    "Balanga": ["Barangay 1", "Barangay 2", "Barangay 3"],
+                    "Mariveles": ["Barangay A", "Barangay B", "Barangay C"],
+                    "Bagac": ["Barangay X", "Barangay Y", "Barangay Z"],
+                    "Dinalupihan": ["Barangay P", "Barangay Q", "Barangay R"],
+                    "Moron": ["Barangay I", "Barangay II", "Barangay III"],
+                    "Orion": ["Barangay L", "Barangay M", "Barangay N"],
+                    "Pilar": ["Barangay D1", "Barangay D2", "Barangay D3"]
+                }
+            },
+            "Bulacan": {
+                cities: {
+                    "Malolos": ["Barangay 1", "Barangay 2", "Barangay 3"],
+                    "Baliuag": ["Barangay A", "Barangay B", "Barangay C"],
+                    "Meycauayan": ["Barangay X", "Barangay Y", "Barangay Z"],
+                    "Marilao": ["Barangay P", "Barangay Q", "Barangay R"],
+                    "Calumpit": ["Barangay I", "Barangay II", "Barangay III"],
+                    "Doña Remedios Trinidad": ["Barangay L", "Barangay M", "Barangay N"],
+                    "San Ildefonso": ["Barangay D1", "Barangay D2", "Barangay D3"],
+                    "San Miguel": ["Barangay E1", "Barangay E2", "Barangay E3"],
+                    "San Rafael": ["Barangay F1", "Barangay F2", "Barangay F3"]
+                }
+            },
+            "Nueva Ecija": {
+                cities: {
+                    "Aliaga": ["Barangay 1", "Barangay 2", "Barangay 3"],
+                    "Palayan City": ["Barangay A", "Barangay B", "Barangay C"],
+                    "Gapan City": ["Barangay X", "Barangay Y", "Barangay Z"],
+                    "Cabanatuan City": ["Bitas", "Daan Sarile", "Valdefuente"],
+                    "Bungabon": ["Barangay I", "Barangay II", "Barangay III"],
+                    "Carranglan": ["Barangay L", "Barangay M", "Barangay N"],
+                    "Talavera": ["Barangay D1", "Barangay D2", "Barangay D3"],
+                    "San Antonio": ["Barangay E1", "Barangay E2", "Barangay E3"]
+                }
+            },
+            "Pampanga": {
+                cities: {
+                    "Angeles": ["Barangay 1", "Barangay 2", "Barangay 3"],
+                    "Arayat": ["Barangay A", "Barangay B", "Barangay C"],
+                    "Bacolor": ["Barangay X", "Barangay Y", "Barangay Z"],
+                    "San Fernando": ["Barangay P", "Barangay Q", "Barangay R"],
+                    "Mabalacat": ["Barangay I", "Barangay II", "Barangay III"],
+                    "Guagua": ["Barangay L", "Barangay M", "Barangay N"],
+                    "Porac": ["Barangay D1", "Barangay D2", "Barangay D3"]
+                }
+            },
+            "Tarlac": {
+                cities: {
+                    "Anao": ["Barangay 1", "Barangay 2", "Barangay 3"],
+                    "Bamban": ["Barangay A", "Barangay B", "Barangay C"],
+                    "Camiling": ["Barangay X", "Barangay Y", "Barangay Z"],
+                    "Capas": ["Barangay P", "Barangay Q", "Barangay R"],
+                    "Concepcion": ["Barangay I", "Barangay II", "Barangay III"],
+                    "Gerona": ["Barangay L", "Barangay M", "Barangay N"],
+                    "La Paz": ["Barangay D1", "Barangay D2", "Barangay D3"],
+                    "Mayantoc": ["Barangay E1", "Barangay E2", "Barangay E3"]
+                }
+            },
+            "Zambales": {
+                cities: {
+                    "Botolan": ["Barangay 1", "Barangay 2", "Barangay 3"],
+                    "Palauig": ["Barangay A", "Barangay B", "Barangay C"],
+                    "San Antonio": ["Barangay X", "Barangay Y", "Barangay Z"],
+                    "Santa Cruz": ["Barangay P", "Barangay Q", "Barangay R"],
+                    "Olongapo": ["Barangay I", "Barangay II", "Barangay III"],
+                    "Calapacuan": ["Barangay L", "Barangay M", "Barangay N"],
+                    "Cabangan": ["Barangay D1", "Barangay D2", "Barangay D3"],
+                    "Mansiloc": ["Barangay E1", "Barangay E2", "Barangay E3"]
+                }
+            }
+        }
+    },
+    "Region 1": {
+        provinces: {
+            "Pangasinan": {
+                cities: {
+                    "Lingayen": ["Barangay 1", "Barangay 2", "Barangay 3"],
+                    "Dagupan": ["Barangay A", "Barangay B", "Barangay C"],
+                    "Alaminos": ["Barangay X", "Barangay Y", "Barangay Z"]
+                }
+            }
+        }
+    },
+};
+
+// Populate the region dropdown
+document.addEventListener("DOMContentLoaded", function () {
+    const regionSelect = document.getElementById("region");
+
+    Object.keys(regions).forEach(region => {
+        const option = document.createElement("option");
+        option.value = region;
+        option.textContent = region;
+        regionSelect.appendChild(option);
+    });
+
+    regionSelect.addEventListener("change", function () {
+        const selectedRegion = this.value;
+        const provinceContainer = document.getElementById("province-container");
+        const cityContainer = document.getElementById("city-container");
+        const barangayContainer = document.getElementById("barangay-container");
+        const streetContainer = document.getElementById("street-container");
+
+        // Hide all dependent fields initially
+        provinceContainer.style.display = "none";
+        cityContainer.style.display = "none";
+        barangayContainer.style.display = "none";
+        streetContainer.style.display = "none";
+
+        // Clear existing options
+        document.getElementById("province").innerHTML = '<option value="">Select Province</option>';
+        document.getElementById("city").innerHTML = '<option value="">Select City / Municipality</option>';
+        document.getElementById("barangay").innerHTML = '<option value="">Select Barangay</option>';
+
+        if (selectedRegion) {
+            // Show province dropdown
+            provinceContainer.style.display = "block";
+            const provinces = regions[selectedRegion].provinces;
+            Object.keys(provinces).forEach(province => {
+                const option = document.createElement("option");
+                option.value = province;
+                option.textContent = province;
+                document.getElementById("province").appendChild(option);
+            });
+        }
+    });
+
+    document.getElementById("province").addEventListener("change", function () {
+        const selectedRegion = document.getElementById("region").value;
+        const selectedProvince = this.value;
+        const cityContainer = document.getElementById("city-container");
+        const barangayContainer = document.getElementById("barangay-container");
+        const streetContainer = document.getElementById("street-container");
+
+        // Hide city and barangay fields initially
+        cityContainer.style.display = "none";
+        barangayContainer.style.display = "none";
+        streetContainer.style.display = "none";
+
+        // Clear existing options
+        document.getElementById("city").innerHTML = '<option value="">Select City / Municipality</option>';
+        document.getElementById("barangay").innerHTML = '<option value="">Select Barangay</option>';
+
+        if (selectedProvince) {
+            // Show city dropdown
+            cityContainer.style.display = "block";
+            const cities = regions[selectedRegion].provinces[selectedProvince].cities;
+            Object.keys(cities).forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.textContent = city;
+                document.getElementById("city").appendChild(option);
+            });
+        }
+    });
+
+    document.getElementById("city").addEventListener("change", function () {
+        const selectedRegion = document.getElementById("region").value;
+        const selectedProvince = document.getElementById("province").value;
+        const selectedCity = this.value;
+        const barangayContainer = document.getElementById("barangay-container");
+        const streetContainer = document.getElementById("street-container");
+
+        // Hide barangay and street fields initially
+        barangayContainer.style.display = "none";
+        streetContainer.style.display = "none";
+
+        // Clear existing options
+        document.getElementById("barangay").innerHTML = '<option value="">Select Barangay</option>';
+
+        if (selectedCity) {
+            // Show barangay dropdown
+            barangayContainer.style.display = "block";
+            const barangays = regions[selectedRegion].provinces[selectedProvince].cities[selectedCity];
+            barangays.forEach(barangay => {
+                const option = document.createElement("option");
+                option.value = barangay;
+                option.textContent = barangay;
+                document.getElementById("barangay").appendChild(option);
+            });
+        }
+    });
+
+    document.getElementById("barangay").addEventListener("change", function () {
+        const selectedBarangay = this.value;
+        const streetContainer = document.getElementById("street-container");
+
+        // Show street input if barangay is selected
+        if (selectedBarangay) {
+            streetContainer.style.display = "block";
+        }
+    });
+});
+
+
+</script>
+
+<script>
+    function calculateAge() {
+        var dob = document.getElementById('dob').value;
+        if (dob) {
+            var birthDate = new Date(dob);
+            var currentDate = new Date();
+            var age = currentDate.getFullYear() - birthDate.getFullYear();
+            var month = currentDate.getMonth() - birthDate.getMonth();
+            if (month < 0 || (month === 0 && currentDate.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            document.getElementById('age').value = age;
+        }
+    }
+    // Function to validate text input (prevent numbers)
+function validateTextInput(event) {
+    const input = event.target;
+    // Remove any non-alphabetical characters
+    input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+}
+// Function to validate phone input (only allow numbers)
+function validatePhoneInput(event) {
+    const input = event.target;
+    // Allow only numbers
+    input.value = input.value.replace(/[^0-9]/g, '');
+}
+
+
+</script>
+
+<script>
+    // Function to add a new child input field
+    function addChild() {
+        const childrenFields = document.getElementById('childrenFields');
+        
+        // Create the new input field and delete button
+        const div = document.createElement('div');
+        div.classList.add('input-group', 'mb-3');
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.classList.add('form-control');
+        input.placeholder = 'Enter child name';
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.classList.add('btn', 'btn-danger');
+        deleteButton.textContent = '-';
+        
+        // Delete the field when the delete button is clicked
+        deleteButton.onclick = function() {
+            div.remove();
+        };
+        
+        // Append the input field and delete button to the div
+        const inputGroupAppend = document.createElement('div');
+        inputGroupAppend.classList.add('input-group-append');
+        inputGroupAppend.appendChild(deleteButton);
+        
+        // Append elements to the input group div
+        div.appendChild(input);
+        div.appendChild(inputGroupAppend);
+        
+        // Append the div to the container
+        childrenFields.appendChild(div);
+    }
+</script>
+
     </body>
     </html>

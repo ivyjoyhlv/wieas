@@ -73,7 +73,7 @@
         <!-- Logo Section -->
         <div class="d-flex align-items-center">
             <img src="https://via.placeholder.com/30/007bff/ffffff?text=+" alt="Logo" class="rounded-circle me-2">
-            <a class="navbar-brand fw-bold text-dark" href="#">Logo</a>
+            <a class="navbar-brand fw-bold text-dark" href="#">WIEAS</a>
         </div>
 
         <!-- Navbar Links -->

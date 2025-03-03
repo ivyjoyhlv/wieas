@@ -38,43 +38,25 @@
                     <img src="{{ asset('images/workforce.png') }}" class="rounded-circle me-2 img-fluid" style="width: 35px; height: 35px;" alt="Logo">
                     <strong>WIEAS</strong>
                 </a>
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold text-primary" href="{{ route('userdash.index') }}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('userdash.jobopenings') }}">Find Jobs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Saved Jobs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">...</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Notification and Profile -->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.index') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pinned</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Conference</a></li>
+                </ul>
+            </div>
                 <div class="d-flex align-items-center">
-                    <!-- Notification Bell -->
                     <i class="bi bi-bell me-3 text-primary" id="notificationIcon" data-bs-toggle="dropdown" aria-expanded="false"></i>
-
-                    <!-- Notification Dropdown -->
                     <div class="dropdown-menu p-4" aria-labelledby="notificationIcon">
                         <h5 class="text-center mb-3">Notifications</h5> 
-                        <!-- Notification content goes here -->
                     </div>
-
-                    <!-- User Profile Dropdown -->
                     <div class="d-flex align-items-center ms-3">
                         <img src="{{ asset('images/bogart.jpg') }}" class="rounded-circle me-2 img-fluid" style="width: 40px; height: 40px;" alt="User Profile">
                         <div>
                             <span class="d-block fw-bold">{{ session('applicant')->first_name }}</span>
                             <small class="text-muted">{{ session('applicant')->email }}</small>
                         </div>
-
-                        <!-- Dropdown for Profile Settings -->
                         <div class="dropdown">
                             <i class="ms-2 dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu" aria-labelledby="profileDropdown">

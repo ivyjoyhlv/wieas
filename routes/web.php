@@ -3,6 +3,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\UserDashController;
+use App\Http\Controllers\AdminDashController;
+use App\Http\Controllers\AdminController;
 use App\Models\Applicant;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -25,6 +27,7 @@ Route::get('/userdash', [UserDashController::class, 'index'])->name('userdash.in
 Route::get('/userdash/settings', [UserDashController::class, 'settings'])->name('userdash.settings');
 Route::get('/userdash/jobopenings', [UserDashController::class, 'jobopenings'])->name('userdash.jobopenings');
 // Admin Dashboard
+Route::get('/admin/signin', [AdminController::class, 'signin'])->name('admin.signin');
 Route::get('/admindash', [AdminDashController::class, 'index'])->name('admindash.index');
 Route::get('/admindash/joblist', [AdminDashController::class, 'joblist'])->name('admindash.joblist');
 
