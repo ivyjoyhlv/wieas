@@ -15,5 +15,8 @@ class UserDashController extends Controller
     public function jobopenings(){
         return view('userdash.jobopenings');
     }
+    public function conference(){
+        return view('userdash.conference');
+    }
 }
 

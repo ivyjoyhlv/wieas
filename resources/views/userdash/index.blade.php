@@ -20,7 +20,7 @@
                     <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.index') }}">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Pinned</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Conference</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.conference') }}">Conference</a></li>
                 </ul>
             </div>
             <div class="d-flex align-items-center">

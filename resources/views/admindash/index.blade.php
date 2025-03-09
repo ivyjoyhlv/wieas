@@ -165,7 +165,7 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item active">
-                <a href="#">
+            <a href="{{ route('admindash.index') }}">
                     <i class="fas fa-tachometer-alt"></i>
                     Dashboard
                 </a>
@@ -177,25 +177,19 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#">
+            <a href="{{ route('admindash.analythics') }}">
                     <i class="fas fa-chart-line"></i>
                     Analytics
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#">
+            <a href="{{ route('admindash.conference') }}">
                     <i class="fas fa-calendar-alt"></i>
-                    Schedules <span class="badge bg-danger">2</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#">
-                    <i class="fas fa-history"></i>
-                    History
+                    Conference
                 </a>
             </li>
             <li class="nav-item mb-5">
-                <a href="#">
+                <a href="{{ route('admindash.applicants') }}">
                     <i class="fas fa-users"></i>
                     Applicants <span class="badge bg-danger">2</span>
                 </a>
@@ -205,7 +199,7 @@
                     <i class="fas fa-bell"></i>
                     Notifications <span class="badge bg-danger">2</span>
                 </a>
-            </li>
+            </li>   
             <li class="nav-item">
                 <a href="#">
                     <i class="fas fa-cogs"></i>

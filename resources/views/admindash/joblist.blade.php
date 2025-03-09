@@ -347,7 +347,7 @@
                 </a>
             </li>
             <li class="nav-item mb-5">
-                <a href="#">
+                <a href="{{ route('admindash.applicants') }}">
                     <i class="fas fa-users"></i>
                     Applicants <span class="badge bg-danger">2</span>
                 </a>

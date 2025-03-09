@@ -5,6 +5,8 @@ use App\Http\Controllers\SignupController;
 use App\Http\Controllers\UserDashController;
 use App\Http\Controllers\AdminDashController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ZoomController;
 use App\Models\Applicant;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -22,14 +24,21 @@ Route::post('/signup', [SignupController::class, 'store'])->name('signup.store')
 // User Dashboard
 Route::get('/userdash', [UserDashController::class, 'index'])->name('userdash.index');
 
-// Other routes...
+// zoom
+Route::post('zoom/create', [ZoomController::class, 'createMeeting']);
+Route::post('zoom/join', [ZoomController::class, 'joinMeeting']);
 
+// Other routes...
+Route::get('/userdash/conference', [UserDashController::class, 'conference'])->name('userdash.conference');
 Route::get('/userdash/settings', [UserDashController::class, 'settings'])->name('userdash.settings');
 Route::get('/userdash/jobopenings', [UserDashController::class, 'jobopenings'])->name('userdash.jobopenings');
 // Admin Dashboard
 Route::get('/admin/signin', [AdminController::class, 'signin'])->name('admin.signin');
 Route::get('/admindash', [AdminDashController::class, 'index'])->name('admindash.index');
 Route::get('/admindash/joblist', [AdminDashController::class, 'joblist'])->name('admindash.joblist');
+Route::get('/admindash/analythics', [AdminDashController::class, 'analythics'])->name('admindash.analythics');
+Route::get('/admindash/conference', [AdminDashController::class, 'conference'])->name('admindash.conference');
+Route::get('/admindash/applicants', [AdminDashController::class, 'applicants'])->name('admindash.applicants');
 
 // Landing Page
 Route::get('/landingpage', [LandingController::class, 'index'])->name('landingpage.index');

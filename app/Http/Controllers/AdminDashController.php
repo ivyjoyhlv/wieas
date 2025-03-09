@@ -13,4 +13,13 @@ class AdminDashController extends Controller
     public function joblist(){
         return view('admindash.joblist');
     }
+    public function analythics(){
+        return view('admindash.analythics');
+    }
+    public function conference(){
+        return view('admindash.conference');
+    }
+    public function applicants(){
+        return view('admindash.applicants');
+    }
 }
