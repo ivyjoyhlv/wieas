@@ -32,6 +32,7 @@ Route::post('zoom/join', [ZoomController::class, 'joinMeeting']);
 Route::get('/userdash/conference', [UserDashController::class, 'conference'])->name('userdash.conference');
 Route::get('/userdash/settings', [UserDashController::class, 'settings'])->name('userdash.settings');
 Route::get('/userdash/jobopenings', [UserDashController::class, 'jobopenings'])->name('userdash.jobopenings');
+Route::get('/userdash/jobdesc', [UserDashController::class, 'jobdesc'])->name('userdash.jobdesc');
 // Admin Dashboard
 Route::get('/admin/signin', [AdminController::class, 'signin'])->name('admin.signin');
 Route::get('/admindash', [AdminDashController::class, 'index'])->name('admindash.index');
