@@ -11,6 +11,7 @@ use App\Models\Applicant;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -28,6 +29,7 @@ Route::get('/userdash', [UserDashController::class, 'index'])->name('userdash.in
 Route::post('zoom/create', [ZoomController::class, 'createMeeting']);
 Route::post('zoom/join', [ZoomController::class, 'joinMeeting']);
 
+
 // Other routes...
 Route::get('/userdash/conference', [UserDashController::class, 'conference'])->name('userdash.conference');
 Route::get('/userdash/settings', [UserDashController::class, 'settings'])->name('userdash.settings');
@@ -37,6 +39,10 @@ Route::get('/userdash/jobdesc', [UserDashController::class, 'jobdesc'])->name('u
 Route::get('/admin/signin', [AdminController::class, 'signin'])->name('admin.signin');
 Route::get('/admindash', [AdminDashController::class, 'index'])->name('admindash.index');
 Route::get('/admindash/joblist', [AdminDashController::class, 'joblist'])->name('admindash.joblist');
+// Route to store the job details from the modal form
+Route::post('/submit-job', [AdminDashController::class, 'storeJob'])->name('store.job');
+
+
 Route::get('/admindash/analythics', [AdminDashController::class, 'analythics'])->name('admindash.analythics');
 Route::get('/admindash/conference', [AdminDashController::class, 'conference'])->name('admindash.conference');
 Route::get('/admindash/applicants', [AdminDashController::class, 'applicants'])->name('admindash.applicants');

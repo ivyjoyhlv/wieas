@@ -381,15 +381,12 @@
     </div>
 
     <div class="content">
-        <div class="d-flex justify-content-between align-items-center">
-            <h4>Jobs</h4>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addJobModal">Add Job</button>
-        </div>
 
         <div class="nav nav-tabs mt-4" id="jobTabs">
             <a class="nav-link active" data-bs-toggle="tab" href="#newJobs">New Jobs</a>
             <a class="nav-link" data-bs-toggle="tab" href="#activeJobs">Active Jobs</a>
             <a class="nav-link" data-bs-toggle="tab" href="#archiveJobs">Archive Jobs</a>
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#addJobModal">Add New Jobs</a>
         </div>
 
         <div class="tab-content mt-4">
@@ -404,193 +401,57 @@
                 </div>
 
                 <!-- Job Listings for New Jobs -->
-                <div class="row mt-4">
-                    <!-- Job Card 1 -->
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 2 -->
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 3 -->
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="row mt-4">
+    @foreach ($jobs as $job)
+    <div class="col-md-4 mb-3">
+        <div class="job-card">
+            <div class="job-title-container">
+                <h5>{{ $job->job_title }}</h5>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
+            <p>Company: {{ $job->company_name }}</p>
+            <p>Date: {{ $job->year_of_establishment }}</p>
+            <p>Location: {{ $job->country_origin }}</p>
+            <div class="job-card-footer">
+                <span></span>
+                <button class="edit-btn">Edit</button>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+    </div>
+</div>
 
             <!-- Active Jobs Tab -->
-            <div class="tab-pane" id="activeJobs">
-                <div class="row mt-4">
-                    <!-- Job Card 1 -->
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 2 -->
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 3 -->
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 4 -->
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 5 -->
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 6 -->
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="tab-pane" id="activeJobs">
+    <div class="row mt-4">
+    @foreach ($jobs as $job)
+    <div class="col-md-4 mb-3">
+        <div class="job-card">
+            <div class="job-title-container">
+                <h5>{{ $job->job_title }}</h5>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
+            <p>Company: {{ $job->company_name }}</p>
+            <p>Date: {{ $job->year_of_establishment }}</p>
+            <p>Location: {{ $job->country_origin }}</p>
+            <div class="job-card-footer">
+                <span></span>
+                <button class="edit-btn">Edit</button>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+ </div>
+</div>
 
             <!-- Archive Jobs Tab -->
             <div class="tab-pane" id="archiveJobs">
@@ -618,15 +479,38 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".toggle-switch input").forEach(toggle => {
+        toggle.addEventListener("change", function () {
+            let jobCard = this.closest(".job-card");
+            let jobID = jobCard.getAttribute("data-id"); // Assuming you add data-id
+            let isChecked = this.checked;
+            
+            let activeContainer = document.getElementById("activeJobs").querySelector(".row");
+            let archiveContainer = document.getElementById("archiveJobs").querySelector(".row");
 
+            if (isChecked) {
+                // Move job to Active Jobs
+                activeContainer.appendChild(jobCard);
+                document.getElementById("activeJobsTab").click();
+            } else {
+                // Move job to Archive Jobs
+                archiveContainer.appendChild(jobCard);
+                document.getElementById("archiveJobsTab").click();
+            }
+        });
+    });
+});
+    </script>
 
-
-    <!-- Modal for Adding Job -->
+    <form id="jobForm" enctype="multipart/form-data" method="POST" action="{{ route('store.job') }}">
+    @csrf
     <div class="modal fade" id="addJobModal" tabindex="-1" aria-labelledby="addJobModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addJobModalLabel">Add Job</h5>
+                    <h5 class="modal-title" id="addJobModalLabel">Add New Job</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -648,50 +532,46 @@
                     <div class="tab-content mt-3" id="addJobTabContent">
                         <!-- Company Info Tab -->
                         <div class="tab-pane fade show active" id="companyInfo" role="tabpanel" aria-labelledby="company-info-tab">
-                            <!-- Upload Section for Logo and Banner Images -->
-                            <div class="upload-section">
-                                <div class="upload-container">
-                                    <label for="profileImage" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                                        <img src="{{ asset('images/upload.jpg') }}" alt="Upload Icon" style="width: 40px; height: 40px; margin-bottom: 10px;">
-                                        <strong>Upload Profile Image</strong>
-                                        <p>A photo larger than 400px works best. Max photo size 5MB.</p>
-                                    </label>
-                                    <input type="file" id="profileImage">
-                                    <label for="profileImage" class="file-label">Browse photo or drop here</label>
-                                </div>
+                        <!-- Profile Image Upload -->
+                        <div class="upload-section mt-3">
+                            <label for="profileImage" style="display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer;">
+                                <img src="{{ asset('images/upload.jpg') }}" alt="Upload Icon" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <strong>Upload Profile Image</strong>
+                                <p>Profile images optimal dimension 1502x400. Supported formats: JPEG, PNG. Max photo size 5MB.</p>                            </label>
+                            <input type="file" id="profileImage" name="profileImage" accept="image/png, image/jpeg" style="display: none;" onchange="previewImage('profileImage', 'profilePreview')" />
+                            <img id="profilePreview" style="max-width: 100%; max-height: 200px; display: none;" />
+                        </div>
 
-                                <div class="upload-container">
-                                    <label for="bannerImage" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                                        <img src="{{ asset('images/upload.jpg') }}" alt="Upload Icon" style="width: 40px; height: 40px; margin-bottom: 10px;">
-                                        <strong>Upload Banner Image</strong>
-                                        <p>Banner images optimal dimension 1502x400. Supported formats: JPEG, PNG. Max photo size 5MB.</p>
-                                    </label>
-                                    <input type="file" id="bannerImage">
-                                    <label for="bannerImage" class="file-label">Browse photo or drop here</label>
-                                </div>
+                        <!-- Banner Image Upload -->
+                        <div class="upload-section mt-3">
+                            <label for="bannerImage" style="display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer;">
+                                <img src="{{ asset('images/upload.jpg') }}" alt="Upload Icon" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <strong>Upload Banner Image</strong>
+                                <p>Banner images optimal dimension 1502x400. Supported formats: JPEG, PNG. Max photo size 5MB.</p>
+                            </label>
+                            <input type="file" id="bannerImage" name="bannerImage" accept="image/png, image/jpeg" style="display: none;" onchange="previewImage('bannerImage', 'bannerPreview')" />
+                            <img id="bannerPreview" style="max-width: 100%; max-height: 200px; display: none;" />
+                        </div>
+                        <div class="form-group mt-3">
+                                <label for="companyName">Job Title</label>
+                                <input type="text" class="form-control" id="companyName" name="jobtitle" placeholder="Job Title" required>
                             </div>
-
-                            <!-- Company Info Fields -->
                             <div class="form-group mt-3">
                                 <label for="companyName">Company Name</label>
-                                <input type="text" class="form-control" id="companyName" placeholder="Company Name">
+                                <input type="text" class="form-control" id="companyName" name="companyName" placeholder="Company Name" required>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="aboutUs">About Us</label>
-                                <textarea class="form-control" id="aboutUs" rows="4" placeholder="Write down about the company here. Let the candidate know who we are..."></textarea>
-                            </div>
-                            <!-- Buttons below Company Info -->
-                            <div class="form-group mt-3 d-flex justify-content-between">
-                                <button class="btn btn-secondary" style="border-radius: 8px; width: 180px; height: 40px; margin-left: 10px;">Next &rarr;</button>
+                                <textarea class="form-control" id="aboutUs" name="aboutUs" rows="4" placeholder="Write down about the company here..." required></textarea>
                             </div>
                         </div>
 
                         <!-- Founding Info Tab -->
                         <div class="tab-pane fade" id="foundingInfo" role="tabpanel" aria-labelledby="founding-info-tab">
-                            <div class="row">
+                            <div class="row mt-3">
                                 <div class="form-group col-md-4">
                                     <label for="countryOrigin">Country Origin</label>
-                                    <select class="form-control" id="countryOrigin">
+                                    <select class="form-control" id="countryOrigin" name="countryOrigin" required>
                                         <option value="" selected>Select...</option>
                                         <option value="USA">United States</option>
                                         <option value="UK">United Kingdom</option>
@@ -703,7 +583,7 @@
 
                                 <div class="form-group col-md-4">
                                     <label for="industryTypes">Industry Types</label>
-                                    <select class="form-control" id="industryTypes">
+                                    <select class="form-control" id="industryTypes" name="industryTypes" required>
                                         <option value="" selected>Select...</option>
                                         <option value="IT">Information Technology</option>
                                         <option value="Finance">Finance</option>
@@ -714,8 +594,8 @@
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label for="thirdDropdown">Additional Field</label>
-                                    <select class="form-control" id="thirdDropdown">
+                                    <label for="additionalField">Additional Field</label>
+                                    <select class="form-control" id="additionalField" name="additionalField">
                                         <option value="" selected>Select...</option>
                                         <option value="Option1">Option 1</option>
                                         <option value="Option2">Option 2</option>
@@ -727,48 +607,41 @@
                             <div class="row mt-3">
                                 <div class="form-group col-md-4">
                                     <label for="yearOfEstablishment">Year of Establishment</label>
-                                    <input type="date" class="form-control" id="yearOfEstablishment" placeholder="dd/mm/yyyy">
+                                    <input type="date" class="form-control" id="yearOfEstablishment" name="yearOfEstablishment" required>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label for="companyWebsite">Company Website</label>
-                                    <input type="url" class="form-control" id="companyWebsite" placeholder="Website URL...">
+                                    <input type="url" class="form-control" id="companyWebsite" name="companyWebsite" placeholder="Website URL...">
                                 </div>
                             </div>
 
                             <div class="form-group mt-3">
                                 <label for="companyVision">Company Vision</label>
-                                <textarea class="form-control" id="companyVision" rows="4" placeholder="Tell us about your company vision..."></textarea>
-                            </div>
-
-                            <div class="form-group mt-3 d-flex">
-                                <button class="btn btn-secondary" style="border-radius: 8px; width: 150px; height: 40px;">Previous</button>
-                                <button class="btn btn-primary" style="border-radius: 8px; width: 180px; height: 40px; margin-left: 10px;">Save & Next &rarr;</button>
+                                <textarea class="form-control" id="companyVision" name="companyVision" rows="4" placeholder="Tell us about your company vision..."></textarea>
                             </div>
                         </div>
 
-                        <div class="tab-content mt-3" id="addJobTabContent">
                         <!-- Social Media Profile Tab -->
                         <div class="tab-pane fade" id="socialMediaProfile" role="tabpanel" aria-labelledby="social-media-profile-tab">
                             <div id="socialLinksContainer">
-                                <!-- Social Link 1 -->
                                 <div class="row mt-3" id="socialLink1">
                                     <div class="col-md-4">
                                         <label for="socialLink1Select">Social Link 1</label>
                                         <div class="input-group">
                                             <span class="input-group-text" id="socialLink1Icon"><i class="fab fa-facebook"></i></span>
-                                            <select class="form-control" id="socialLink1Select" onchange="updateSocialLinkIcon(this, 'socialLink1Icon')">
+                                            <select class="form-control" id="socialLink1Select" name="socialLink1Select" onchange="updateSocialLinkIcon(this, 'socialLink1Icon')">
                                                 <option value="facebook">Facebook</option>
                                                 <option value="twitter">Twitter</option>
                                                 <option value="instagram">Instagram</option>
-                                                <option value="youtube">Youtube</option>
+                                                <option value="youtube">YouTube</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
                                         <label for="socialLink1Url">Profile link/url</label>
                                         <div class="input-group">
-                                            <input type="url" class="form-control" id="socialLink1Url" placeholder="Profile link/url...">
+                                            <input type="url" class="form-control" id="socialLink1Url" name="socialLink1Url" placeholder="Profile link/url...">
                                             <button class="btn btn-outline-secondary remove-social-link" type="button" onclick="removeSocialLink('socialLink1')"><i class="fas fa-times"></i></button>
                                         </div>
                                     </div>
@@ -778,58 +651,108 @@
                             <!-- Add New Social Link Button -->
                             <div class="mt-3 text-center">
                                 <button class="btn btn-light" style="border-radius: 8px; background-color: #f0f0f0; width: 750px;" id="addSocialLinkBtn" onclick="addSocialLink()">
-                                    <i class="fas fa-plus"></i> Add New Social Link
+                                    <i class="fas fa-plus"></i> Add Social Link
                                 </button>
-                            </div>
-                            <div class="form-group mt-3 d-flex">
-                                <button class="btn btn-secondary" style="border-radius: 8px; width: 150px; height: 40px;">Previous</button>
-                                <button class="btn btn-primary" style="border-radius: 8px; width: 180px; height: 40px; margin-left: 10px;">Save & Next &rarr;</button>
                             </div>
                         </div>
 
                         <!-- Contact Tab -->
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                            <!-- Contact Section -->
-                            <div class="container mt-3">
-                                <!-- Map Location -->
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="mapLocation">Map Location</label>
-                                        <input type="text" class="form-control" id="mapLocation" placeholder="Enter the map location...">
-                                    </div>
+                            <div class="row mt-3">
+                                <div class="form-group col-md-6">
+                                    <label for="mapLocation">Map Location</label>
+                                    <input type="text" class="form-control" id="mapLocation" name="mapLocation" placeholder="Enter the map location...">
                                 </div>
 
-                                <!-- Phone Number -->
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <label for="phone">Phone</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="phoneCode">+880</span>
-                                            <input type="tel" class="form-control" id="phone" placeholder="Phone number...">
-                                        </div>
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone number...">
                                 </div>
 
-                                <!-- Email -->
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email" placeholder="Email address">
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email address...">
                                 </div>
                             </div>
-
-                            <!-- Navigation Buttons -->
-                            <div class="form-group mt-3 d-flex">
-                                <button class="btn btn-secondary" style="border-radius: 8px; width: 150px; height: 40px; margin-right: 10px;">Previous</button>
-                                <button class="btn btn-primary" style="border-radius: 8px; width: 180px; height: 40px;">Finish Editing &rarr;</button>
-                            </div>
+                            <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save Job</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</form>
+<script>
+    function previewImage(inputId, previewId) {
+        const fileInput = document.getElementById(inputId);
+        const file = fileInput.files[0];
+
+        // Check if the selected file is an image
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById(previewId);
+                preview.src = e.target.result;
+                preview.style.display = 'block'; // Show the preview image
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert("Only PNG, JPG, and JPEG images are allowed.");
+            fileInput.value = ''; // Clear the selected file input
+        }
+    }
+</script>
+
+        <script>
+            $(document).ready(function() {
+    // Set the CSRF token for every AJAX request
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+            $(document).ready(function() {
+    $('#jobForm').on('submit', function(event) {
+        event.preventDefault();  // Prevent the default form submission
+
+        // Create FormData object to send files along with other data
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: '/submit-job',  // Your route to store the job
+            method: 'POST',  // HTTP method
+            data: formData,  // Form data (including files)
+            contentType: false,  // Important for file upload
+            processData: false,  // Important for file upload
+            success: function(response) {
+                alert(response.message);  // Show success message
+                $('#addJobModal').modal('hide');  // Close the modal
+                $('#jobForm')[0].reset();  // Reset the form after successful submission
+            },
+            error: function(xhr, status, error) {
+                // Handle error case
+                alert('There was an error while submitting the job.');
+            }
+        });
+    });
+});
+
+        </script>
+    <script>
+            function previewImage(inputId, previewId) {
+        const file = document.getElementById(inputId).files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById(previewId);
+            preview.src = e.target.result;
+            preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
 
     <script>
         let socialLinkCount = 1; // Track the number of social links added
