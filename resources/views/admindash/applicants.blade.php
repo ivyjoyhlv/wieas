@@ -212,7 +212,7 @@
     </style>
 </head>
 <body>
-    <div class="sidebar">
+<div class="sidebar">
         <div class="logo">
             <i class="fas fa-circle"></i> 
             <span>WIEAS</span>
@@ -245,7 +245,7 @@
             <li class="nav-item mb-5">
                 <a href="{{ route('admindash.applicants') }}">
                     <i class="fas fa-users"></i>
-                    Applicants <span class="badge bg-danger">2</span>
+                    Applicants
                 </a>
             </li>
             <li class="nav-item mt-3">
@@ -297,48 +297,6 @@
             <div class="tab-pane fade show active" id="total-candidates" role="tabpanel" aria-labelledby="total-candidates-tab">
                 <div class="row">
                     <!-- Applicant Card Example -->
-                    <div class="col-md-3">
-                        <div class="applicant-card">
-                            <img src="{{ asset('images/workforce.png') }}" alt="Applicant">
-                            <div class="status-container">
-                                <div class="status review">Review</div>
-                                <div class="action-btns">
-                                    <button class="btn"><i class="fas fa-ellipsis-v"></i></button>
-                                </div>
-                            </div>
-                            <h6>Bogart Batumbakal</h6>
-                            <p>Former Welder at Worker Steel Structure</p>
-                            <a href="#" class="view-profile-btn">View Profile</a>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="applicant-card">
-                            <img src="{{ asset('images/workforce.png') }}" alt="Applicant">
-                            <div class="status-container">
-                                <div class="status interview">Interview</div>
-                                <div class="action-btns">
-                                    <button class="btn"><i class="fas fa-ellipsis-v"></i></button>
-                                </div>
-                            </div>
-                            <h6>Jane Doe</h6>
-                            <p>FFormer Welder at Worker Steel Structure</p>
-                            <a href="#" class="view-profile-btn">View Profile</a>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="applicant-card">
-                            <img src="{{ asset('images/workforce.png') }}" alt="Applicant">
-                            <div class="status-container">
-                                <div class="status hired">Hired</div>
-                                <div class="action-btns">
-                                    <button class="btn"><i class="fas fa-ellipsis-v"></i></button>
-                                </div>
-                            </div>
-                            <h6>John Smith</h6>
-                            <p>Former Welder at Worker Steel Structure</p>
-                            <a href="#" class="view-profile-btn">View Profile</a>
-                        </div>
-                    </div>
                     <div class="col-md-3">
                         <div class="applicant-card">
                             <img src="{{ asset('images/workforce.png') }}" alt="Applicant">

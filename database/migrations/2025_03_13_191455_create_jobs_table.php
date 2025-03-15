@@ -21,9 +21,10 @@ class CreateJobsTable extends Migration
             $table->date('year_of_establishment');
             $table->string('company_website')->nullable();
             $table->text('company_vision');
-            $table->string('map_location');
             $table->string('phone');
             $table->string('email');
+            $table->boolean('is_active')->default(true); // Active status
+            $table->boolean('is_archived')->default(false); // Archived status
             $table->timestamps();
         });
     }

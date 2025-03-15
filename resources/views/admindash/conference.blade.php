@@ -158,80 +158,80 @@
         </style>
     </head>
     <body>
-        <div class="sidebar">
-            <div class="logo">
-                <i class="fas fa-circle"></i> 
-                <span>WIEAS</span>
-            </div>
-            <ul class="nav flex-column">
-                <li class="nav-item active">
-                <a href="{{ route('admindash.index') }}">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admindash.joblist') }}">
-                        <i class="fas fa-briefcase"></i>
-                        Jobs
-                    </a>
-                </li>
-                <li class="nav-item">
-                <a href="{{ route('admindash.analythics') }}">
-                        <i class="fas fa-chart-line"></i>
-                        Analytics
-                    </a>
-                </li>
-                <li class="nav-item">
-                <a href="{{ route('admindash.conference') }}">
-                        <i class="fas fa-calendar-alt"></i>
-                        Conference
-                    </a>
-                </li>
-                <li class="nav-item mb-5">
-                    <a href="{{ route('admindash.applicants') }}">
-                        <i class="fas fa-users"></i>
-                        Applicants <span class="badge bg-danger">2</span>
-                    </a>
-                </li>
-                <li class="nav-item mt-3">
-                    <a href="#">
-                        <i class="fas fa-bell"></i>
-                        Notifications <span class="badge bg-danger">2</span>
-                    </a>
-                </li>   
-                <li class="nav-item">
-                    <a href="#">
-                        <i class="fas fa-cogs"></i>
-                        Settings
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.signin') }}">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Logout
-                    </a>
-                </li>
-            </ul>
-            <div class="profile">
-                <img src="https://via.placeholder.com/40" alt="Profile">
-                <div class="info">
-                    <p>Bogart Batumbakal</p>
-                    <small>bogartb69@gmail.com</small>
-                </div>
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-circle"></i> 
+            <span>WIEAS</span>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item active">
+            <a href="{{ route('admindash.index') }}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admindash.joblist') }}">
+                    <i class="fas fa-briefcase"></i>
+                    Jobs
+                </a>
+            </li>
+            <li class="nav-item">
+            <a href="{{ route('admindash.analythics') }}">
+                    <i class="fas fa-chart-line"></i>
+                    Analytics
+                </a>
+            </li>
+            <li class="nav-item">
+            <a href="{{ route('admindash.conference') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    Conference
+                </a>
+            </li>
+            <li class="nav-item mb-5">
+                <a href="{{ route('admindash.applicants') }}">
+                    <i class="fas fa-users"></i>
+                    Applicants <span class="badge bg-danger"></span>
+                </a>
+            </li>
+            <li class="nav-item mt-3">
+                <a href="#">
+                    <i class="fas fa-bell"></i>
+                    Notifications <span class="badge bg-danger">2</span>
+                </a>
+            </li>   
+            <li class="nav-item">
+                <a href="#">
+                    <i class="fas fa-cogs"></i>
+                    Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.signin') }}">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+        <div class="profile">
+            <img src="https://via.placeholder.com/40" alt="Profile">
+            <div class="info">
+                <p>Bogart Batumbakal</p>
+                <small>bogartb69@gmail.com</small>
             </div>
         </div>
+    </div>
         <div class="content">
         <div class="container mt-5">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <p class="lead">Connect, collaborate and celebrate from anywhere with WIEAS Meet</p>
                     <div class="d-flex align-items-center">
-<form action="{{ url('zoom/create') }}" method="POST">
+                    <form action="{{ url('zoom/create') }}" method="POST">
     @csrf
     <label for="topic">Topic:</label>
     <input type="text" id="topic" name="topic" required>
-    
+
     <label for="start_time">Start Time:</label>
     <input type="datetime-local" id="start_time" name="start_time" required>
 
@@ -241,13 +241,16 @@
     <button type="submit">Create Meeting</button>
 </form>
 
-                    </div>
+     </div>
                 </div>
-                <div class="col-md-6 text-center position-relative">
-                    <button class="btn btn-light position-absolute top-50 start-0 translate-middle-y" onclick="prevImage()">❮</button>
-                    <img id="conferenceImage" src="https://cdn.dribbble.com/userupload/31681946/file/original-4c2b0adb8741fb2c952e186b9bf7072e.gif"  class="img-fluid" alt="Conference animation">
-                    <button class="btn btn-light position-absolute top-50 end-0 translate-middle-y" onclick="nextImage()">❯</button>
-                </div>
+                <div class="content">
+    <h2></h2>
+    <iframe src="https://us05web.zoom.us/wc/join/89604232594?pwd=ctNJ65facVe37ZqcDTbPLtJ84ZYbAp.1"
+            width="100%" height="600px" allow="camera; microphone; fullscreen"
+            style="border: none;">
+    </iframe>
+</div>
+
             </div>
         </div>
     </div>
@@ -276,5 +279,9 @@
     </script>
     <script src="https://sdk.zujonow.com/zujon-builder-0.0.1.dev.min.js">
     </script>
+    <script src="https://source.zoom.us/2.14.0/lib/vendor/react.min.js"></script>
+<script src="https://source.zoom.us/2.14.0/lib/vendor/react-dom.min.js"></script>
+<script src="https://source.zoom.us/2.14.0/zoom-meeting-embedded-2.14.0.min.js"></script>
+
         </body>
         </html>

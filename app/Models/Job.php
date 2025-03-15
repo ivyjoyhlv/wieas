@@ -22,9 +22,16 @@ class Job extends Model
         'year_of_establishment',
         'company_website',
         'company_vision',
-        'map_location',
         'phone',
         'email',
+        'is_active',
+        'is_archived', // Add is_archived to the fillable array
     ];
+
+    public function pinnedByUsers()
+{
+    return $this->hasMany(Pinned::class);
+}
+
 }
 

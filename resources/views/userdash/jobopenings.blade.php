@@ -111,7 +111,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="{{ route('userdash.index') }}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Pinned</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('userdash.pinned') }}">Pinned</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('userdash.conference') }}">Conference</a></li>
             </ul>
         </div>
@@ -208,99 +208,44 @@
                         </button>
                     </div>
                 </div>
-
-                <!-- Job Listing Cards -->
+@php
+use Illuminate\Support\Str;
+@endphp
                 <div class="container">
-                    <div class="row">
-                        <!-- Job Listing 1 -->
-                        <div class="col-md-12 mb-4">
-                            <div class="job-card bg-white d-flex justify-content-between align-items-center p-4 border rounded">
-                                <!-- Left section (Job Title, Company, and Description) -->
-                                <div class="job-details">
-                                    <h4 class="mb-2">WORKER STEEL STRUCTURE</h4>
-                                    <p class="mb-0">IREM S.P.A Hungary Branch</p>
-                                    <p><i class="bi bi-geo-alt-fill"></i> Hungary <span class="text-muted">• Full-Time</span></p>
-                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut....</p>
+    <div class="row">
+        @foreach ($activeJobs as $job)
+            <div class="col-md-12 mb-4">
+                <div class="job-card bg-white d-flex justify-content-between align-items-center p-4 border rounded">
+                    <!-- Left section (Job Title, Company, and Description) -->
+                    <div class="job-details">
+                        <h4 class="mb-2">{{ $job->job_title }}</h4>
+                        <p class="mb-0">{{ $job->company_name }}</p>
+                        <p><i class="bi bi-geo-alt-fill"></i> {{ $job->country_origin }} <span class="text-muted">Contractual</span></p>
+                        <p class="text-muted">{{ Str::limit($job->about_us, 150) }}...</p>
 
-                                    <!-- Date and Position Information -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <p class="text-muted me-3"><i class="bi bi-calendar-event"></i> 11 Feb 2025</p>
-                                        <p class="text-muted me-3"><i class="bi bi-person-fill"></i> 120 positions</p>
-                                    </div>
-                                </div>
-
-                                <!-- Right section (Logo and Buttons) -->
-                                <div class="d-flex flex-column align-items-end">
-                                    <!-- Job Logo (top-right) -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <!-- Square Logo Box -->
-                                        <div class="d-flex justify-content-center align-items-center bg-primary text-white rounded-3" style="width: 50px; height: 50px; margin-top: -50px;">
-                                        </div>
-                                        <!-- LOGO Text -->
-                                        <span class="ms-2" style="font-size: 1.25rem; font-weight: bold; color: #1E70E5; margin-bottom: 50px;">LOGO</span>
-                                    </div>
-
-                                    <!-- Bookmark Icon (Circular with Border Radius) and Apply Now Button -->
-                                    <div class="d-flex align-items-center">
-                                        <!-- Bookmark Icon -->
-                                        <a href="#" class="btn btn-outline-primary rounded-circle mb-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 30px;">
-                                            <i class="bi bi-bookmark" style="font-size: 1.2rem;"></i>
-                                        </a>
-
-                                        <!-- Apply Now Button with Modal Trigger -->
-                                        <a href="#" class="btn btn-primary d-flex align-items-center" style="width: 105px; text-align: center; margin-left: 10px; margin-top: 20px;" data-bs-toggle="modal" data-bs-target="#fileUploadModal">
-                                            Apply Now
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- Date and Position Information -->
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="text-muted me-3"><i class="bi bi-calendar-event"></i> {{ \Carbon\Carbon::parse($job->created_at)->format('d M Y') }}</p>
                         </div>
-
-                        <!-- Job Listing 2 (Duplicate and Add More Jobs Here) -->
-                        <div class="col-md-12 mb-4">
-                            <div class="job-card bg-white d-flex justify-content-between align-items-center p-4 border rounded">
-                                <!-- Left section (Job Title, Company, and Description) -->
-                                <div class="job-details">
-                                    <h4 class="mb-2">DESIGN ENGINEER</h4>
-                                    <p class="mb-0">XYZ Engineering Company</p>
-                                    <p><i class="bi bi-geo-alt-fill"></i> United States <span class="text-muted">• Full-Time</span></p>
-                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut....</p>
-
-                                    <!-- Date and Position Information -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <p class="text-muted me-3"><i class="bi bi-calendar-event"></i> 15 March 2025</p>
-                                        <p class="text-muted me-3"><i class="bi bi-person-fill"></i> 80 positions</p>
-                                    </div>
-                                </div>
-
-                                <!-- Right section (Logo and Buttons) -->
-                                <div class="d-flex flex-column align-items-end">
-                                    <!-- Job Logo (top-right) -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <!-- Square Logo Box -->
-                                        <div class="d-flex justify-content-center align-items-center bg-primary text-white rounded-3" style="width: 50px; height: 50px; margin-top: -50px;">
-                                        </div>
-                                        <!-- LOGO Text -->
-                                        <span class="ms-2" style="font-size: 1.25rem; font-weight: bold; color: #1E70E5; margin-bottom: 50px;">LOGO</span>
-                                    </div>
-
-                                    <!-- Bookmark Icon (Circular with Border Radius) and Apply Now Button -->
-                                    <div class="d-flex align-items-center">
-                                        <!-- Bookmark Icon -->
-                                        <a href="#" class="btn btn-outline-primary rounded-circle mb-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 30px;">
-                                            <i class="bi bi-bookmark" style="font-size: 1.2rem;"></i>
-                                        </a>
-
-                                        <!-- Apply Now Button with Modal Trigger -->
-                                        <a href="#" class="btn btn-primary d-flex align-items-center" style="width: 105px; text-align: center; margin-left: 10px; margin-top: 20px;" data-bs-toggle="modal" data-bs-target="#fileUploadModal">
-                                            Apply Now
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="d-flex flex-column align-items-end">
+                        <!-- Bookmark Icon (Circular with Border Radius) and Apply Now Button -->
+                        <div class="d-flex align-items-center">
+                            <!-- Bookmark Icon -->
+                            <a href="{{ route('userdash.pinJob', ['job_id' => $job->id]) }}" class="btn btn-outline-primary rounded-circle mb-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 30px;">
+                                <i class="bi bi-bookmark" style="font-size: 1.2rem;"></i>
+                            </a>
+                            <!-- Apply Now Button with Modal Trigger -->
+                            <a href="#" class="btn btn-primary d-flex align-items-center" style="width: 105px; text-align: center; margin-left: 10px; margin-top: 20px;" data-bs-toggle="modal" data-bs-target="#fileUploadModal">
+                                Apply Now
+                            </a>
                         </div>
-
-                        <!-- Add More Job Listings as Needed -->
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
 
                     </div>
                 </div>

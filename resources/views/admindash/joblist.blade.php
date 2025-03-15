@@ -310,14 +310,14 @@
     </style>
 </head>
 <body>
-    <div class="sidebar">
+<div class="sidebar">
         <div class="logo">
-            <i class="fas fa-circle"></i>
+            <i class="fas fa-circle"></i> 
             <span>WIEAS</span>
         </div>
         <ul class="nav flex-column">
             <li class="nav-item active">
-                <a href="{{ route('admindash.index') }}">
+            <a href="{{ route('admindash.index') }}">
                     <i class="fas fa-tachometer-alt"></i>
                     Dashboard
                 </a>
@@ -329,27 +329,21 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#">
+            <a href="{{ route('admindash.analythics') }}">
                     <i class="fas fa-chart-line"></i>
                     Analytics
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#">
+            <a href="{{ route('admindash.conference') }}">
                     <i class="fas fa-calendar-alt"></i>
-                    Schedules <span class="badge bg-danger">2</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#">
-                    <i class="fas fa-history"></i>
-                    History
+                    Conference
                 </a>
             </li>
             <li class="nav-item mb-5">
                 <a href="{{ route('admindash.applicants') }}">
                     <i class="fas fa-users"></i>
-                    Applicants <span class="badge bg-danger">2</span>
+                    Applicants <span class="badge bg-danger"></span>
                 </a>
             </li>
             <li class="nav-item mt-3">
@@ -357,7 +351,7 @@
                     <i class="fas fa-bell"></i>
                     Notifications <span class="badge bg-danger">2</span>
                 </a>
-            </li>
+            </li>   
             <li class="nav-item">
                 <a href="#">
                     <i class="fas fa-cogs"></i>
@@ -389,120 +383,114 @@
             <a class="nav-link" data-bs-toggle="modal" data-bs-target="#addJobModal">Add New Jobs</a>
         </div>
 
-        <div class="tab-content mt-4">
-            <!-- New Jobs Tab -->
-            <div class="tab-pane active" id="newJobs">
-                <!-- Search Bar -->
-                <input class="form-control search-bar" type="text" placeholder="Search here...">
-
-                <div class="d-flex justify-content-between mt-3">
-                    <button class="filter-btn">More Filter</button>
-                    <button class="sort-btn">From newest to last</button>
+<!-- joblist.blade.php -->
+<div class="tab-content mt-4">
+    <!-- New Jobs Tab -->
+    <div class="tab-pane active" id="newJobs">
+        <div class="d-flex justify-content-between mt-3">
+            <button class="filter-btn">More Filter</button>
+            <button class="sort-btn">From newest to last</button>
+        </div>
+        <div class="row mt-4">
+        @foreach ($newJobs->concat($activeJobs) as $job)
+        <div class="col-md-4 mb-3 job-card-container" data-new-job="{{ $job->created_at > now()->subDays(7) ? 'true' : 'false' }}">
+            <div class="job-card">
+                <div class="job-title-container">
+                    <h5>{{ $job->job_title }}</h5>
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="toggle-job-status" data-job-id="{{ $job->id }}" {{ $job->is_active ? 'checked' : '' }}>
+                        <span class="toggle-slider"></span>
+                    </label>
                 </div>
-
-                <!-- Job Listings for New Jobs -->
-    <div class="row mt-4">
-    @foreach ($jobs as $job)
-    <div class="col-md-4 mb-3">
-        <div class="job-card">
-            <div class="job-title-container">
-                <h5>{{ $job->job_title }}</h5>
-                <label class="toggle-switch">
-                    <input type="checkbox" checked>
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-            <p>Company: {{ $job->company_name }}</p>
-            <p>Date: {{ $job->year_of_establishment }}</p>
-            <p>Location: {{ $job->country_origin }}</p>
-            <div class="job-card-footer">
-                <span></span>
-                <button class="edit-btn">Edit</button>
+                <p>Company: {{ $job->company_name }}</p>
+                <p>Date: {{ $job->year_of_establishment }}</p>
+                <p>Location: {{ $job->country_origin }}</p>
+                <div class="job-card-footer">
+                    <span></span>
+                    <button class="edit-btn">Edit</button>
+                </div>
             </div>
         </div>
-    </div>
-@endforeach
-
-    </div>
+    @endforeach
 </div>
-
-            <!-- Active Jobs Tab -->
-    <div class="tab-pane" id="activeJobs">
-    <div class="row mt-4">
-    @foreach ($jobs as $job)
-    <div class="col-md-4 mb-3">
-        <div class="job-card">
-            <div class="job-title-container">
-                <h5>{{ $job->job_title }}</h5>
-                <label class="toggle-switch">
-                    <input type="checkbox" checked>
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-            <p>Company: {{ $job->company_name }}</p>
-            <p>Date: {{ $job->year_of_establishment }}</p>
-            <p>Location: {{ $job->country_origin }}</p>
-            <div class="job-card-footer">
-                <span></span>
-                <button class="edit-btn">Edit</button>
-            </div>
-        </div>
-    </div>
-@endforeach
-
- </div>
 </div>
-
-            <!-- Archive Jobs Tab -->
-            <div class="tab-pane" id="archiveJobs">
-                <!-- Archived Job -->
-                <div class="row mt-4">
-                    <div class="col-md-4 mb-3">
-                        <div class="job-card">
-                            <div class="job-title-container">
-                                <h5>WORKER STEEL STRUCTURE</h5>
-                                <label class="toggle-switch">
-                                    <input type="checkbox">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <p>Date: FEB 22, 2025</p>
-                            <p>Location: Hungary</p>
-                            <p>Views: 869</p>
-                            <div class="job-card-footer">
-                                <span>869 applicants</span>
-                                <button class="edit-btn">Edit</button>
-                            </div>
-                        </div>
+<!-- Active Jobs Tab -->
+<div class="tab-pane" id="activeJobs">
+    <form method="GET" action="{{ route('joblist') }}" id="searchForm">
+        <input class="form-control search-bar" type="text" placeholder="Search by Job Title..." name="search" id="jobSearch" value="{{ $searchTerm }}">
+    </form>    <div class="row mt-4">
+        @foreach ($activeJobs as $job)
+            <div class="col-md-4 mb-3 job-card-container">
+                <div class="job-card">
+                    <div class="job-title-container">
+                        <h5>{{ $job->job_title }}</h5>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="toggle-job-status" data-job-id="{{ $job->id }}" {{ $job->is_active ? 'checked' : '' }}>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <p>Company: {{ $job->company_name }}</p>
+                    <p>Date: {{ $job->year_of_establishment }}</p>
+                    <p>Location: {{ $job->country_origin }}</p>
+                    <div class="job-card-footer">
+                        <span></span>
+                        <button class="edit-btn">Edit</button>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".toggle-switch input").forEach(toggle => {
-        toggle.addEventListener("change", function () {
-            let jobCard = this.closest(".job-card");
-            let jobID = jobCard.getAttribute("data-id"); // Assuming you add data-id
-            let isChecked = this.checked;
-            
-            let activeContainer = document.getElementById("activeJobs").querySelector(".row");
-            let archiveContainer = document.getElementById("archiveJobs").querySelector(".row");
+</div>
+<!-- Archive jobs -->
+<div class="tab-pane" id="archiveJobs">
+    <div class="row mt-4">
+        @foreach ($archivedJobs as $job)
+            <div class="col-md-4 mb-3">
+                <div class="job-card">
+                    <div class="job-title-container">
+                        <h5>{{ $job->job_title }}</h5>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="toggle-job-status" data-job-id="{{ $job->id }}" {{ $job->is_active ? 'checked' : '' }}>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <p>Company: {{ $job->company_name }}</p>
+                    <p>Date: {{ $job->year_of_establishment }}</p>
+                    <p>Location: {{ $job->country_origin }}</p>
+                    <div class="job-card-footer">
+                        <span></span>
+                        <button class="edit-btn">Edit</button>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
 
-            if (isChecked) {
-                // Move job to Active Jobs
-                activeContainer.appendChild(jobCard);
-                document.getElementById("activeJobsTab").click();
-            } else {
-                // Move job to Archive Jobs
-                archiveContainer.appendChild(jobCard);
-                document.getElementById("archiveJobsTab").click();
-            }
+<script>
+    document.querySelectorAll('.toggle-job-status').forEach(toggle => {
+        toggle.addEventListener('change', function() {
+            let jobId = this.getAttribute('data-job-id');
+            let isActive = this.checked ? 1 : 0;
+
+            fetch(`/toggle-job-status/${jobId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({ is_active: isActive })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Show success message
+                location.reload(); // Reload the page to update the job status
+            })
+            .catch(error => console.error('Error:', error));
         });
     });
-});
-    </script>
+</script>
+
 
     <form id="jobForm" enctype="multipart/form-data" method="POST" action="{{ route('store.job') }}">
     @csrf
@@ -573,11 +561,11 @@
                                     <label for="countryOrigin">Country Origin</label>
                                     <select class="form-control" id="countryOrigin" name="countryOrigin" required>
                                         <option value="" selected>Select...</option>
-                                        <option value="USA">United States</option>
-                                        <option value="UK">United Kingdom</option>
-                                        <option value="India">India</option>
-                                        <option value="Canada">Canada</option>
-                                        <option value="Australia">Australia</option>
+                                        <option value="HUNGARY">HUNGARY</option>
+                                        <option value="POLAND">POLAND</option>
+                                        <option value="SAUDI ARABIA">SAUDI ARABIA</option>
+                                        <option value="TAIWAN">TAIWAN</option>
+                                        <option value="UNITED ARAB EMIRATES">UNITED ARAB EMIRATES</option>
                                     </select>
                                 </div>
 
@@ -597,9 +585,7 @@
                                     <label for="additionalField">Additional Field</label>
                                     <select class="form-control" id="additionalField" name="additionalField">
                                         <option value="" selected>Select...</option>
-                                        <option value="Option1">Option 1</option>
-                                        <option value="Option2">Option 2</option>
-                                        <option value="Option3">Option 3</option>
+                                        <option value="Contractual">Contractual</option>
                                     </select>
                                 </div>
                             </div>
@@ -659,10 +645,6 @@
                         <!-- Contact Tab -->
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                             <div class="row mt-3">
-                                <div class="form-group col-md-6">
-                                    <label for="mapLocation">Map Location</label>
-                                    <input type="text" class="form-control" id="mapLocation" name="mapLocation" placeholder="Enter the map location...">
-                                </div>
 
                                 <div class="form-group col-md-6">
                                     <label for="phone">Phone Number</label>

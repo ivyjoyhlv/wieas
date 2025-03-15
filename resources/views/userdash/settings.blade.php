@@ -20,7 +20,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.index') }}">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Pinned</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.pinned') }}">Pinned</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.conference') }}">Conference</a></li>
                 </ul>
             </div>
@@ -51,7 +51,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#profile">
-            <i class="bi bi-person-badge"></i> Profile
+            <i class="bi bi-person-badge"></i> Professional
         </a>
     </li>
     <li class="nav-item">
@@ -69,354 +69,388 @@
     <div class="tab-pane fade show active" id="personal">
         <!-- Personal content here -->
         <h4 class="fw-bold">Basic Information</h4>
-
+        <form id="profileForm" action="{{ route('userdash.storeUserProfile') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 <div class="row">
-    <div class="col-md-3">
-        <label class="fw-bold">Profile Picture</label>
-        <div class="border rounded text-center p-3 d-flex flex-column align-items-center justify-content-center" style="height: 150px; position: relative;">
-            <input type="file" id="profileUpload" class="d-none">
-            <label for="profileUpload" class="w-100 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer">
-                <i class="bi bi-cloud-upload fs-3 text-muted"></i>
-                <p class="small text-muted">Browse photo or drop here</p>
-                <small class="text-muted">A photo larger than 400 pixels works best. Max photo size 5 MB.</small>
-            </label>
-            <img id="profilePreview" src="" class="img-fluid rounded-circle mt-2 d-none" style="width: 100px; height: 100px; object-fit: cover;">
-        </div>
+<div class="col-md-3">
+    <label class="fw-bold mt-3">Profile Picture</label>
+    <div class="border rounded text-center p-3 mt-3 d-flex flex-column align-items-center justify-content-center" style="height: 150px; position: relative;">
+        <!-- Restrict file input to images only (JPEG, PNG, GIF) -->
+        <input type="file" id="profileUpload" class="d-none" accept="image/*" name="profile_picture" required>
+        <label for="profileUpload" class="w-100 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer">
+            <i class="bi bi-cloud-upload fs-3 text-muted"></i>
+            <p id="uploadText" class="small text-muted">Browse photo or drop here</p>
+            <small id="uploadInfo" class="text-muted">A photo larger than 400 pixels works best. Max photo size 5 MB.</small>
+        </label>
+        <!-- Preview image after uploading -->
+        <img id="profilePreview" src="" class="img-fluid rounded-circle mt-2 d-none" style="width: 100px; height: 100px; object-fit: cover;">
     </div>
+    <div id="imageError" class="text-danger mt-2" style="display: none;">Please upload a valid image file (JPG, PNG, GIF) under 5 MB.</div>
+</div>
+
 
     <div class="col-md-9">
-        <form>
+
             <div class="row">
+            <div class="col-md-6">
+                <label class="fw-bold">Full Name</label>
+                <input type="text" class="form-control" name="full_name" placeholder="Full Name" value="{{ session('applicant')->first_name }} {{ session('applicant')->last_name }}">
+            </div>
+
+            <div class="col-md-6">
+    <label class="fw-bold">Salutation</label>
+    <select name="salutation" class="form-select" required>
+        <option value="" disabled selected>Select...</option>
+        <option value="Mr.">Mr.</option>
+        <option value="Ms.">Ms.</option>
+        <option value="Mrs.">Mrs.</option>
+    </select>
+</div>
+
+<div class="col-md-6">
+    <label class="fw-bold">Gender</label>
+    <select name="gender" class="form-select" required>
+        <option value="" disabled selected>Select...</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+</div>
+
+<div class="col-md-6">
+    <label class="fw-bold">Marital Status</label>
+    <select name="marital_status" class="form-select" required>
+        <option value="" disabled selected>Select...</option>
+        <option value="Single">Single</option>
+        <option value="Married">Married</option>
+        <option value="Separated">Separated</option>
+        <option value="Divorced">Divorced</option>
+        <option value="Widowed">Widowed</option>
+    </select>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <label class="fw-bold">Experience</label>
+        <select name="experience" class="form-select" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="Less than 1 year">Less than 1 year</option>
+            <option value="1-3 years">1-3 years</option>
+            <option value="3-5 years">3-5 years</option>
+            <option value="5+ years">5+ years</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="fw-bold">Education</label>
+        <select name="education" class="form-select" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="High School">High School</option>
+            <option value="Bachelor's Degree">Bachelor's Degree</option>
+            <option value="Master's Degree">Master's Degree</option>
+            <option value="PhD">PhD</option>
+        </select>
+    </div>
+</div>
+<div class="row mt-3">
+    <!-- Email Address -->
+    <div class="col-md-6">
+    <label class="fw-bold">Email Address</label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+        <input type="email" class="form-control" placeholder="Email Address" name="email" value="{{ session('applicant')->email }}" required>
+    </div>
+</div>
+
+    <!-- Contact -->
+    <div class="col-md-6">
+        <label class="fw-bold">Contact</label>
+        <input type="tel" class="form-control" placeholder="Enter contact number" name="contact" required oninput="validatePhoneInput(event)">
+    </div>
+</div>
+
+
+            <div class="row mt-3">
+    <div class="col-md-4 mb-3">
+        <label class="fw-bold">Region *</label>
+        <select name="region" class="form-control form-control-md" id="region" required>
+            <option value="" disabled selected>Select Region</option>
+            <!-- Region options will be populated dynamically here -->
+        </select>
+    </div>
+    
+    <div class="col-md-4 mb-3" id="province-container" style="display:none;">
+        <label class="fw-bold">Province *</label>
+        <select name="province" class="form-control form-control-md" id="province" required>
+            <option value="" disabled selected>Select Province</option>
+            <!-- Province options will be populated dynamically here -->
+        </select>
+    </div>
+    
+    <div class="col-md-4 mb-3" id="city-container" style="display:none;">
+        <label class="fw-bold">City / Municipality *</label>
+        <select name="city" class="form-control form-control-md" id="city" required>
+            <option value="" disabled selected>Select City / Municipality</option>
+            <!-- City options will be populated dynamically here -->
+        </select>
+    </div>
+    
+    <div class="col-md-4 mb-3" id="barangay-container" style="display:none;">
+        <label class="fw-bold">Barangay *</label>
+        <select name="barangay" class="form-control form-control-md" id="barangay" required>
+            <option value="" disabled selected>Select Barangay</option>
+            <!-- Barangay options will be populated dynamically here -->
+        </select>
+    </div>
+    
+    <div class="col-md-4 mb-3" id="street-container" style="display:none;">
+        <label class="fw-bold">Street *</label>
+        <input type="text" class="form-control form-control-md" name="street" id="street-text" required>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <!-- Place of Birth -->
+    <div class="col-md-4">
+        <label class="fw-bold">Place of Birth</label>
+        <input type="text" class="form-control" name="place_of_birth" id="placeOfBirth" placeholder="e.g. Bulacan" required>
+    </div>
+
+    <!-- Date of Birth -->
+    <div class="col-md-4">
+        <label class="fw-bold">Date of Birth</label>
+        <input type="date" class="form-control" name="dob" id="dob" onchange="calculateAge()" required>
+    </div>
+
+    <!-- Age -->
+    <div class="col-md-4">
+        <label class="fw-bold">Age</label>
+        <input type="text" class="form-control" id="age" placeholder="" readonly>
+    </div>
+
+    <!-- Religion -->
+    <div class="col-md-4">
+        <label class="fw-bold">Religion</label>
+        <input type="text" class="form-control" name="religion" placeholder="e.g. Roman Catholic" required oninput="validateTextInput(event)">
+    </div>
+</div>
+
+<div class="row mt-3">
+    <!-- Passport Number -->
+    <div class="col-md-4">
+        <label class="fw-bold">Passport No:</label>
+        <input type="tel" class="form-control" name="passport_no" placeholder="Enter Passport Number" required oninput="validatePhoneInput(event)">
+    </div>
+
+    <!-- Date of Issue -->
+    <div class="col-md-4">
+        <label class="fw-bold">Date of Issue</label>
+        <input type="date" class="form-control" name="passport_date_of_issue" required>
+    </div>
+
+    <!-- Place of Issue -->
+    <div class="col-md-4">
+        <label class="fw-bold">Place of Issue</label>
+        <input type="text" class="form-control" name="passport_place_of_issue" placeholder="e.g. Pampanga" required oninput="validateTextInput(event)">
+    </div>
+</div>
+
+<div class="row mt-3">
+    <!-- Name of Spouse -->
+    <div class="col-md-4">
+        <label class="fw-bold">Name of Spouse</label>
+        <input type="text" class="form-control" name="spouse_name" placeholder="e.g. name of husband or wife" required oninput="validateTextInput(event)">
+    </div>
+
+    <!-- Occupation -->
+    <div class="col-md-4">
+        <label class="fw-bold">Occupation</label>
+        <input type="text" class="form-control" name="spouse_occupation" placeholder="e.g. current work" required oninput="validateTextInput(event)">
+    </div>
+
+    <!-- Name(s) of Children -->
+    <div class="col-md-4">
+        <label class="fw-bold">Name(s) of Children</label>
+        <div id="childrenFields" required>
+            <!-- Initially no children input field -->
+        </div>
+        <button type="button" class="btn btn-primary" onclick="addChild()">+</button>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <!-- Name of Father -->
+    <div class="col-md-6">
+        <label class="fw-bold">Name of Father</label>
+        <input type="text" class="form-control" name="father_name" placeholder="Enter Father's Name" required oninput="validateTextInput(event)">
+    </div>
+
+    <!-- Name of Mother -->
+    <div class="col-md-6">
+        <label class="fw-bold">Name of Mother</label>
+        <input type="text" class="form-control" name="mother_name" placeholder="Enter Mother's Name" required oninput="validateTextInput(event)">
+    </div>
+</div>
+
+<div class="row mt-3">
+    <!-- Emergency Contact Person -->
+    <div class="col-md-6">
+        <label class="fw-bold">Person to Notify in Case of Emergency</label>
+        <input type="text" class="form-control" name="emergency_contact" placeholder="e.g. name of guardian" required oninput="validateTextInput(event)">
+    </div>
+
                 <div class="col-md-6">
-                    <label class="fw-bold">Full Name</label>
-                    <input type="text" class="form-control" placeholder="Full Name">
-                </div>
-                <div class="col-md-6">
-                    <label class="fw-bold">Salutation</label>
-                    <select class="form-select">
-                        <option selected>Select...</option>
-                        <option>Mr.</option>
-                        <option>Ms.</option>
-                        <option>Mrs.</option>
-                    </select>
-                </div>
+    <label class="fw-bold">Relationship</label>
+    <select name="emergency_relationship" class="form-select" required>
+        <option value="" disabled selected>Select...</option>
+        <option value="Father">Father</option>
+        <option value="Mother">Mother</option>
+        <option value="Brother">Brother</option>
+        <option value="Sister">Sister</option>
+        <option value="Spouse">Spouse</option>
+        <option value="Guardian">Guardian</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
             </div>
 
             <div class="row mt-3">
-                <div class="col-md-6">
-                    <label class="fw-bold">Experience</label>
-                    <select class="form-select">
-                        <option selected>Select...</option>
-                        <option>Less than 1 year</option>
-                        <option>1-3 years</option>
-                        <option>3-5 years</option>
-                        <option>5+ years</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label class="fw-bold">Education</label>
-                    <select class="form-select">
-                        <option selected>Select...</option>
-                        <option>High School</option>
-                        <option>Bachelor's Degree</option>
-                        <option>Master's Degree</option>
-                        <option>PhD</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <label class="fw-bold">Email Address</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                        <input type="email" class="form-control" placeholder="Email Address">
-                    </div>
-                </div>
+            <!-- Contact Number -->
             <div class="col-md-6">
                 <label class="fw-bold">Contact</label>
-                <input type="tel" class="form-control" placeholder="Enter contact number" oninput="validatePhoneInput(event)">
+                <input type="text" class="form-control" name="emergency_contact_number" placeholder="Contact No:" required id="contact-input" oninput="validatePhoneInput(event)">
             </div>
 
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-4 mb-3">
-                    <label class="fw-bold">Region *</label>
-                    <select name="region" class="form-control form-control-md" id="region" required>
-                        <option value="">Select Region</option>
-                        <!-- Region Options will be populated here -->
-                    </select>
-                </div>
-                <div class="col-md-4 mb-3" id="province-container" style="display:none;">
-                    <label class="fw-bold">Province *</label>
-                    <select name="province" class="form-control form-control-md" id="province" required>
-                        <option value="">Select Province</option>
-                        <!-- Province Options will be populated here -->
-                    </select>
-                </div>
-                <div class="col-md-4 mb-3" id="city-container" style="display:none;">
-                    <label class="fw-bold">City / Municipality *</label>
-                    <select name="city" class="form-control form-control-md" id="city" required>
-                        <option value="">Select City / Municipality</option>
-                        <!-- City Options will be populated here -->
-                    </select>
-                </div>
-                <div class="col-md-4 mb-3" id="barangay-container" style="display:none;">
-                    <label class="fw-bold">Barangay *</label>
-                    <select name="barangay" class="form-control form-control-md" id="barangay" required>
-                        <option value="">Select Barangay</option>
-                        <!-- Barangay Options will be populated here -->
-                    </select>
-                </div>
-                <div class="col-md-4 mb-3" id="street-container" style="display:none;">
-                    <label class="fw-bold">Street (Optional)</label>
-                    <input type="text" class="form-control form-control-md" name="street_text" id="street-text">
-                </div>
-            </div>
-
-
-            <div class="row mt-3">
-            <div class="col-md-4">
-                <label class="fw-bold">Place of Birth</label>
-                <input type="text" class="form-control" id="placeOfBirth" placeholder="ex// Marilao">
-            </div>
-            <div class="col-md-4">
-                <label class="fw-bold">Date of Birth</label>
-                <input type="date" class="form-control" id="dob" onchange="calculateAge()" placeholder="">
-            </div>
-            <div class="col-md-4">
-                <label class="fw-bold">Age</label>
-                <input type="text" class="form-control" id="age" placeholder="" readonly>
-            </div>
-                <div class="col-md-4">
-                <label class="fw-bold">Religion</label>
-                    <select class="form-select">
-                        <option selected>Select...</option>
-                        <option>Roman Catholic</option>
-                        <option>Islam</option>
-                        <option>Iglesia ni Cristo</option>
-                        <option>Seventh Day Adventist</option>
-                        <option>Aglipay</option>
-                        <option>Iglesia Filipina Independiente</option>
-                        <option>Bible Baptist Church</option>
-                        <option>Jehovah's Witness</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-4">
-                <label class="fw-bold">Passport No:</label>
-                <input type="tel" class="form-control" placeholder="Enter Passport Number" oninput="validatePhoneInput(event)">
-                </div>
-                <div class="col-md-4">
-                    <label class="fw-bold">Date of Issue</label>
-                    <input type="date" class="form-control" placeholder="">
-                </div>
-                <div class="col-md-4">
-                    <label class="fw-bold">Place of Issue</label>
-                    <input type="text" class="form-control" placeholder="ex// Cabanatuan" oninput="validateTextInput(event)">
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-4">
-                    <label class="fw-bold">Name of Spouse</label>
-                    <input type="text" class="form-control" placeholder="ex// wife/partner" oninput="validateTextInput(event)">
-                </div>
-                <div class="col-md-4">
-                    <label class="fw-bold">Occupation</label>
-                    <input type="text" class="form-control" placeholder="ex// work" oninput="validateTextInput(event)">
-                </div>
-                <div class="col-md-4">
-                    <label class="fw-bold">Name(s) of Children</label>
-                    <div id="childrenFields">
-                        <!-- Initially no children input field -->
-                    </div>
-                    <button type="button" class="btn btn-primary" onclick="addChild()">+</button>
-                </div>
-
-
-            <div class="row mt-3">
-
-                <div class="col-md-6">
-                    <label class="fw-bold">Name of Father</label>
-                    <input type="text" class="form-control" placeholder="Enter Father's Name" oninput="validateTextInput(event)">
-                </div>
-                <div class="col-md-6">
-                    <label class="fw-bold">Name of Mother</label>
-                    <input type="text" class="form-control" placeholder="Enter Mother's Name" oninput="validateTextInput(event)">
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <label class="fw-bold">Person to Notify in Case of Emergency</label>
-                    <input type="text" class="form-control" placeholder="ex// Father name">
-                </div>
-                <div class="col-md-6">
-                    <label class="fw-bold">Relationship</label>
-                    <select class="form-select">
-                        <option selected>Select...</option>
-                        <option>Father</option>
-                        <option>Mother</option>
-                        <option>Guardian</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mt-3">
+            <!-- Address -->
             <div class="col-md-6">
-                <label class="fw-bold">Contact</label>
-                <input type="text" class="form-control" placeholder="Contact No:" required id="contact-input">
+                <label class="fw-bold">Address</label>
+                <input type="text" class="form-control" name="address" placeholder="e.g. Cabanatuan City" required oninput="validateTextInput(event)">
             </div>
-                <div class="col-md-6">
-                    <label class="fw-bold">Address</label>
-                    <input type="text" class="form-control" placeholder="ex// Cabanatuan">
-                </div>
-            </div>
+        </div>
 
 
-        </form>
+
     </div>
 </div>
 
 <!-- CV/Resume Section -->
 <div class="mt-5">
-    <h5 class="fw-bold">Your CV/Resume</h5>
+    <h5 class="fw-bold">Your CV/Resume, IDs, Birth Certificate, etc.</h5>
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="border p-3 rounded">
-                <i class="bi bi-file-earmark-text fs-3"></i>
-                <p class="mb-1">Professional Resume</p>
-                <small>3.5 MB</small>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="border p-3 rounded position-relative">
-                <i class="bi bi-file-earmark-text fs-3"></i>
-                <p class="mb-1">Product Designer</p>
-                <small>4.7 MB</small>
-                <div class="dropdown position-absolute top-0 end-0">
-                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-three-dots"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Edit Resume</a></li>
-                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash"></i> Delete</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="border p-3 rounded">
-                <i class="bi bi-file-earmark-text fs-3"></i>
-                <p class="mb-1">Visual Designer</p>
-                <small>1.3 MB</small>
-            </div>
+    <div class="row mt-3">
+    <!-- File Upload for Professional Resume -->
+    <div class="col-md-6 mb-3">
+        <div class="border p-3 rounded text-center cursor-pointer" onclick="document.getElementById('fileInput1').click()">
+            <i class="bi bi-file-earmark-text fs-3"></i>
+            <p class="mb-1">Professional Resume</p>
+            <small id="fileName1">No file chosen</small>
+            <div id="filePreview1"></div>
+            <input type="file" id="fileInput1" class="file-input" style="display:none" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" name="professional_resume" required onchange="handleFileUpload(this, 'fileName1', 'filePreview1')" />
         </div>
     </div>
-    <!-- Add CV/Resume -->
-    <div class="mt-3">
-        <input type="file" id="cvUpload" hidden>
-        <label for="cvUpload" class="border p-3 rounded d-block text-center w-100 bg-light cursor-pointer" 
-            style="border: 2px dashed #ccc;">
-            <i class="bi bi-plus-circle fs-3 text-primary"></i>
-            <p class="mb-1 fw-bold">Add CV/Resume</p>
-            <small class="text-muted">Browse file or drop here. Only PDF.</small>
-        </label>
+
+    <!-- File Upload for Valid ID -->
+    <div class="col-md-6 mb-3">
+        <div class="border p-3 rounded text-center cursor-pointer" onclick="document.getElementById('fileInput2').click()">
+            <i class="bi bi-file-earmark-text fs-3"></i>
+            <p class="mb-1">Valid ID</p>
+            <small id="fileName2">No file chosen</small>
+            <div id="filePreview2"></div>
+            <input type="file" id="fileInput2" class="file-input" style="display:none" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" name="valid_id" required onchange="handleFileUpload(this, 'fileName2', 'filePreview2')" />
+        </div>
     </div>
-    <div class="mt-4 text-end">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
+</div>
+
+<div class="row">
+    <!-- File Upload for Passport -->
+    <div class="col-md-6 mb-3">
+        <div class="border p-3 rounded text-center cursor-pointer" onclick="document.getElementById('fileInput3').click()">
+            <i class="bi bi-file-earmark-text fs-3"></i>
+            <p class="mb-1">Passport</p>
+            <small id="fileName3">No file chosen</small>
+            <div id="filePreview3"></div>
+            <input type="file" id="fileInput3" class="file-input" style="display:none" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" name="passport" required onchange="handleFileUpload(this, 'fileName3', 'filePreview3')" />
+        </div>
+    </div>
+
+    <!-- File Upload for Birth Certificate -->
+    <div class="col-md-6 mb-3">
+        <div class="border p-3 rounded text-center cursor-pointer" onclick="document.getElementById('fileInput4').click()">
+            <i class="bi bi-file-earmark-text fs-3"></i>
+            <p class="mb-1">Birth Certificate</p>
+            <small id="fileName4">No file chosen</small>
+            <div id="filePreview4"></div>
+            <input type="file" id="fileInput4" class="file-input" style="display:none" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" name="birth_certificate" required onchange="handleFileUpload(this, 'fileName4', 'filePreview4')" />
+        </div>
+    </div>
 </div>
 </div>
+
+</div>
+<div id="fileUploadContainer"></div>
+<!-- Submit Button with New Name -->
+<div class="mt-4 text-end">
+        <button type="button" id="submitButton" class="btn btn-primary mt-4" onclick="submitForm()">Submit</button>
     </div>
+</form>
+
+</div>
+    
     <div class="tab-pane fade" id="profile">
         <!-- Profile content here -->
         <div class="tab-pane fade show active" id="profile">
-        <h5 class="fw-bold">Profile Information</h5>
+        <h5 class="fw-bold">Professional</h5>
 
         <div class="row">
-            <div class="col-md-6">
-                <label class="fw-bold">Language Spoken</label>
-                <select class="form-select">
-                    <option selected>Select...</option>
-                    <option>English</option>
-                    <option>Spanish</option>
-                    <option>French</option>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label class="fw-bold">Date of Birth</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="dd/mm/yyyy">
-                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                </div>
+            <div class="col-md-6 mt-3">
+                <label class="fw-bold mb-2">Language Spoken</label>
+                <input type="text" class="form-control" placeholder="Enter language" id="language1" required>
             </div>
         </div>
 
-        <div class="row mt-3">
-            <div class="col-md-6">
-                <label class="fw-bold">Gender</label>
-                <select class="form-select">
-                    <option selected>Select...</option>
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Other</option>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label class="fw-bold">Marital Status</label>
-                <select class="form-select">
-                    <option selected>Select...</option>
-                    <option>Single</option>
-                    <option>Married</option>
-                    <option>Divorced</option>
-                </select>
-            </div>
-        </div>
+        <div id="additional-languages"></div>
+
+        <button type="button" class="btn btn-primary mt-3" onclick="addLanguageField()">Add Another Language</button>
 
         <!-- Work Experience Section -->
         <div class="mt-5">
-            <h5 class="fw-bold">Work Experience (START FROM PRESENT EMPLOYMENT)</h5>
+    <h5 class="fw-bold">Work Experience (START FROM PRESENT EMPLOYMENT)</h5>
 
-            <div class="row">
-                <div class="col-md-4">
-                    <label class="fw-bold">Company</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-md-4">
-                    <label class="fw-bold">Address</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-md-4">
-                    <label class="fw-bold">Position</label>
-                    <input type="text" class="form-control">
-                </div>
+    <div id="work-experience-container">
+        <!-- Original Work Experience (This should not have the Remove button initially) -->
+        <div class="row work-experience-item">
+            <div class="col-md-4">
+                <label class="fw-bold">Company</label>
+                <input type="text" class="form-control" oninput="validateText(this)">
             </div>
-
-            <div class="row mt-3">
-                <div class="col-md-3">
-                    <label class="fw-bold">Salary</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-md-2">
-                    <label class="fw-bold">Date From</label>
-                    <input type="text" class="form-control" placeholder="MM YYYY">
-                </div>
-                <div class="col-md-2">
-                    <label class="fw-bold">Date To</label>
-                    <input type="text" class="form-control" placeholder="MM YYYY">
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn btn-primary w-100">+ Add Another</button>
-                </div>
+            <div class="col-md-4">
+                <label class="fw-bold">Address</label>
+                <input type="text" class="form-control" oninput="validateText(this)">
+            </div>
+            <div class="col-md-4">
+                <label class="fw-bold">Position</label>
+                <input type="text" class="form-control" oninput="validateText(this)">
             </div>
         </div>
 
+        <div class="row mt-3 work-experience-item">
+            <div class="col-md-3">
+                <label class="fw-bold">Salary</label>
+                <input type="text" class="form-control salary" oninput="validateSalary(this)">
+            </div>
+            <div class="col-md-2">
+                <label class="fw-bold">Date From</label>
+                <input type="month" class="form-control" oninput="validateDate(this)" id="date-from">
+            </div>
+            <div class="col-md-2">
+                <label class="fw-bold">Date To</label>
+                <input type="month" class="form-control" oninput="validateDate(this)" id="date-to">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="button" class="btn btn-primary w-50 ms-2" onclick="addWorkExperience()" id="add-button" disabled>+</button>
+            </div>
+        </div>
+    </div>
+</div>
         <!-- Educational Attainment Section -->
         <div class="mt-5">
             <h5 class="fw-bold">Educational Attainment</h5>
@@ -434,14 +468,11 @@
                     <label class="fw-bold text-danger">Elementary *</label>
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control" placeholder="YYYY - YYYY">
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control">
                 </div>
             </div>
 
@@ -451,14 +482,11 @@
                     <label class="fw-bold text-danger">High School *</label>
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control" placeholder="YYYY - YYYY">
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control">
                 </div>
             </div>
 
@@ -468,13 +496,13 @@
                     <label class="fw-bold">College</label>
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control" placeholder="YYYY - YYYY">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control">
                 </div>
             </div>
@@ -485,39 +513,35 @@
                     <label class="fw-bold">Others</label>
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control" placeholder="YYYY - YYYY">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-4">
                     <input type="text" class="form-control">
                 </div>
             </div>
         </div>
 
-        <!-- Applicant Signature Upload -->
-        <div class="mt-5">
-            <h5 class="fw-bold">Applicant Signature</h5>
-            <div class="border rounded p-3 text-center d-flex flex-column align-items-center justify-content-center" 
-                style="height: 100px; position: relative;">
-                <input type="file" id="signatureUpload" class="d-none">
-                <label for="signatureUpload" class="w-100 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer">
-                    <i class="bi bi-cloud-upload fs-3 text-muted"></i>
-                    <p class="small text-muted">Upload your signature</p>
-                </label>
-                <img id="signaturePreview" src="" class="img-fluid mt-2 d-none" style="max-width: 200px;">
-            </div>
-        </div>
-
-        <!-- Save Changes Button at the End -->
-        <div class="mt-4 text-end">
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-        </div>
+<!-- Applicant Signature Upload -->
+<div class="mt-5">
+    <h5 class="fw-bold">Applicant Signature</h5>
+    <div class="border rounded p-3 text-center d-flex flex-column align-items-center justify-content-center" 
+        style="height: 100px; position: relative;">
+        <input type="file" id="signatureUpload" class="d-none" accept="image/*">
+        <label for="signatureUpload" class="w-100 h-100 d-flex flex-column align-items-center justify-content-center cursor-pointer">
+            <i id="uploadIcon" class="bi bi-cloud-upload fs-3 text-muted"></i>
+            <p id="uploadText" class="small text-muted">Upload your signature</p>
+        </label>
+        <img id="signaturePreview" src="" class="img-fluid mt-2 d-none" style="max-width: 200px;">
     </div>
-
-    
+</div>
+<div class="mt-4  text-end">
+     <button type="submit" class="btn btn-primary">Save Changes</button>
+</div>
+    </div>
     </div>
     <div class="tab-pane fade" id="social">
         <!-- Social content here -->
@@ -541,7 +565,6 @@
                                         <i class="bi bi-x"></i>
                                     </button>
                                 </div>
-
                                 <!-- Social Link 2 -->
                                 <div class="mb-3 d-flex align-items-center border p-3 rounded">
                                     <i class="bi bi-twitter fs-4 text-info me-2"></i>
@@ -557,7 +580,6 @@
                                         <i class="bi bi-x"></i>
                                     </button>
                                 </div>
-
                                 <!-- Social Link 3 -->
                                 <div class="mb-3 d-flex align-items-center border p-3 rounded">
                                     <i class="bi bi-instagram fs-4 text-danger me-2"></i>
@@ -573,7 +595,6 @@
                                         <i class="bi bi-x"></i>
                                     </button>
                                 </div>
-
                                 <!-- Social Link 4 -->
                                 <div class="mb-3 d-flex align-items-center border p-3 rounded">
                                     <i class="bi bi-youtube fs-4 text-danger me-2"></i>
@@ -590,19 +611,15 @@
                                     </button>
                                 </div>
                             </div>
-
                             <!-- Add New Social Link Button -->
                             <div class="text-center border p-3 rounded bg-light" id="addSocialLink">
                                 <i class="bi bi-plus-circle"></i> Add New Social Link
                             </div>
-
-                            <div class="mt-4">
+                            <div class="mt-4  text-end">
                                 <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </div>
+                </div>
                         </form>
                     </div>
-
-
     </div>
     <div class="tab-pane fade" id="account">
         <!-- Account content here -->
@@ -611,21 +628,6 @@
 
         <!-- Contact Info Section -->
         <div class="mt-4">
-            <h6 class="fw-bold">Contact Info</h6>
-            <div class="mb-3">
-                <label class="fw-bold">Map Location</label>
-                <input type="text" class="form-control" placeholder="">
-            </div>
-            <div class="mb-3 d-flex align-items-center">
-                <label class="fw-bold me-2">Phone</label>
-                <select class="form-select w-auto me-2">
-                    <option selected>+880</option>
-                    <option>+63</option>
-                    <option>+91</option>
-                    <option>+44</option>
-                </select>
-                <input type="text" class="form-control" placeholder="Phone number..">
-            </div>
             <div class="mb-3">
                 <label class="fw-bold">Email</label>
                 <div class="input-group">
@@ -633,71 +635,7 @@
                     <input type="email" class="form-control" placeholder="Email address">
                 </div>
             </div>
-            <button class="btn btn-primary">Save Changes</button>
         </div>
-
-        <!-- Notification Section -->
-        <div class="mt-5">
-            <h6 class="fw-bold">Notification</h6>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" checked>
-                <label class="form-check-label">Notify me when employers shortlisted me</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">Notify me when employers saved my profile</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" checked>
-                <label class="form-check-label">Notify me when my applied jobs are expired</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" checked>
-                <label class="form-check-label">Notify me when I have up to 5 job alerts</label>
-            </div>
-            <button class="btn btn-primary mt-3">Save Changes</button>
-        </div>
-
-        <!-- Job Alerts Section -->
-        <div class="mt-5">
-            <h6 class="fw-bold">Job Alerts</h6>
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="fw-bold">Role</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
-                        <input type="text" class="form-control" placeholder="Your job roles">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label class="fw-bold">Location</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
-                        <input type="text" class="form-control" placeholder="City, state, country name">
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-primary mt-3">Save Changes</button>
-        </div>
-
-        <!-- Privacy Section -->
-        <div class="mt-5">
-            <h6 class="fw-bold">Profile Privacy</h6>
-            <div class="d-flex align-items-center">
-                <span class="me-2">YES</span>
-                <input type="checkbox" class="form-check-input me-2" checked>
-                <span>Your profile is public now</span>
-            </div>
-
-            <h6 class="fw-bold mt-3">Resume Privacy</h6>
-            <div class="d-flex align-items-center">
-                <span class="me-2">NO</span>
-                <input type="checkbox" class="form-check-input me-2">
-                <span>Your resume is private now</span>
-            </div>
-        </div>
-
-        <!-- Change Password Section -->
         <div class="mt-5">
             <h6 class="fw-bold">Change Password</h6>
             <div class="row">
@@ -722,22 +660,12 @@
                         <span class="input-group-text"><i class="bi bi-eye"></i></span>
                     </div>
                 </div>
+                <div class="mt-4  text-end">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
             </div>
-            <button class="btn btn-primary mt-3">Save Changes</button>
-        </div>
-
-        <!-- Delete Account Section -->
-        <div class="mt-5">
-            <h6 class="fw-bold">Delete Your Account</h6>
-            <p class="text-muted">
-                If you delete your JobPilot account, you will no longer be able to get information about the matched jobs, 
-                following employers, and job alerts. You will be abandoned from all services.
-            </p>
-            <button class="btn btn-danger"><i class="bi bi-x-circle"></i> Close Account</button>
         </div>
     </div>
-
-
     </div>
 </div>
 
@@ -1064,42 +992,436 @@ function validatePhoneInput(event) {
 </script>
 
 <script>
-    // Function to add a new child input field
     function addChild() {
         const childrenFields = document.getElementById('childrenFields');
-        
-        // Create the new input field and delete button
+        const inputs = childrenFields.getElementsByTagName('input');
+
+        // Check if the last input field is empty before adding a new one
+        if (inputs.length > 0 && inputs[inputs.length - 1].value.trim() === "") {
+            alert("Please fill in the existing field before adding another.");
+            return;
+        }
+
+        // Create new input field and delete button
         const div = document.createElement('div');
         div.classList.add('input-group', 'mb-3');
-        
+
         const input = document.createElement('input');
         input.type = 'text';
         input.classList.add('form-control');
         input.placeholder = 'Enter child name';
-        
+        input.required = true;
+
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
         deleteButton.classList.add('btn', 'btn-danger');
         deleteButton.textContent = '-';
-        
+
         // Delete the field when the delete button is clicked
         deleteButton.onclick = function() {
             div.remove();
         };
-        
-        // Append the input field and delete button to the div
-        const inputGroupAppend = document.createElement('div');
-        inputGroupAppend.classList.add('input-group-append');
-        inputGroupAppend.appendChild(deleteButton);
-        
-        // Append elements to the input group div
+
+        // Append elements to the div
         div.appendChild(input);
-        div.appendChild(inputGroupAppend);
-        
+        div.appendChild(deleteButton);
+
         // Append the div to the container
         childrenFields.appendChild(div);
     }
 </script>
+
+<script>
+    // Set the max date for "Date From" and "Date To" to March 2025
+    function setMaxDate() {
+        // Set max date to March 2025
+        const maxDate = "2025-03";  // March 2025
+        
+        // Set the max attribute for both Date From and Date To fields in the original section
+        document.getElementById('date-from').setAttribute('max', maxDate);
+        document.getElementById('date-to').setAttribute('max', maxDate);
+    }
+
+    // Function for adding new work experience sections
+    function addWorkExperience() {
+        const workExperienceContainer = document.getElementById('work-experience-container');
+
+        // Create new work experience item (new section)
+        const newWorkExperience = document.createElement('div');
+        newWorkExperience.innerHTML = `
+            <div class="row mt-3 work-experience-item">
+                <div class="col-md-4">
+                    <label class="fw-bold">Company</label>
+                    <input type="text" class="form-control" oninput="validateText(this)">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold">Address</label>
+                    <input type="text" class="form-control" oninput="validateText(this)">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold">Position</label>
+                    <input type="text" class="form-control" oninput="validateText(this)">
+                </div>
+            </div>
+            <div class="row mt-3 work-experience-item">
+                <div class="col-md-3">
+                    <label class="fw-bold">Salary</label>
+                    <input type="text" class="form-control salary" oninput="validateSalary(this)">
+                </div>
+                <div class="col-md-2">
+                    <label class="fw-bold">Date From</label>
+                    <input type="month" class="form-control" oninput="validateDate(this)">
+                </div>
+                <div class="col-md-2">
+                    <label class="fw-bold">Date To</label>
+                    <input type="month" class="form-control" oninput="validateDate(this)">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="button" class="btn btn-danger w-50 remove-btn" onclick="removeWorkExperience(this)">-</button>
+                    <button type="button" class="btn btn-primary w-50 ms-2" onclick="addWorkExperience()">+</button>
+                </div>
+            </div>
+        `;
+
+        // Append the new item to the work-experience-container
+        workExperienceContainer.appendChild(newWorkExperience);
+
+        // Enable the remove button for the new section
+        document.querySelectorAll('.remove-btn').forEach((btn) => {
+            btn.style.display = 'block';
+        });
+
+        // Hide the "Add Another" button in the original section
+        document.querySelector('#add-button').style.display = 'none';
+
+        // Set max date for the new "Date From" and "Date To" fields
+        setMaxDateForNewFields();
+    }
+
+    // Function to set max date for "Date From" and "Date To" in newly added sections
+    function setMaxDateForNewFields() {
+        // Set max date to March 2025 for the newly added fields
+        const maxDate = "2025-03";
+        const dateFromInputs = document.querySelectorAll('.work-experience-item input[type="month"]:nth-child(2)');
+        const dateToInputs = document.querySelectorAll('.work-experience-item input[type="month"]:nth-child(3)');
+
+        // Set max date for all Date From and Date To inputs in the newly added sections
+        dateFromInputs.forEach((input) => {
+            input.setAttribute('max', maxDate);
+        });
+
+        dateToInputs.forEach((input) => {
+            input.setAttribute('max', maxDate);
+        });
+    }
+
+    // Function for removing work experience section
+    function removeWorkExperience(button) {
+        const workExperienceItem = button.closest('.work-experience-item').parentElement;
+        workExperienceItem.remove();
+
+        // Show the "Add Another" button again in the first section
+        document.querySelector('#add-button').style.display = 'block';
+        validateInputs(); // Revalidate after removal
+    }
+
+    // Function to validate text fields (Company, Address, Position) - Allow only alphabetic and spaces
+    function validateText(input) {
+        // Allow only letters (both uppercase and lowercase) and spaces
+        const value = input.value.replace(/[^a-zA-Z\s]/g, ''); // Remove anything that's not a letter or space
+        input.value = value;  // Update the value after removing invalid characters
+        
+        validateInputs(); // Enable/disable Add Another button
+    }
+
+    // Function to validate salary input (Only numbers and commas allowed)
+    function validateSalary(input) {
+        const value = input.value.replace(/[^0-9,]/g, '');  // Allow only numbers and commas
+        input.value = value;
+    }
+
+    // Function to validate month inputs (Date From, Date To)
+    function validateDate(input) {
+        if (!input.value) {
+            input.setCustomValidity('This field is required.');
+        } else {
+            input.setCustomValidity('');
+        }
+        validateInputs(); // Enable/disable Add Another button
+    }
+
+    // Function to validate the entire section to enable/disable the "Add Another" button
+    function validateInputs() {
+        const addButton = document.querySelector('#add-button');
+        const fields = document.querySelectorAll('.work-experience-item:last-child input');
+        let isValid = true;
+
+        fields.forEach(field => {
+            if (field.checkValidity() === false) {
+                isValid = false;
+            }
+        });
+
+        addButton.disabled = !isValid;  // Enable or disable the "Add Another" button
+    }
+
+    // Call setMaxDate when the page loads to set the max date for Date From and Date To fields
+    window.onload = setMaxDate;
+</script>
+<script>
+    function handleFileUpload() {
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const filePreview = document.getElementById('filePreview');
+        
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            fileName.textContent = file.name; // Display file name
+
+            // Clear previous previews
+            filePreview.innerHTML = '';
+
+            // Check if the file is an image
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.style.maxWidth = '100px'; // Set a max width for the image preview
+                img.style.marginTop = '10px';
+                filePreview.appendChild(img);
+            } else {
+                // If not an image, show a generic file icon (could be adjusted)
+                const icon = document.createElement('i');
+                icon.classList.add('bi', 'bi-file-earmark', 'fs-3');
+                filePreview.appendChild(icon);
+            }
+        }
+    }
+</script>
+<script>
+    // Handle file uploads and previews for general files (CV, ID, Passport, Birth Certificate)
+    document.querySelectorAll('.file-input').forEach(inputElement => {
+        inputElement.addEventListener('change', function(event) {
+            handleFileUpload(event.target);
+        });
+    });
+
+    // Unified file upload handler for all types of files
+    function handleFileUpload(inputElement) {
+        const fileNameElementId = inputElement.id.replace('fileInput', 'fileName'); // e.g., fileInput1 -> fileName1
+        const filePreviewElementId = inputElement.id.replace('fileInput', 'filePreview'); // e.g., fileInput1 -> filePreview1
+
+        const fileNameElement = document.getElementById(fileNameElementId);
+        const filePreviewElement = document.getElementById(filePreviewElementId);
+        const file = inputElement.files[0];
+
+        if (file) {
+            fileNameElement.textContent = file.name;
+
+            // Clear previous previews
+            filePreviewElement.innerHTML = '';
+
+            // Check if the file is an image
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.style.maxWidth = '100px'; // Set a max width for the image preview
+                img.style.marginTop = '10px';
+                filePreviewElement.appendChild(img);
+            } else {
+                // If not an image, show a generic file icon
+                const icon = document.createElement('i');
+                icon.classList.add('bi', 'bi-file-earmark', 'fs-3');
+                filePreviewElement.appendChild(icon);
+            }
+        }
+    }
+
+    // Profile Image Upload Handling
+    const profileUpload = document.getElementById("profileUpload");
+    const profilePreview = document.getElementById("profilePreview");
+    const uploadText = document.getElementById("uploadText");
+    const uploadInfo = document.getElementById("uploadInfo");
+
+    profileUpload.addEventListener("change", function() {
+        const file = this.files[0];
+
+        // Check if the file is an image
+        if (file && file.type.startsWith('image/')) {
+            // Create a URL for the selected image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Show the image preview and update the source
+                profilePreview.src = e.target.result;
+                profilePreview.classList.remove("d-none");
+
+                // Hide the text and show the preview
+                uploadText.classList.add("d-none");
+                uploadInfo.classList.add("d-none");
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert("Please upload a valid image file.");
+        }
+    });
+
+    // Signature Image Upload Handling
+    const signatureInput = document.getElementById('signatureUpload');
+    const signaturePreview = document.getElementById('signaturePreview');
+    const uploadIcon = document.getElementById('uploadIcon');
+    const uploadTextForSignature = document.getElementById('uploadText'); // Use different name for clarity
+
+    signatureInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Hide the upload icon and text
+            uploadIcon.style.display = 'none';
+            uploadTextForSignature.style.display = 'none';
+
+            // Show the uploaded image
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                signaturePreview.src = event.target.result; // Set the src to the uploaded image
+                signaturePreview.classList.remove('d-none'); // Make sure the image is visible
+            };
+            reader.readAsDataURL(file); // Read the file and trigger the onload function
+        }
+    });
+</script>
+<script>
+    function addLanguageField() {
+        // Get all input fields
+        const inputs = document.querySelectorAll('input[type="text"]');
+        let isValid = true;
+
+        // Check if any input field is empty
+        inputs.forEach(input => {
+            if (input.value.trim() === "") {
+                isValid = false;
+                input.classList.add('is-invalid'); // Add invalid class if empty
+            } else {
+                input.classList.remove('is-invalid'); // Remove invalid class if not empty
+            }
+        });
+
+        // Only add another input field if all fields are filled
+        if (isValid) {
+            const newField = document.createElement('div');
+            newField.classList.add('row', 'mt-2');
+            newField.innerHTML = `
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Enter language" required>
+                </div>
+            `;
+            document.getElementById('additional-languages').appendChild(newField);
+        } else {
+            alert("Please fill in all fields before adding another language.");
+        }
+    }
+</script>
+<script>
+    function submitForm() {
+        // Optionally, you can validate the form before submission (check for empty fields, etc.)
+        // For example, if you want to validate that certain fields are not empty:
+        let fullName = document.querySelector('input[name="full_name"]').value;
+        if (!fullName) {
+            alert('Please fill in your full name');
+            return;
+        }
+
+        // Manually submit the form using JavaScript
+        document.getElementById('profileForm').submit();
+    }
+</script>
+<script>
+    document.getElementById('region').addEventListener('change', function () {
+    var regionId = this.value;
+    if (regionId) {
+        // Fetch and display provinces for the selected region
+        document.getElementById('province-container').style.display = 'block';
+        // Fetch provinces via AJAX or another method and populate the province dropdown
+        fetchProvinces(regionId);
+    } else {
+        document.getElementById('province-container').style.display = 'none';
+    }
+});
+
+document.getElementById('province').addEventListener('change', function () {
+    var provinceId = this.value;
+    if (provinceId) {
+        // Fetch and display cities for the selected province
+        document.getElementById('city-container').style.display = 'block';
+        // Fetch cities via AJAX or another method and populate the city dropdown
+        fetchCities(provinceId);
+    } else {
+        document.getElementById('city-container').style.display = 'none';
+    }
+});
+
+document.getElementById('city').addEventListener('change', function () {
+    var cityId = this.value;
+    if (cityId) {
+        // Fetch and display barangays for the selected city
+        document.getElementById('barangay-container').style.display = 'block';
+        // Fetch barangays via AJAX or another method and populate the barangay dropdown
+        fetchBarangays(cityId);
+    } else {
+        document.getElementById('barangay-container').style.display = 'none';
+    }
+});
+
+document.getElementById('barangay').addEventListener('change', function () {
+    var barangayId = this.value;
+    if (barangayId) {
+        // Display the street input field when barangay is selected
+        document.getElementById('street-container').style.display = 'block';
+    } else {
+        document.getElementById('street-container').style.display = 'none';
+    }
+});
+
+function fetchProvinces(regionId) {
+    // Example: Fetch provinces via AJAX and populate the province dropdown
+    // Replace with your own logic to fetch provinces based on regionId
+    // For example:
+    fetch(`/api/provinces/${regionId}`)
+        .then(response => response.json())
+        .then(data => {
+            let provinceSelect = document.getElementById('province');
+            provinceSelect.innerHTML = '<option value="" disabled selected>Select Province</option>';
+            data.forEach(province => {
+                provinceSelect.innerHTML += `<option value="${province.id}">${province.name}</option>`;
+            });
+        });
+}
+
+function fetchCities(provinceId) {
+    // Example: Fetch cities via AJAX and populate the city dropdown
+    fetch(`/api/cities/${provinceId}`)
+        .then(response => response.json())
+        .then(data => {
+            let citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="" disabled selected>Select City / Municipality</option>';
+            data.forEach(city => {
+                citySelect.innerHTML += `<option value="${city.id}">${city.name}</option>`;
+            });
+        });
+}
+
+function fetchBarangays(cityId) {
+    // Example: Fetch barangays via AJAX and populate the barangay dropdown
+    fetch(`/api/barangays/${cityId}`)
+        .then(response => response.json())
+        .then(data => {
+            let barangaySelect = document.getElementById('barangay');
+            barangaySelect.innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+            data.forEach(barangay => {
+                barangaySelect.innerHTML += `<option value="${barangay.id}">${barangay.name}</option>`;
+            });
+        });
+}
+
+</script>
+
 
     </body>
     </html>

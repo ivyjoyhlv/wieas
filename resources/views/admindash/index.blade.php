@@ -191,7 +191,7 @@
             <li class="nav-item mb-5">
                 <a href="{{ route('admindash.applicants') }}">
                     <i class="fas fa-users"></i>
-                    Applicants <span class="badge bg-danger">2</span>
+                    Applicants <span class="badge bg-danger"></span>
                 </a>
             </li>
             <li class="nav-item mt-3">
@@ -225,20 +225,24 @@
     <div class="content">
         <!-- Top Row for Stats -->
         <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="stat-card">
-                    <div class="text">Total Applicants</div>
-                    <div class="number">130</div>
-                    <img class="icon" src="{{ asset('images/isa.jpg') }}" alt="Icon">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-card">
-                    <div class="text">New Applicants</div>
-                    <div class="number">20</div>
-                    <img class="icon" src="{{ asset('images/dalawa.jpg') }}" alt="Icon">
-                </div>
-            </div>
+        <div class="col-md-3">
+        <div class="stat-card">
+    <div class="text">All Applicants
+    <h1 class="number">{{ $applicantCount }}</h1> <!-- Display total applicants -->
+    </div>
+    <img class="icon" src="{{ asset('images/isa.jpg') }}" alt="Icon">
+
+</div>
+
+</div>
+<div class="col-md-3">
+    <div class="stat-card">
+        <div class="text">New Applicants</div>
+        <div class="number"></div> <!-- Pareho lang ng total applicants -->
+        <img class="icon" src="{{ asset('images/dalawa.jpg') }}" alt="Icon">
+    </div>
+</div>
+
             <div class="col-md-3">
                 <div class="stat-card">
                     <div class="text">Upcoming Interview</div>

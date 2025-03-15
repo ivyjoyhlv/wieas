@@ -19,7 +19,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.index') }}">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Pinned</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.pinned') }}">Pinned</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.conference') }}">Conference</a></li>
                 </ul>
             </div>
@@ -73,10 +73,38 @@
     </div>
 </div>
         
-        <div class="card p-4">
-            <h4>Pinned</h4>
-            <p>No pinned jobs yet.</p>
+<div class="card p-3">
+    <h4>Pinned</h4>
+
+    @php
+        use Illuminate\Support\Str;
+    @endphp
+
+    @if(session()->has('pinned_jobs') && count(session('pinned_jobs')) > 0)
+        <div class="row mt-3">
+            @foreach(session('pinned_jobs') as $job)
+                <div class="col-md-4 mb-3"> <!-- Reduced column width for smaller cards -->
+                    <div class="job-card bg-white d-flex justify-content-between align-items-start p-3 border rounded shadow-sm"> <!-- Reduced padding for a smaller card -->
+                        <div class="job-details">
+                            <h6 class="mb-1">{{ $job->job_title }}</h6> <!-- Reduced font size -->
+                            <p class="mb-1 text-muted">{{ $job->company_name }}</p> <!-- Reduced margin -->
+                            <p class="mb-1"><i class="bi bi-geo-alt-fill"></i> {{ $job->country_origin }} <span class="text-muted">Contractual</span></p>
+                            <p class="text-muted">{{ Str::limit($job->about_us, 100) }}...</p> <!-- Reduced character limit -->
+
+                            <div class="d-flex align-items-center mb-2">
+                                <p class="text-muted me-2"><i class="bi bi-calendar-event"></i> {{ \Carbon\Carbon::parse($job->created_at)->format('d M Y') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
+    @else
+        <p>No pinned jobs yet.</p>
+    @endif
+</div>
+
+
     </div>
     <script>
         // Toggle notification dropdown

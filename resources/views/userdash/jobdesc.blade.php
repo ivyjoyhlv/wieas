@@ -82,25 +82,29 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('userdash.conference') }}">Conference</a></li>
             </ul>
         </div>
-            <div class="d-flex align-items-center">
-                <i class="bi bi-bell me-3 text-primary" id="notificationIcon" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                <div class="dropdown-menu p-4" aria-labelledby="notificationIcon">
-                    <h5 class="text-center mb-3">Notifications</h5> 
+        <div class="d-flex align-items-center">
+            <i class="bi bi-bell me-3 text-primary" id="notificationIcon"></i>
+                <div class="dropdown" id="notificationDropdown">
+                    <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                        <h5 class="text-center mb-3">Notifications</h5> 
+                    </div>
                 </div>
-                <div class="d-flex align-items-center ms-3">
-                    <img src="{{ asset('images/bogart.jpg') }}" class="rounded-circle me-2 img-fluid" style="width: 40px; height: 40px;" alt="User Profile">
-                    <div>
-                        <span class="d-block fw-bold">{{ session('applicant')->first_name }}</span>
+            </div>
+                <div class="d-flex align-items-center">
+                <img src="{{ asset('images/bogart.jpg') }}" class="rounded-circle me-2 img-fluid" style="width: 40px; height: 40px;" alt="User Profile">
+                <div>
+                        <span class="d-block fw-bold">{{ session('applicant')->first_name }} {{ session('applicant')->last_name }} </span>
                         <small class="text-muted">{{ session('applicant')->email }}</small>
                     </div>
                     <div class="dropdown">
-                        <i class="ms-2 dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                        <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="{{ route('userdash.settings') }}">Settings</a></li>
-                            <li><a class="dropdown-item" href="{{ route('signin.index') }}">Logout</a></li>
-                        </ul>
-                    </div>
+                    <i class="ms-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="{{ route('userdash.settings') }}">Settings</a></li>
+                        <li><a class="dropdown-item" href="{{ route('signin.index') }}">Logout</a></li>
+                    </ul>
                 </div>
+                </div>
+            </div>
             </div>
         </div>
     </nav>

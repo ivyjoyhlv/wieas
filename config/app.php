@@ -154,6 +154,7 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
+    
 
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
@@ -180,9 +181,18 @@ return [
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
     */
+'providers' => ServiceProvider::defaultProviders()->merge([
+    App\Providers\AppServiceProvider::class,
+    App\Providers\AuthServiceProvider::class,
+    App\Providers\EventServiceProvider::class,
+    App\Providers\RouteServiceProvider::class,
+    Jubaer\Zoom\ZoomServiceProvider::class, // Ensure this is here
+])->toArray(),
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
-    ])->toArray(),
+'aliases' => [
+    // ...
+    'Zoom' => Jubaer\Zoom\Facades\Zoom::class,
+]
 
 ];
+
