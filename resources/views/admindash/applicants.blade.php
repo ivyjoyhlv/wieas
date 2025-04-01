@@ -209,6 +209,44 @@
         .action-btns .btn:hover {
             color: #007bff;
         }
+        .status-dropdown {
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .status-dropdown .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            list-style: none;
+            padding: 5px;
+            min-width: 120px;
+            z-index: 1000;
+        }
+        .status-dropdown .dropdown-menu li {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .status-dropdown .dropdown-menu li:hover {
+            background: #f1f1f1;
+        }
+        .pagination .page-link {
+            border-radius: 20px;
+            margin: 0 5px;
+            border: none;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .status-dropdown {
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .status-dropdown:focus {
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -249,9 +287,9 @@
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <a href="#">
+                <a href="{{ route('admindash.notification') }}">
                     <i class="fas fa-bell"></i>
-                    Notifications <span class="badge bg-danger">2</span>
+                    Notifications
                 </a>
             </li>   
             <li class="nav-item">
@@ -276,49 +314,290 @@
         </div>
     </div>
 
-    <div class="content">
-        <h2> Applicants </h2>
-        <!-- Tabs for sorting -->
-        <ul class="nav nav-tabs" id="applicantTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="total-candidates-tab" data-bs-toggle="tab" href="#total-candidates" role="tab" aria-controls="total-candidates" aria-selected="true">Total Candidates</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="review-tab" data-bs-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Review</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="interview-tab" data-bs-toggle="tab" href="#interview" role="tab" aria-controls="interview" aria-selected="false">Interview</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="hired-tab" data-bs-toggle="tab" href="#hired" role="tab" aria-controls="hired" aria-selected="false">Hired</a>
-            </li>
+    <div class="content bg-light p-3 rounded">
+    <h2 class="fw-bold">Applicants</h2>
+    <div class="d-flex align-items-center mb-3">
+            <div class="d-flex">
+            <input type="text" class="form-control me-2" placeholder="Applicant"  style="width: 400px;">
+            <input type="text" class="form-control me-2" placeholder="Category" style="width: 400px;">
+            </div>
+
+            <button class="btn btn-secondary me-2 d-flex align-items-center">
+                <i class="fas fa-filter me-2"></i> Filter
+            </button>
+            <button class="btn btn-primary d-flex align-items-center">
+                <i class="fas fa-search me-2"></i> Find Applicant
+            </button>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+    <div class="d-flex align-items-center flex-grow-1">
+        <p class="text-secondary mb-0 me-4 flex-shrink-0">120 Applying for Construction & Engineering Jobs</p>
+        <div class="d-flex flex-wrap">
+        <select class="form-select me-2" style="width: 200px;">
+            <option>Job Type</option>
+        </select>
+        <select class="form-select me-2" style="width: 200px;">
+            <option>Application Status</option>
+        </select>
+        <select class="form-select" style="width: 200px;">
+            <option>Experience Level</option>
+        </select>
+    </div>
+    </div>
+    <a href="#" class="text-primary">Clear All</a>
+</div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Applicant Name</th>
+                <th>Applying at</th>
+                <th>Job Type</th>
+                <th>Applicant Status</th>
+                <th>Date</th>
+                <th>Application Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Sample Row -->
+            <tr>
+                <td><img src="profile.jpg" class="rounded-circle" width="30"> {{ session('applicant')->first_name }} {{ session('applicant')->last_name }}</td>
+                <td>Worker Steel Structure</td>
+                <td><span class="badge bg-success">Construction & Engineering</span></td>
+                <td>
+                    <div class="status-dropdown" onclick="toggleStatusDropdown(this)">
+                        <span class="badge bg-success">Active</span>
+                        <ul class="dropdown-menu">
+                            <li onclick="changeStatus(this, 'Active', 'bg-success')">Active</li>
+                            <li onclick="changeStatus(this, 'In-active', 'bg-danger')">In-active</li>
+                        </ul>
+                    </div>
+                </td>
+                <td>03/11/2024</td>
+                <td>
+                    <div class="status-dropdown" onclick="toggleStatusDropdown(this)">
+                        <span class="badge bg-warning">To Review</span>
+                        <ul class="dropdown-menu">
+                            <li onclick="changeStatus(this, 'To Review', 'bg-warning')">To Review</li>
+                            <li onclick="changeStatus(this, 'Approved', 'bg-info')">Approved</li>
+                            <li onclick="changeStatus(this, 'To Interview', 'bg-danger')">To Interview</li>
+                            <li onclick="changeStatus(this, 'Passed', 'bg-success')">Passed</li>
+                            <li onclick="changeStatus(this, 'To Deploy', 'bg-secondary text-white')">To Deploy</li>
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                <button class="btn btn-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#viewApplicantModal">View Applicant</button>
+                    </td>
+            </tr>
+        </tbody>
+        
+    </table>
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled"><a class="page-link rounded-pill" href="#">&laquo;</a></li>
+            <li class="page-item active"><a class="page-link rounded-pill bg-primary text-white" href="#">1</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">2</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">3</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">...</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">10</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">&raquo;</a></li>
         </ul>
-        <div class="tab-content" id="applicantTabsContent">
-            <div class="tab-pane fade show active" id="total-candidates" role="tabpanel" aria-labelledby="total-candidates-tab">
+    </nav>
+</div>
+<!-- View Applicant Modal -->
+<div class="modal fade" id="viewApplicantModal" tabindex="-1" aria-labelledby="viewApplicantModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewApplicantModalLabel">Applicant Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
                 <div class="row">
-                    <!-- Applicant Card Example -->
-                    <div class="col-md-3">
-                        <div class="applicant-card">
-                            <img src="{{ asset('images/workforce.png') }}" alt="Applicant">
-                            <div class="status-container">
-                                <div class="status review">Review</div>
-                                <div class="action-btns">
-                                    <button class="btn"><i class="fas fa-ellipsis-v"></i></button>
-                                </div>
-                            </div>
-                            <h6>Bogart Batumbakal</h6>
-                            <p>Former Welder at Worker Steel Structure</p>
-                            <a href="#" class="view-profile-btn">View Profile</a>
+                    <!-- Left Section: Profile -->
+                    <div class="col-md-4 text-center">
+                        <img src="{{ asset('images/bogart.jpg') }}" class="rounded-circle mb-3" width="120" height="120" alt="Applicant">
+                        <h5>{{ session('applicant')->first_name }} {{ session('applicant')->last_name }}</h5>
+                        <p class="text-muted">Applicant Status: <span class="badge bg-success">Active</span></p>
+                        <p class="text-muted">Application Status: <span class="badge bg-warning">Pending</span></p>
+                        <p><i class="bi bi-telephone"></i> (+63) 9123456789</p>
+                        <p><i class="bi bi-envelope"></i>{{ session('applicant')->email }}</p>
+                        <div>
+                            <i class="bi bi-facebook me-2"></i>
+                            <i class="bi bi-linkedin me-2"></i>
+                            <i class="bi bi-github"></i>
                         </div>
                     </div>
-
-                    <!-- Repeat this block for more applicants -->
-                </div>
+                    
+                    <!-- Right Section: Details -->
+                    <div class="col-md-8">
+                        <ul class="nav nav-tabs" id="applicantTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">Personal</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab">Documents</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-3">
+                            <!-- Personal Info Tab -->
+@if(session('applicant_profile'))
+    <div class="card p-3">
+        <h5 class="mt-4"><i class="bi bi-person-circle"></i> Personal Information</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Fullname:</strong> {{ session('applicant_profile')['full_name'] }}</p>
+                <p><strong>Age:</strong> {{ session('applicant_profile')['age'] }}</p>
+                <p><strong>Date of Birth:</strong> {{ session('applicant_profile')['dob'] }}</p>
+                <p><strong>Place of Birth:</strong> {{ session('applicant_profile')['place_of_birth'] }}</p>
+                <p><strong>Nationality:</strong> Filipino</p>
+                <p><strong>Gender:</strong> {{ session('applicant_profile')['gender'] }}</p>
             </div>
-            <!-- Add similar blocks for 'review', 'interview', 'hired' tabs -->
+            <div class="col-md-6">
+                <p><strong>Religion:</strong> {{ session('applicant_profile')['religion'] }}</p>
+                <p><strong>Marital Status:</strong> {{ session('applicant_profile')['marital_status'] }}</p>
+                <p><strong>Email Address:</strong> {{ session('applicant_profile')['email'] }}</p>
+                <p><strong>Phone Number:</strong> {{ session('applicant_profile')['contact'] }}</p>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <h5 class="mt-4"><i class="bi bi-geo-alt"></i> Address</h5>
+    <div class="card p-3 mt-3">
+        <p><strong>Primary Address:</strong> {{ session('applicant_profile')['address'] }}</p>
+        <p><strong>Country:</strong> Philippines</p>
+        <p><strong>State/Province:</strong> {{ session('applicant_profile')['province'] }}</p>
+        <p><strong>City:</strong> {{ session('applicant_profile')['city'] }}</p>
+    </div>
+
+    <!-- You can similarly display other fields here -->
+
+@else
+    <p>No applicant profile found in session.</p>
+@endif
+
+
+                            <!-- Documents Tab -->
+                            <div class="tab-pane fade" id="documents" role="tabpanel">
+                                <h5><i class="bi bi-folder"></i> Supporting Documents</h5>
+                                <div class="card p-3">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>File Name</th>
+                                                <th>Date Uploaded</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><i class="bi bi-file-earmark-pdf text-danger"></i> CV_Bogart_Batumbakal.pdf</td>
+                                                <td>01 MARCH 2024</td>
+                                                <td><button class="btn btn-outline-primary btn-sm"><i class="bi bi-download"></i></button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="bi bi-file-earmark-pdf text-danger"></i> CV_Bogart_Batumbakal.pdf</td>
+                                                <td>01 MARCH 2024</td>
+                                                <td><button class="btn btn-outline-primary btn-sm"><i class="bi bi-download"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h5 class="mt-4"><i class="bi bi-folder"></i> CVs/Resume Documents</h5>
+                                <div class="card p-3 mt-3">
+                                    
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>File Name</th>
+                                                <th>Date Uploaded</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><i class="bi bi-file-earmark-pdf text-danger"></i> CV_Bogart_Batumbakal.pdf</td>
+                                                <td>01 MARCH 2024</td>
+                                                <td><button class="btn btn-outline-primary btn-sm"><i class="bi bi-download"></i></button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="bi bi-file-earmark-pdf text-danger"></i> CV_Bogart_Batumbakal.pdf</td>
+                                                <td>01 MARCH 2024</td>
+                                                <td><button class="btn btn-outline-primary btn-sm"><i class="bi bi-download"></i></button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="bi bi-file-earmark-pdf text-danger"></i> CV_Bogart_Batumbakal.pdf</td>
+                                                <td>01 MARCH 2024</td>
+                                                <td><button class="btn btn-outline-primary btn-sm"><i class="bi bi-download"></i></button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="bi bi-file-earmark-pdf text-danger"></i> CV_Bogart_Batumbakal.pdf</td>
+                                                <td>01 MARCH 2024</td>
+                                                <td><button class="btn btn-outline-primary btn-sm"><i class="bi bi-download"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h5 class="mt-4"><i class="bi bi-folder"></i> eSignature</h5>
+                                <div class="card p-3 mt-3">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>File Name</th>
+                                                <th>Date Uploaded</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><i class="bi bi-file-earmark-pdf text-danger"></i> CV_Bogart_Batumbakal.pdf</td>
+                                                <td>01 MARCH 2024</td>
+                                                <td><button class="btn btn-outline-primary btn-sm"><i class="bi bi-download"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Schedule Interview</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function toggleStatusDropdown(element) {
+        let dropdown = element.querySelector(".dropdown-menu");
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+    
+    function changeStatus(element, text, colorClass) {
+        let statusSpan = element.closest(".status-dropdown").querySelector("span");
+        statusSpan.textContent = text;
+        statusSpan.className = "badge " + colorClass;
+        element.closest(".dropdown-menu").style.display = "none";
+    }
+    
+    document.addEventListener("click", function(event) {
+        if (!event.target.closest(".status-dropdown")) {
+            document.querySelectorAll(".dropdown-menu").forEach(menu => menu.style.display = "none");
+        }
+    });
+</script>
 </body>
 </html>

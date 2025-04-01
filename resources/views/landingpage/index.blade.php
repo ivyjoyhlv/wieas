@@ -206,6 +206,7 @@
         text-align: left;
         border-radius: 20px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 350px; /* Adjust this value to fit your content */
         }
         .testimonial-card:hover {
             transform: scale(1.05);
@@ -217,6 +218,39 @@
         footer {
         background-color: #007bff !important;
     }
+    
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                margin-left: 0;
+                text-align: center;
+            }
+            .header-image {
+                display: block;
+            }
+            .logos img {
+                margin-top: 15px;
+                height: 25px;
+            }
+            .featured-job .row {
+                flex-direction: column;
+                align-items: center;
+            }
+            .job-card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .view-more-btn {
+                width: 100%;
+            }
+            .testimonial-card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .testimonial-card p {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 
 </head>
@@ -236,13 +270,13 @@
                         <a class="nav-link" href="{{ route('landingpage.index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#featured-job">Jobs</a>
+                        <a class="nav-link" href="{{ route('landingpage.jobs') }}">Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About Us</a>
+                        <a class="nav-link" href="{{ route('landingpage.about') }}">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact Us</a>
+                        <a class="nav-link" href="{{ route('landingpage.contacts') }}">Contact Us</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -261,15 +295,15 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <h1 class="display-4">Lorem ipsum dolor sit amet, consectetur</h1>
-                    <p class="lead">Lorem ipsum dolor sit amet, consectetur</p>
+                    <h1 class="display-4">Bridging Filipino Talent with Global Opportunities</h1>
+                    <p class="lead">Filipino talent deserves a global stage. Take the first step toward your overseas career today!</p>
                     <div class="d-flex gap-3">
                         <a href="#" class="btn btn-primary">Get Started</a>
                         <a href="#" class="btn btn-outline-primary">Learn More</a>
                     </div>
                 </div>
                 <div class="col-md-6 header-image">
-                    <img src="{{ asset('images/illustration.jpg') }}" alt="Illustration" class="img-fluid">
+                    <img src="{{ asset('images/wieascon.png') }}" alt="Illustration" class="img-fluid">
                 </div>
             </div>
         </div>
@@ -288,217 +322,203 @@
 </section>
 
 
-    <section id="featured-job" class="featured-job">
+<section id="featured-job" class="featured-job">
     <div class="container">
-        <h2 class="mb-4">Featured Job</h2>
-        <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor.</p>
+        <h2 class="mb-4">Featured Jobs for OFWs</h2>
+        <p class="mb-5">Explore the top opportunities for Filipinos looking to work abroad. These jobs are specifically selected for overseas workers, providing competitive pay and career growth.</p>
         <div class="row g-4">
-        <div class="col-md-4">
-                <div class="job-card p-3 border rounded">
-                    <!-- Top Row -->
-                    <div class="d-flex align-items-center">
-                        <div class="job-logo me-3">
-                            <img src="{{ asset('images/sample.jpg') }}" alt="Logo" class="rounded" width="50" height="50">
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="mb-0 text-muted">LOGO</p>
-                        </div>
-                        <div class="text-muted ms-auto">1 day ago</div>
-                    </div>
-                    <!-- Job Info -->
-                    <div class="mt-3">
-                        <h5 class="job-title mb-1">WORKER STEEL STRUCTURE</h5>
-                        <p class="job-meta text-muted mb-0">
-                            IREM S.P.A HUNGARY BRANCH
-                        </p>
-                        <p class="job-location text-muted mb-0">
-                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> HUNGARY
-                        </p>
-                    </div>
-                    <!-- Buttons -->
-                    <div class="d-flex justify-content-end align-items-center gap-2">
-                        <button class="btn p-0 d-flex align-items-center justify-content-center bookmark-btn">
-                            <i class="fa-regular fa-bookmark" class="bookmark-icon"></i>
-                        </button>
-                        <button class="btn btn-outline-primary apply-now-btn">Apply Now</button>
-                        </div>
-                    </div>
-                </div>
-            <!-- Repeat for other job cards -->
+            <!-- Job 1 -->
             <div class="col-md-4">
                 <div class="job-card p-3 border rounded">
-                    <!-- Top Row -->
                     <div class="d-flex align-items-center">
                         <div class="job-logo me-3">
-                            <img src="{{ asset('images/sample.jpg') }}" alt="Logo" class="rounded" width="50" height="50">
+                            <img src="{{ asset('images/workforce.png') }}" alt="Company Logo" class="rounded" width="50" height="50">
                         </div>
                         <div class="flex-grow-1">
-                            <p class="mb-0 text-muted">LOGO</p>
+                            <p class="mb-0 text-muted">XYZ Company</p>
                         </div>
-                        <div class="text-muted ms-auto">1 day ago</div>
                     </div>
-                    <!-- Job Info -->
                     <div class="mt-3">
-                        <h5 class="job-title mb-1">WORKER STEEL STRUCTURE</h5>
-                        <p class="job-meta text-muted mb-0">
-                            IREM S.P.A HUNGARY BRANCH
-                        </p>
+                        <h5 class="job-title mb-1">Construction Worker</h5>
+                        <p class="job-meta text-muted mb-0">ABC Constructions - Saudi Arabia</p>
                         <p class="job-location text-muted mb-0">
-                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> HUNGARY
+                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> Saudi Arabia
                         </p>
                     </div>
-                    <!-- Buttons -->
                     <div class="d-flex justify-content-end align-items-center gap-2">
                         <button class="btn p-0 d-flex align-items-center justify-content-center bookmark-btn">
                             <i class="fa-regular fa-bookmark" class="bookmark-icon"></i>
                         </button>
-                        <button class="btn btn-outline-primary apply-now-btn">Apply Now</button>
-                        </div>
+                        <button class="btn btn-outline-primary apply-now-btn" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
                     </div>
                 </div>
-
-                 <div class="col-md-4">
-                <div class="job-card p-3 border rounded">
-                    <!-- Top Row -->
-                    <div class="d-flex align-items-center">
-                        <div class="job-logo me-3">
-                            <img src="{{ asset('images/sample.jpg') }}" alt="Logo" class="rounded" width="50" height="50">
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="mb-0 text-muted">LOGO</p>
-                        </div>
-                        <div class="text-muted ms-auto">1 day ago</div>
-                    </div>
-                    <!-- Job Info -->
-                    <div class="mt-3">
-                        <h5 class="job-title mb-1">WORKER STEEL STRUCTURE</h5>
-                        <p class="job-meta text-muted mb-0">
-                            IREM S.P.A HUNGARY BRANCH
-                        </p>
-                        <p class="job-location text-muted mb-0">
-                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> HUNGARY
-                        </p>
-                    </div>
-                    <!-- Buttons -->
-                    <div class="d-flex justify-content-end align-items-center gap-2">
-                        <button class="btn p-0 d-flex align-items-center justify-content-center bookmark-btn">
-                            <i class="fa-regular fa-bookmark" class="bookmark-icon"></i>
-                        </button>
-                        <button class="btn btn-outline-primary apply-now-btn">Apply Now</button>
-                        </div>
-                    </div>
-                </div>
-
+            </div>
+            <!-- Job 2 -->
             <div class="col-md-4">
                 <div class="job-card p-3 border rounded">
-                    <!-- Top Row -->
                     <div class="d-flex align-items-center">
                         <div class="job-logo me-3">
-                            <img src="{{ asset('images/sample.jpg') }}" alt="Logo" class="rounded" width="50" height="50">
+                            <img src="{{ asset('images/workforce.png') }}" alt="Company Logo" class="rounded" width="50" height="50">
                         </div>
                         <div class="flex-grow-1">
-                            <p class="mb-0 text-muted">LOGO</p>
+                            <p class="mb-0 text-muted">Global Healthcare</p>
                         </div>
-                        <div class="text-muted ms-auto">1 day ago</div>
                     </div>
-                    <!-- Job Info -->
                     <div class="mt-3">
-                        <h5 class="job-title mb-1">WORKER STEEL STRUCTURE</h5>
-                        <p class="job-meta text-muted mb-0">
-                            IREM S.P.A HUNGARY BRANCH
-                        </p>
+                        <h5 class="job-title mb-1">Nurse</h5>
+                        <p class="job-meta text-muted mb-0">DEF Health Services - UAE</p>
                         <p class="job-location text-muted mb-0">
-                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> HUNGARY
+                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> UAE
                         </p>
                     </div>
-                    <!-- Buttons -->
                     <div class="d-flex justify-content-end align-items-center gap-2">
                         <button class="btn p-0 d-flex align-items-center justify-content-center bookmark-btn">
                             <i class="fa-regular fa-bookmark" class="bookmark-icon"></i>
                         </button>
-                        <button class="btn btn-outline-primary apply-now-btn">Apply Now</button>
-                        </div>
+                        <button class="btn btn-outline-primary apply-now-btn" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
                     </div>
                 </div>
-
+            </div>
+            <!-- Job 3 -->
             <div class="col-md-4">
                 <div class="job-card p-3 border rounded">
-                    <!-- Top Row -->
                     <div class="d-flex align-items-center">
                         <div class="job-logo me-3">
-                            <img src="{{ asset('images/sample.jpg') }}" alt="Logo" class="rounded" width="50" height="50">
+                            <img src="{{ asset('images/workforce.png') }}" alt="Company Logo" class="rounded" width="50" height="50">
                         </div>
                         <div class="flex-grow-1">
-                            <p class="mb-0 text-muted">LOGO</p>
+                            <p class="mb-0 text-muted">XYZ Construction</p>
                         </div>
-                        <div class="text-muted ms-auto">1 day ago</div>
                     </div>
-                    <!-- Job Info -->
                     <div class="mt-3">
-                        <h5 class="job-title mb-1">WORKER STEEL STRUCTURE</h5>
-                        <p class="job-meta text-muted mb-0">
-                            IREM S.P.A HUNGARY BRANCH
-                        </p>
+                        <h5 class="job-title mb-1">Heavy Equipment Operator</h5>
+                        <p class="job-meta text-muted mb-0">EFG Constructions - Qatar</p>
                         <p class="job-location text-muted mb-0">
-                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> HUNGARY
+                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> Qatar
                         </p>
                     </div>
-                    <!-- Buttons -->
                     <div class="d-flex justify-content-end align-items-center gap-2">
                         <button class="btn p-0 d-flex align-items-center justify-content-center bookmark-btn">
                             <i class="fa-regular fa-bookmark" class="bookmark-icon"></i>
                         </button>
-                        <button class="btn btn-outline-primary apply-now-btn">Apply Now</button>
-                        </div>
+                        <button class="btn btn-outline-primary apply-now-btn" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
                     </div>
                 </div>
-
+            </div>
+            <!-- Job 4 -->
             <div class="col-md-4">
                 <div class="job-card p-3 border rounded">
-                    <!-- Top Row -->
                     <div class="d-flex align-items-center">
                         <div class="job-logo me-3">
-                            <img src="{{ asset('images/sample.jpg') }}" alt="Logo" class="rounded" width="50" height="50">
+                            <img src="{{ asset('images/workforce.png') }}" alt="Company Logo" class="rounded" width="50" height="50">
                         </div>
                         <div class="flex-grow-1">
-                            <p class="mb-0 text-muted">LOGO</p>
+                            <p class="mb-0 text-muted">KLM Hospital</p>
                         </div>
-                        <div class="text-muted ms-auto">1 day ago</div>
                     </div>
-                    <!-- Job Info -->
                     <div class="mt-3">
-                        <h5 class="job-title mb-1">WORKER STEEL STRUCTURE</h5>
-                        <p class="job-meta text-muted mb-0">
-                            IREM S.P.A HUNGARY BRANCH
-                        </p>
+                        <h5 class="job-title mb-1">Nurse - ICU</h5>
+                        <p class="job-meta text-muted mb-0">GHI Health Services - Singapore</p>
                         <p class="job-location text-muted mb-0">
-                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> HUNGARY
+                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> Singapore
                         </p>
                     </div>
                     <div class="d-flex justify-content-end align-items-center gap-2">
                         <button class="btn p-0 d-flex align-items-center justify-content-center bookmark-btn">
                             <i class="fa-regular fa-bookmark" class="bookmark-icon"></i>
                         </button>
-                        <button class="btn btn-outline-primary apply-now-btn">Apply Now</button>
-                        </div>
+                        <button class="btn btn-outline-primary apply-now-btn" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
                     </div>
                 </div>
-                    
+            </div>
+            <!-- Job 5 -->
+            <div class="col-md-4">
+                <div class="job-card p-3 border rounded">
+                    <div class="d-flex align-items-center">
+                        <div class="job-logo me-3">
+                            <img src="{{ asset('images/workforce.png') }}" alt="Company Logo" class="rounded" width="50" height="50">
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="mb-0 text-muted">DEF Tech</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h5 class="job-title mb-1">Electrician</h5>
+                        <p class="job-meta text-muted mb-0">JKL Electricals - Bahrain</p>
+                        <p class="job-location text-muted mb-0">
+                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> Bahrain
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <button class="btn p-0 d-flex align-items-center justify-content-center bookmark-btn">
+                            <i class="fa-regular fa-bookmark" class="bookmark-icon"></i>
+                        </button>
+                        <button class="btn btn-outline-primary apply-now-btn" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
+                    </div>
                 </div>
-                <div class="view-more text-center mt-4">
-                    <button class="btn btn-outline-primary">View More</button>
+            </div>
+            <!-- Job 6 -->
+            <div class="col-md-4">
+                <div class="job-card p-3 border rounded">
+                    <div class="d-flex align-items-center">
+                        <div class="job-logo me-3">
+                            <img src="{{ asset('images/workforce.png') }}" alt="Company Logo" class="rounded" width="50" height="50">
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="mb-0 text-muted">ABC Enterprises</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h5 class="job-title mb-1">Construction Foreman</h5>
+                        <p class="job-meta text-muted mb-0">XYZ Constructions - Kuwait</p>
+                        <p class="job-location text-muted mb-0">
+                            <i class="fa-sharp fa-solid fa-location-dot me-1"></i> Kuwait
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <button class="btn p-0 d-flex align-items-center justify-content-center bookmark-btn">
+                            <i class="fa-regular fa-bookmark" class="bookmark-icon"></i>
+                        </button>
+                        <button class="btn btn-outline-primary apply-now-btn" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
+                    </div>
                 </div>
-
+            </div>
+        </div>
+        <div class="view-more text-center mt-4">
+            <a href="{{ route('landingpage.jobs') }}" class="btn btn-outline-primary">View More</a>
+        </div>
+    </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <!-- Lock Image centered -->
+                <img src="{{ asset('images/lock.png') }}" alt="Lock Image" class="img-fluid" style="max-width: 180px; margin: 0 auto;">
+            </div>
+            <div class="modal-body text-center">
+                <h3 class="modal-title mt-3" id="applyModalLabel" style="font-size: 1.80rem;">Oops! You need to be logged in to access this feature.</h3>
+                <p style="font-size: 12px; color: #6c757d; margin-top: 6px; margin-left: 20px; margin-right: 20px;">Please log in to continue using this feature. If you don't have an account, you can sign up and get started in just a few steps.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a href="{{ route('signin.index') }}" class="btn btn-outline-primary" style="font-size: 14px; padding: 10px 20px;">Sign In</a>
+                <a href="{{ route('signup.index') }}" class="btn btn-outline-primary ms-3" style="font-size: 14px; padding: 10px 20px;">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <section id="career-next-step" class="text-center py-5">
     <div class="container">
         <h2 class="fw-bold">Take The Next Step in Your Career</span></h2>
         <p class="mt-3 text-muted">
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.vLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor
+        Every journey begins with a single step. Upload your resume now, and let’s find the right job for you!
         </p>
         <div class="mt-4">
-            <button class="btn btn-outline-primary px-4 py-2">Upload Resume</button>
+            <a href="{{ route('signin.index') }}" class="btn btn-outline-primary px-4 py-2">Upload Resume</a>
         </div>
     </div>
 </section>
@@ -506,44 +526,23 @@
 
 <section id="client-testimonials" class="text-center py-5 bg-white shadow-sm">
     <div class="container">
-        <h2 class="fw-bold">What our Clients are saying</h2>
+        <h2 class="fw-bold">What our Clients are Saying</h2>
         <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="testimonial-card p-4 shadow-sm rounded bg-white">
-                    <div class="d-flex align-items-center">
-                        <img src="{{ asset('images/bogart.jpg') }}" alt="Client Image" class="rounded-circle me-3" width="50">
-                        <div>
-                            <strong>Bogart Batumbakal</strong>
-                            <div class="rating mt-1">4.5 ⭐⭐⭐⭐⭐</div>
+            @foreach($feedbacks as $feedback)
+                <div class="col-md-4">
+                    <div class="testimonial-card p-4 shadow-sm rounded bg-white">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ asset('storage/' . $feedback->image) }}" alt="Client Image" class="rounded-circle me-3" width="50">
+                            <div>
+                                <strong>{{ $feedback->name }}</strong>
+                                <div class="rating mt-1">{{ $feedback->rating }} ⭐⭐⭐⭐⭐</div>
+                            </div>
                         </div>
+                        <p class="mt-3 text-muted">{{ $feedback->feedback }}</p>
+
                     </div>
-                    <p class="mt-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="testimonial-card p-4 shadow-sm rounded bg-white">
-                    <div class="d-flex align-items-center">
-                        <img src="{{ asset('images/bogart.jpg') }}" alt="Client Image" class="rounded-circle me-3" width="50">
-                        <div>
-                            <strong>Bogart Batumbakal</strong>
-                            <div class="rating mt-1">4.5 ⭐⭐⭐⭐⭐</div>
-                        </div>
-                    </div>
-                    <p class="mt-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="testimonial-card p-4 shadow-sm rounded bg-white">
-                    <div class="d-flex align-items-center">
-                        <img src="{{ asset('images/bogart.jpg') }}" alt="Client Image" class="rounded-circle me-3" width="50">
-                        <div>
-                            <strong>Bogart Batumbakal</strong>
-                            <div class="rating mt-1">4.5 ⭐⭐⭐⭐⭐</div>
-                        </div>
-                    </div>
-                    <p class="mt-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
@@ -554,6 +553,7 @@
         <p class="text-center">&copy; 2025 WIEAS. All Rights Reserved.</p>
     </div>
 </footer>
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,3 +1,6 @@
+@php
+use Illuminate\Support\Str;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,69 +31,20 @@
             font-size: 0.875rem;
         }
 
-        /* Enhanced modal styling */
-        .modal-content {
-            border-radius: 15px;
-            padding: 20px;
-            border: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-header {
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 10px;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            color: #333;
-        }
-
-        .file-input {
-            border: 2px dashed #007bff;
-            border-radius: 8px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            cursor: pointer;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-
-        .file-input:hover {
-            background-color: #e7f1ff;
-        }
-
-        .file-input input {
-            display: none;
-        }
-
-        .file-input .file-icon {
-            font-size: 2rem;
-            color: #007bff;
-        }
-
-        .file-input span {
-            display: block;
-            margin-top: 10px;
-            color: #007bff;
-            font-weight: 600;
-        }
-
         .btn-apply {
             border-radius: 10px;
             padding: 10px 20px;
             font-weight: bold;
             background-color: white;
             color: #007bff;
-            border: 1px solid #007bff; /* Blue border */
-            transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover */
+            border: 1px solid #007bff;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .btn-apply:hover {
             background-color: #007bff;
             color: white;
         }
-
 
         .btn-close {
             background: transparent;
@@ -107,14 +61,15 @@
                 <img src="{{ asset('images/workforce.png') }}" class="rounded-circle me-2 img-fluid" style="width: 35px; height: 35px;" alt="Logo">
                 <strong>WIEAS</strong>
             </a>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="{{ route('userdash.index') }}">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('userdash.pinned') }}">Pinned</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('userdash.conference') }}">Conference</a></li>
-            </ul>
-        </div>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.index') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.pinned') }}">Pinned</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('userdash.conference') }}">Conference</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('feedback.create') }}">Feedback</a></li>
+                </ul>
+            </div>
             <div class="d-flex align-items-center">
                 <i class="bi bi-bell me-3 text-primary" id="notificationIcon" data-bs-toggle="dropdown" aria-expanded="false"></i>
                 <div class="dropdown-menu p-4" aria-labelledby="notificationIcon">
@@ -123,8 +78,7 @@
                 <div class="d-flex align-items-center ms-3">
                     <img src="{{ asset('images/bogart.jpg') }}" class="rounded-circle me-2 img-fluid" style="width: 40px; height: 40px;" alt="User Profile">
                     <div>
-                        <span class="d-block fw-bold">{{ session('applicant')->first_name }}</span>
-                        <small class="text-muted">{{ session('applicant')->email }}</small>
+                    <span class="d-block fw-bold">{{ session('applicant')->first_name }} {{ session('applicant')->last_name }} </span>                        <small class="text-muted">{{ session('applicant')->email }}</small>
                     </div>
                     <div class="dropdown">
                         <i class="ms-2 dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
@@ -208,89 +162,56 @@
                         </button>
                     </div>
                 </div>
-@php
-use Illuminate\Support\Str;
-@endphp
+
                 <div class="container">
-    <div class="row">
-        @foreach ($activeJobs as $job)
-            <div class="col-md-12 mb-4">
-                <div class="job-card bg-white d-flex justify-content-between align-items-center p-4 border rounded">
-                    <!-- Left section (Job Title, Company, and Description) -->
-                    <div class="job-details">
-                        <h4 class="mb-2">{{ $job->job_title }}</h4>
-                        <p class="mb-0">{{ $job->company_name }}</p>
-                        <p><i class="bi bi-geo-alt-fill"></i> {{ $job->country_origin }} <span class="text-muted">Contractual</span></p>
-                        <p class="text-muted">{{ Str::limit($job->about_us, 150) }}...</p>
+                    <div class="row">
+                        @foreach ($activeJobs as $job)
+                            <div class="col-md-12 mb-4">
+                                <div class="job-card bg-white d-flex justify-content-between align-items-center p-4 border rounded">
+                                    <!-- Left section (Job Title, Company, and Description) -->
+                                    <div class="job-details">
+                                        <h4 class="mb-2">{{ $job->job_title }}</h4>
+                                        <p class="mb-0">{{ $job->company_name }}</p>
+                                        <p><i class="bi bi-geo-alt-fill"></i> {{ $job->country_origin }} <span class="text-muted">Contractual</span></p>
+                                        <p class="text-muted">{{ Str::limit($job->about_us, 150) }}...</p>
 
-                        <!-- Date and Position Information -->
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="text-muted me-3"><i class="bi bi-calendar-event"></i> {{ \Carbon\Carbon::parse($job->created_at)->format('d M Y') }}</p>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column align-items-end">
-                        <!-- Bookmark Icon (Circular with Border Radius) and Apply Now Button -->
-                        <div class="d-flex align-items-center">
-                            <!-- Bookmark Icon -->
-                            <a href="{{ route('userdash.pinJob', ['job_id' => $job->id]) }}" class="btn btn-outline-primary rounded-circle mb-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 30px;">
-                                <i class="bi bi-bookmark" style="font-size: 1.2rem;"></i>
-                            </a>
-                            <!-- Apply Now Button with Modal Trigger -->
-                            <a href="#" class="btn btn-primary d-flex align-items-center" style="width: 105px; text-align: center; margin-left: 10px; margin-top: 20px;" data-bs-toggle="modal" data-bs-target="#fileUploadModal">
-                                Apply Now
-                            </a>
-                        </div>
+                                        <!-- Date and Position Information -->
+                                        <div class="d-flex align-items-center mb-3">
+                                            <p class="text-muted me-3"><i class="bi bi-calendar-event"></i> {{ \Carbon\Carbon::parse($job->created_at)->format('d M Y') }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end">
+                                        <!-- Bookmark Icon (Circular with Border Radius) and Apply Now Button -->
+                                        <div class="d-flex align-items-center">
+                                            <!-- Bookmark Icon -->
+                                            <a href="{{ route('userdash.pinJob', ['job_id' => $job->id]) }}" class="btn btn-outline-primary rounded-circle mb-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 30px;">
+                                                <i class="bi bi-bookmark" style="font-size: 1.2rem;"></i>
+                                            </a>
+                                            <!-- Apply Now Button -->
+                                            <a href="#" class="btn btn-primary d-flex align-items-center" style="width: 105px; text-align: center; margin-left: 10px; margin-top: 20px;" id="applyBtn-{{ $job->id }}" onclick="applyJob({{ $job->id }})">
+                                                Apply Now
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-            </div>
-        @endforeach
-    </div>
-</div>
 
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for File Upload -->
-    <div class="modal fade" id="fileUploadModal" tabindex="-1" aria-labelledby="fileUploadModalLabel" aria-hidden="true">
+    <!-- Modal for Apply Success -->
+    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="fileUploadModalLabel">Attach Files</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="applyModalLabel">Application Status</h5>
                 </div>
-                <div class="modal-body">
-                    <form>
-                        <!-- Certificate Upload -->
-                        <div class="mb-4">
-                            <label for="certificateUpload" class="form-label">Certificates</label>
-                            <div class="file-input" id="certificateUpload">
-                                <div class="file-icon">
-                                    <i class="bi bi-file-earmark-arrow-up"></i>
-                                </div>
-                                <span>Click or drag to upload your certificate (jpg, png)</span>
-                                <input type="file" accept=".jpg,.png">
-                            </div>
-                        </div>
-
-                        <!-- Supporting Document Upload -->
-                        <div class="mb-4">
-                            <label for="supportingDocUpload" class="form-label">Supporting Document</label>
-                            <div class="file-input" id="supportingDocUpload">
-                                <div class="file-icon">
-                                    <i class="bi bi-file-earmark-arrow-up"></i>
-                                </div>
-                                <span>Click or drag to upload your document (pdf, docx, txt)</span>
-                                <input type="file" accept=".pdf,.docx,.txt">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn-apply">Apply Now</button>
+                <div class="modal-body" id="modalMessage">
+                    You have applied successfully.
                 </div>
             </div>
         </div>
@@ -299,6 +220,32 @@ use Illuminate\Support\Str;
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        const appliedJobs = new Set();
+
+        function applyJob(jobId) {
+            if (appliedJobs.has(jobId)) {
+                document.getElementById('modalMessage').textContent = 'You have already applied for this job.';
+            } else {
+                appliedJobs.add(jobId);
+                document.getElementById('modalMessage').textContent = 'You have applied successfully.';
+            }
+
+            const applyBtn = document.getElementById('applyBtn-' + jobId);
+            applyBtn.setAttribute('disabled', 'true'); // Disable the button after application
+
+            // Trigger the modal to show
+            const myModal = new bootstrap.Modal(document.getElementById('applyModal'));
+            myModal.show();
+
+            // Hide the modal after 2 seconds
+            setTimeout(function() {
+                myModal.hide();
+            }, 2000); // 2 seconds delay
+        }
+    </script>
+
 </body>
 
 </html>

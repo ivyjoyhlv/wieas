@@ -32,6 +32,15 @@ class Job extends Model
 {
     return $this->hasMany(Pinned::class);
 }
+public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
+
+    public function applicant()
+    {
+        return $this->belongsTo(Applicant::class);
+    }
 
 }
 

@@ -347,9 +347,9 @@
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <a href="#">
+                <a href="{{ route('admindash.notification') }}">
                     <i class="fas fa-bell"></i>
-                    Notifications <span class="badge bg-danger">2</span>
+                    Notifications
                 </a>
             </li>   
             <li class="nav-item">
@@ -387,6 +387,9 @@
 <div class="tab-content mt-4">
     <!-- New Jobs Tab -->
     <div class="tab-pane active" id="newJobs">
+        <form method="GET" action="{{ route('joblist') }}" id="searchForm">
+            <input class="form-control search-bar" type="text" placeholder="Search by Job Title..." name="search" id="jobSearch" value="{{ $searchTerm }}">
+        </form>    
         <div class="d-flex justify-content-between mt-3">
             <button class="filter-btn">More Filter</button>
             <button class="sort-btn">From newest to last</button>
@@ -418,7 +421,8 @@
 <div class="tab-pane" id="activeJobs">
     <form method="GET" action="{{ route('joblist') }}" id="searchForm">
         <input class="form-control search-bar" type="text" placeholder="Search by Job Title..." name="search" id="jobSearch" value="{{ $searchTerm }}">
-    </form>    <div class="row mt-4">
+    </form>    
+    <div class="row mt-4">
         @foreach ($activeJobs as $job)
             <div class="col-md-4 mb-3 job-card-container">
                 <div class="job-card">
@@ -443,6 +447,9 @@
 </div>
 <!-- Archive jobs -->
 <div class="tab-pane" id="archiveJobs">
+    <form method="GET" action="{{ route('joblist') }}" id="searchForm">
+        <input class="form-control search-bar" type="text" placeholder="Search by Job Title..." name="search" id="jobSearch" value="{{ $searchTerm }}">
+    </form>    
     <div class="row mt-4">
         @foreach ($archivedJobs as $job)
             <div class="col-md-4 mb-3">
@@ -667,7 +674,112 @@
         </div>
     </div>
 </form>
+<nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled"><a class="page-link rounded-pill" href="#">&laquo;</a></li>
+            <li class="page-item active"><a class="page-link rounded-pill bg-primary text-white" href="#">1</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">2</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">3</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">...</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">10</a></li>
+            <li class="page-item"><a class="page-link rounded-pill" href="#">&raquo;</a></li>
+        </ul>
+    </nav>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    $(document).ready(function() {
+        // Set the CSRF token for every AJAX request
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        // Handle form submission using jQuery
+        $('#jobForm').on('submit', function(event) {
+            event.preventDefault();  // Prevent the default form submission
+
+            // Create FormData object to send files along with other data
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '/submit-job',  // Your route to store the job
+                method: 'POST',  // HTTP method
+                data: formData,  // Form data (including files)
+                contentType: false,  // Important for file upload
+                processData: false,  // Important for file upload
+                success: function(response) {
+                    alert(response.message);  // Show success message
+                    $('#addJobModal').modal('hide');  // Close the modal
+                    $('#jobForm')[0].reset();  // Reset the form after successful submission
+                },
+                error: function(xhr, status, error) {
+                    // Handle error case
+                    alert('There was an error while submitting the job.');
+                }
+            });
+        });
+    });
+
+    // Function for image preview
+    function previewImage(inputId, previewId) {
+        const file = document.getElementById(inputId).files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById(previewId);
+            preview.src = e.target.result;
+            preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+    }
+
+    let socialLinkCount = 1; // Track the number of social links added
+
+    function addSocialLink() {
+        socialLinkCount++; // Increment the counter
+        const newLinkId = 'socialLink' + socialLinkCount; // Generate a new ID for the social link
+
+        // Create new social link HTML dynamically
+        const newSocialLink = `
+            <div class="row mt-3" id="${newLinkId}">
+                <div class="col-md-4">
+                    <label for="${newLinkId}Select">Social Link ${socialLinkCount}</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="${newLinkId}Icon"><i class="fab fa-facebook"></i></span>
+                        <select class="form-control" id="${newLinkId}Select" onchange="updateSocialLinkIcon(this, '${newLinkId}Icon')">
+                            <option value="facebook">Facebook</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="youtube">Youtube</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <label for="${newLinkId}Url">Profile link/url</label>
+                    <div class="input-group">
+                        <input type="url" class="form-control" id="${newLinkId}Url" placeholder="Profile link/url...">
+                        <button class="btn btn-outline-secondary remove-social-link" type="button" onclick="removeSocialLink('${newLinkId}')"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Append the new link to the social links container
+        document.getElementById('socialLinksContainer').insertAdjacentHTML('beforeend', newSocialLink);
+    }
+
+    function removeSocialLink(linkId) {
+        const linkElement = document.getElementById(linkId);
+        linkElement.remove(); // Remove the social link element
+    }
+
+    // Update the social media icon based on the selected platform
+    function updateSocialLinkIcon(selectElement, iconId) {
+        const iconClass = selectElement.value; // Get the selected platform
+        const iconElement = document.getElementById(iconId);
+        iconElement.innerHTML = `<i class="fab fa-${iconClass}"></i>`; // Change icon based on the platform
+    }
+    <script>
     function previewImage(inputId, previewId) {
         const fileInput = document.getElementById(inputId);
         const file = fileInput.files[0];
@@ -687,6 +799,7 @@
         }
     }
 </script>
+
 
         <script>
             $(document).ready(function() {
@@ -784,6 +897,23 @@
             iconElement.innerHTML = `<i class="fab fa-${iconClass}"></i>`; // Change icon based on the platform
         }
     </script>
+    <script>
+    document.getElementById('jobForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form from submitting immediately for debugging
+
+        // Create FormData object to capture all form data
+        var formData = new FormData(this);
+
+        // Log form data to the console for debugging
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        // Submit the form after logging the data
+        this.submit(); // Remove the 'event.preventDefault();' to submit the form
+    });
+</script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     

@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ApplicantProfile;
-use App\Models\Region;
-use App\Models\Province;
-use App\Models\Barangay;
-use App\Models\City;
+use App\Models\ApplicantProfession;
 use App\Models\Job;  // Import the UserInformation model
-use App\Models\UserInformation;  // Import the UserInformation model
+use App\Models\UserSocialLink;  // Import the UserInformation model
+use App\Models\Feedback;
 use Illuminate\Support\Facades\Storage;  // For file storage
 
 class UserDashController extends Controller
@@ -25,6 +23,107 @@ class UserDashController extends Controller
     {
         return view('userdash.settings');
     }
+
+    public function storeSocialLinks(Request $request)
+{
+    // Validate social media links
+    $request->validate([
+        'social_links' => 'array',
+        'social_links.*.platform' => 'required|string',
+        'social_links.*.url' => 'required|url',
+    ]);
+
+    foreach ($request->social_links as $link) {
+        UserSocialLink::create([
+            'user_id' => Auth::id(),
+            'platform' => $link['platform'],
+            'url' => $link['url'],
+        ]);
+    }
+
+    return redirect()->route('userdash.settings')->with('success', 'Social links saved successfully!');
+}
+
+public function applyNow(Request $request, $job_id)
+{
+    // Get the applicant's id from session or authenticated user
+    $applicant_id = session('applicant_id'); // Assuming applicant_id is stored in the session
+
+    // Retrieve the job
+    $job = Job::findOrFail($job_id);
+
+    // Check if applicant profile exists
+    $applicantProfile = ApplicantProfile::where('applicant_id', $applicant_id)->first();
+
+    // If applicant profile doesn't exist, redirect them to complete their profile
+    if (!$applicantProfile) {
+        return redirect()->route('userdash.settings')->with('error', 'Please complete your profile before applying!');
+    }
+
+    // Store the application in the job_applications table
+    \App\Models\JobApplication::create([
+        'job_id' => $job->id,
+        'applicant_id' => $applicant_id,
+        'job_title' => $job->job_title,
+        'company_name' => $job->company_name,
+        'status' => 'Active', // You can change this based on logic
+    ]);
+
+    return redirect()->route('userdash.jobopenings')->with('success', 'You have successfully applied for the job!');
+}
+
+
+
+    //store Applicant profession
+    public function storeApplicantProfession(Request $request)
+    {
+        // Validate the form inputs for the professional data
+        $request->validate([
+            'language1' => 'nullable|string|max:255',
+            'company' => 'nullable|string|max:255',
+            'references' => 'nullable|string|max:255',
+            'contact' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'salary' => 'nullable|string|max:255',
+            'date_from' => 'nullable|string|max:7',
+            'date_to' => 'nullable|string|max:7',
+            'school_name' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255',
+            'inclusive_year' => 'nullable|string|max:9',
+            'course' => 'nullable|string|max:255',
+            'signature' => 'nullable|image|max:2048',  // for file upload
+        ]);
+    
+        // Handle file upload for signature
+        $signaturePath = null;
+        if ($request->hasFile('signature')) {
+            $signaturePath = $request->file('signature')->store('signatures', 'public');  // Store in public disk
+        }
+    
+        // Save the data into the ApplicantProfession model
+        ApplicantProfession::create([
+            'applicant_id' => session('applicant_id'),  // Make sure applicant_id is stored in the session
+            'language_spoken' => $request->input('language1'),
+            'company' => $request->input('company'),
+            'references' => $request->input('references'),
+            'contact' => $request->input('contact'),
+            'address' => $request->input('address'),
+            'position' => $request->input('position'),
+            'salary' => $request->input('salary'),
+            'date_from' => $request->input('date_from'),
+            'date_to' => $request->input('date_to'),
+            'school_name' => $request->input('school_name'),
+            'location' => $request->input('location'),
+            'inclusive_year' => $request->input('inclusive_year'),
+            'course' => $request->input('course'),
+            'signature' => $signaturePath,  // Store the file path in the database
+        ]);
+    
+        return redirect()->route('userdash.settings')->with('success', 'Profile updated successfully!');
+    }
+    
+
 
      // Store user profile
      public function storeApplicantProfile(Request $request)
@@ -74,7 +173,7 @@ class UserDashController extends Controller
      
          // Store the applicant profile
          ApplicantProfile::create([
-             'applicant_id' => Auth::id(),
+              'applicant_id' => session('applicant_id'), // Retrieve ID from session
              'full_name' => $request->input('full_name'),
              'salutation' => $request->input('salutation', 'N/A'),
              'gender' => $request->input('gender', 'N/A'),
@@ -110,6 +209,7 @@ class UserDashController extends Controller
              'passport' => $passportPath,
              'birth_certificate' => $birthCertificatePath,
          ]);
+         
      
          return redirect()->route('userdash.settings')->with('success', 'Profile updated successfully!');
      }
@@ -124,21 +224,25 @@ class UserDashController extends Controller
          return null;
      }
 
+     
     // Display job openings
     public function jobopenings(Request $request)
     {
-        $searchTerm = $request->input('search'); // Get the search term if any
+        // Retrieve applicant's session data
+        $applicant = session('applicant'); // Get applicant info from session
+        $job = session('job'); // Get job info from session (job title and company)
     
-        // Fetch active jobs (Active Jobs)
+        // Fetch active jobs based on search criteria
+        $searchTerm = $request->input('search');
         $activeJobs = Job::where('is_active', true)
                          ->where('is_archived', false)
-                         ->where('job_title', 'like', '%' . $searchTerm . '%') // Apply search filter to job title if search is entered
+                         ->where('job_title', 'like', '%' . $searchTerm . '%')
                          ->get(); // Active jobs
     
-        // Return the user-side job openings view with the active jobs
-        return view('userdash.jobopenings', compact('activeJobs'));
+        // Return the view with applicant and job data
+        return view('userdash.jobopenings', compact('activeJobs', 'applicant', 'job'));
     }
-
+    
     public function pinJob($job_id)
 {
     // Retrieve the job using the provided job ID
@@ -158,6 +262,7 @@ class UserDashController extends Controller
     return redirect()->route('userdash.jobopenings');
 }
 
+
 public function removePin($job_id)
 {
     // Get the pinned jobs from the session
@@ -174,6 +279,30 @@ public function removePin($job_id)
     // Redirect back to the pinned jobs page
     return redirect()->route('userdash.pinned');
 }
+public function showApplicantData($applicant_id, $job_id)
+{
+    // Retrieve applicant profile data
+    $applicantProfile = ApplicantProfile::where('applicant_id', $applicant_id)->first();
+    
+    // Retrieve job details (if needed)
+    $job = Job::find($job_id);
+
+    // Pass data to the view
+    return view('admin.applicants', compact('applicantProfile', 'job'));
+}
+
+public function showApplicantById($applicant_id)
+{
+    // Retrieve the applicant profile based on applicant_id
+    $applicantProfile = ApplicantProfile::findOrFail($applicant_id);
+
+    // Optionally, retrieve the jobs the applicant has applied for
+    $jobApplications = JobApplication::where('applicant_id', $applicant_id)->get();
+
+    // Pass the applicant's profile and job applications to the view
+    return view('admindash.applicants', compact('applicantProfile', 'jobApplications'));
+}
+
 
 
     public function jobdesc()
@@ -189,5 +318,39 @@ public function removePin($job_id)
     public function conference()
     {
         return view('userdash.conference');
+    }
+    // Show the feedback form (same as the feedback view)
+    public function create()
+    {
+        return view('userdash.feedback');
+    }
+
+    // Store the submitted feedback
+    public function store(Request $request)
+    {
+        // Validate the feedback form inputs
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'feedback' => 'required|string|max:2000',
+            'rating' => 'required|integer|between:1,5',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        // Handle file upload if an image is provided
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('feedback_images', 'public');
+        }
+
+        // Store the feedback in the database
+        Feedback::create([
+            'name' => $request->input('name'),
+            'feedback' => $request->input('feedback'),
+            'rating' => $request->input('rating'),
+            'image' => $imagePath,
+        ]);
+
+        // Redirect back with a success message
+        return redirect()->route('feedback.create')->with('success', 'Thank you for your feedback!');
     }
 }

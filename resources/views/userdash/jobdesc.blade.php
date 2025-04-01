@@ -80,6 +80,7 @@
                 <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Pinned</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('userdash.conference') }}">Conference</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('feedback.create') }}">Feedback</a></li>
             </ul>
         </div>
         <div class="d-flex align-items-center">
@@ -93,8 +94,7 @@
                 <div class="d-flex align-items-center">
                 <img src="{{ asset('images/bogart.jpg') }}" class="rounded-circle me-2 img-fluid" style="width: 40px; height: 40px;" alt="User Profile">
                 <div>
-                        <span class="d-block fw-bold">{{ session('applicant')->first_name }} {{ session('applicant')->last_name }} </span>
-                        <small class="text-muted">{{ session('applicant')->email }}</small>
+                <span class="d-block fw-bold">{{ session('applicant')->first_name }} {{ session('applicant')->last_name }} </span>                        <small class="text-muted">{{ session('applicant')->email }}</small>
                     </div>
                     <div class="dropdown">
                     <i class="ms-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></i>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\Applicant;
+use App\Models\ApplicantProfile;
+use App\Models\JobApplication;
 
 class AdminDashController extends Controller
 {
@@ -66,15 +68,16 @@ class AdminDashController extends Controller
     public function toggleActive(Request $request, $id)
     {
         $job = Job::find($id);
-        if ($job->is_active) {
-            // If it's active, deactivate and archive it
-            $job->is_active = false;
-            $job->is_archived = true;
-        } else {
-            // If it's inactive (archived), activate and unarchive it
-            $job->is_active = true;
-            $job->is_archived = false;
+        
+        if (!$job) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Job not found!'
+            ], 404);
         }
+
+        $job->is_active = !$job->is_active;
+        $job->is_archived = !$job->is_archived;
         $job->save();
 
         return response()->json([
@@ -108,15 +111,55 @@ class AdminDashController extends Controller
         $archivedJobs = Job::where('is_archived', true)->get(); // Fetch archived jobs
         return view('admindash.archivedJobs', compact('archivedJobs'));
     }
-    public function analythics(){
-        return view('admindash.analythics');
+
+    // Apply for a job
+    public function apply($job_id, $applicant_id)
+    {
+        // Fetch the job details
+        $job = Job::findOrFail($job_id);
+
+        // Fetch the applicant profile
+        $applicantProfile = ApplicantProfile::where('applicant_id', $applicant_id)->first();
+
+        // Assuming a JobApplication model exists to handle job applications
+        $jobApplication = new JobApplication();
+        $jobApplication->applicant_id = $applicant_id;
+        $jobApplication->job_id = $job_id;
+        $jobApplication->status = 'Pending'; // Default status
+        $jobApplication->save();
+
+        // Optionally, return a success message or redirect
+        return redirect()->back()->with('success', 'Your application has been submitted successfully!');
     }
-    public function conference(){
+
+    public function analythics()
+{
+    // Fetch the total count of applicants (you can adjust this query as needed)
+    $applicantCount = Applicant::count();  // Replace with your actual query if necessary
+
+    // Fetch the new applicants count (adjust as needed)
+    $newApplicantCount = Applicant::where('created_at', '>=', now()->subMonth())->count();  // Example query for new applicants in the last month
+
+    // Pass the data to the view
+    return view('admindash.analythics', compact('applicantCount', 'newApplicantCount'));
+}
+
+
+    public function conference()
+    {
         return view('admindash.conference');
     }
-    public function applicants(){
+
+    public function applicants()
+    {
         return view('admindash.applicants');
     }
+
+    public function notification()
+    {
+        return view('admindash.notification');
+    }
+
     public function index()
     {
         // Get the total count of applicants using the model method
@@ -125,6 +168,4 @@ class AdminDashController extends Controller
         // Pass the applicant count to the view
         return view('admindash.index', compact('applicantCount'));
     }
-
-    
 }

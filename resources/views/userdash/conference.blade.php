@@ -10,39 +10,38 @@
 </head>
 <style>
     body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-}
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
 
-.navbar {
-    padding: 10px 20px;
-}
+    .navbar {
+        padding: 10px 20px;
+    }
 
-.conference-input {
-    margin-top: 20px;
-    max-width: 500px;
-    width: 100%;
-}
+    .conference-input {
+        margin-top: 20px;
+        max-width: 500px;
+        width: 100%;
+    }
 
-.input-group-text {
-    background-color: #e9ecef;
-    border-right: 0;
-}
+    .input-group-text {
+        background-color: #e9ecef;
+        border-right: 0;
+    }
 
-.form-control {
-    border-left: 0;
-}
+    .form-control {
+        border-left: 0;
+    }
 
-.btn-primary {
-    border-radius: 0 5px 5px 0;
-}
+    .btn-primary {
+        border-radius: 0 5px 5px 0;
+    }
 
-.btn-secondary {
-    background-color: #d6d8db;
-    border-color: #d6d8db;
-    cursor: not-allowed;
-}
-
+    .btn-secondary {
+        background-color: #d6d8db;
+        border-color: #d6d8db;
+        cursor: not-allowed;
+    }
 </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
@@ -57,6 +56,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.pinned') }}">Pinned</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.conference') }}">Conference</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('feedback.create') }}">Feedback</a></li>
                 </ul>
             </div>
             <div class="d-flex align-items-center">
@@ -70,7 +70,7 @@
             <div class="d-flex align-items-center">
                 <img src="{{ asset('images/bogart.jpg') }}" class="rounded-circle me-2 img-fluid" style="width: 40px; height: 40px;" alt="User Profile">
                 <div>
-                    <span class="d-block fw-bold">{{ session('applicant')->first_name }} {{ session('applicant')->last_name }}</span>
+                <span class="d-block fw-bold">{{ session('applicant')->first_name }} {{ session('applicant')->last_name }} </span>
                     <small class="text-muted">{{ session('applicant')->email }}</small>
                 </div>
                 <div class="dropdown">
@@ -83,35 +83,90 @@
             </div>
         </div>
     </nav>
-    
-<!-- resources/views/join-meeting.blade.php -->
 
-<form action="{{ url('zoom/join') }}" method="POST">
-    @csrf
-    <label for="meeting_code">Enter Meeting Code:</label>
-    <input type="text" id="meeting_code" name="meeting_code" required>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h3>Join Conference</h3>
+                <p class="lead">Enter the meeting code to join the conference room.</p>
 
-    <button type="submit">Join Meeting</button>
-</form>
+                <!-- Room Code Input -->
+                <div class="input-group conference-input mx-auto">
+                    <input type="text" class="form-control" id="roomCode" placeholder="Enter Room Code" aria-label="Enter Room Code">
+                    <button class="btn btn-primary" id="joinMeetingBtn" disabled>Join Room</button>
+                </div>
+                
+                <!-- Leave Meeting Button -->
+                <button class="btn btn-secondary" id="leaveMeetingBtn" style="display: none;">Leave Room</button>
+            </div>
+        </div>
+        <div id="jitsi-container" style="height: 500px; margin-top: 20px;"></div>
+    </div>
 
-
+    <!-- Jitsi Meet API script -->
+    <script src="https://8x8.vc/vpaas-magic-cookie-07f8c9196c1f484596722e4c94f6558e/external_api.js"></script>
     <script>
-        function toggleJoinButton() {
-            const inputField = document.getElementById('meetingCode');
-            const joinButton = document.getElementById('joinButton');
-            
-            // Enable button and make it blue when there's input
-            if (inputField.value.trim() !== "") {
-                joinButton.disabled = false;
-                joinButton.classList.add('btn-primary');
-                joinButton.classList.remove('btn-secondary');
+        let meetingCreated = false; // Flag to track if the meeting is already created
+        let api = null; // Variable to store the Jitsi Meet instance
+
+        // Select the buttons
+        const joinButton = document.getElementById('joinMeetingBtn');
+        const leaveButton = document.getElementById('leaveMeetingBtn');
+        const roomCodeInput = document.getElementById('roomCode');
+
+        // Event listener for the input field
+        roomCodeInput.addEventListener('input', function () {
+            if (roomCodeInput.value.trim() !== "") {
+                joinButton.disabled = false; // Enable the join button when the user types a code
             } else {
-                // Disable button and make it gray when input is empty
-                joinButton.disabled = true;
-                joinButton.classList.add('btn-secondary');
-                joinButton.classList.remove('btn-primary');
+                joinButton.disabled = true; // Disable the join button if the input is empty
             }
-        }
+        });
+
+        // Event listener for the join button
+        joinButton.addEventListener('click', function () {
+            if (meetingCreated) {
+                alert('You are already in a meeting. Please leave the room before joining again.');
+                return;
+            }
+
+            const roomCode = roomCodeInput.value.trim();
+            if (roomCode === "") {
+                alert('Please enter a valid room code.');
+                return;
+            }
+
+            // Create a new Jitsi meeting
+            const domain = "8x8.vc";
+            const options = {
+                roomName: `vpaas-magic-cookie-07f8c9196c1f484596722e4c94f6558e/${roomCode}`, // Use the room code provided by the user
+                width: "100%",
+                height: 500,
+                parentNode: document.getElementById('jitsi-container'),
+                configOverwrite: { startWithAudioMuted: true, startWithVideoMuted: false },
+                interfaceConfigOverwrite: { filmStripOnly: false }
+            };
+
+            api = new JitsiMeetExternalAPI(domain, options);
+            meetingCreated = true; // Mark the meeting as created
+
+            // Disable the join button and show the leave button
+            joinButton.style.display = 'none';
+            leaveButton.style.display = 'inline-block';
+        });
+
+        // Event listener for the leave button
+        leaveButton.addEventListener('click', function () {
+            if (api) {
+                api.dispose(); // Dispose of the Jitsi Meet API instance
+            }
+
+            meetingCreated = false; // Reset the meeting status
+            joinButton.style.display = 'inline-block'; // Show the join button again
+            leaveButton.style.display = 'none'; // Hide the leave button
+            roomCodeInput.value = ""; // Clear the room code input
+            joinButton.disabled = true; // Disable the join button again
+        });
     </script>
 </body>
 </html>

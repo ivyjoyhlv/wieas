@@ -21,6 +21,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.jobopenings') }}">Jobs</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold text-primary" href="{{ route('userdash.pinned') }}">Pinned</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('userdash.conference') }}">Conference</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('feedback.create') }}">Feedback</a></li>
                 </ul>
             </div>
             <div class="d-flex align-items-center">

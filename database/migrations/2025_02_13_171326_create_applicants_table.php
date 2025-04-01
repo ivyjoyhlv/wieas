@@ -9,12 +9,17 @@ class CreateApplicantsTable extends Migration
     public function up()
     {
         Schema::create('applicants', function (Blueprint $table) {
-            $table->bigIncrements('id');  // Changed to bigIncrements to ensure BIGINT for the primary key
+            $table->bigIncrements('id');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->rememberToken(); // Adds 'remember_token' column for "remember me" functionality
             $table->timestamps();
+            
+            // Optional index for better performance on email verification queries
+            $table->index('email_verified_at');
         });
     }
 
