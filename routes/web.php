@@ -6,8 +6,8 @@ use App\Http\Controllers\UserDashController;
 use App\Http\Controllers\AdminDashController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ZoomController;
-use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\UserProfileController;
 
 use App\Models\Applicant;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +27,6 @@ Route::get('/userdash/video-call', function () {
     return view('/userdash/video-call');
 });
 
-
 // Show the feedback form
 Route::get('/userdash/feedback', [UserDashController::class, 'create'])->name('feedback.create');
 
@@ -37,14 +36,18 @@ Route::post('/userdash/feedback', [UserDashController::class, 'store'])->name('f
 // Sign In & Sign Up
 Route::get('/signin', [LoginController::class, 'index'])->name('signin.index');
 Route::post('/signin', [LoginController::class, 'login'])->name('signin.login');
-Route::middleware(['throttle:10,1'])->group(function() {
-    Route::get('/signup', [SignupController::class, 'index'])->name('signup.index');
-    Route::post('/signup', [SignupController::class, 'store'])->name('signup.store');
-    Route::get('/signup/check-email', [SignupController::class, 'checkEmail'])->name('signup.checkEmail');
-    Route::get('/signup/verify', [SignupController::class, 'showVerificationForm'])->name('signup.verification');
-    Route::post('/signup/verify', [SignupController::class, 'verify'])->name('signup.verify');
-    Route::post('/signup/resend', [SignupController::class, 'resend'])->middleware('throttle:1,2')->name('signup.resend');
+Route::get('/signup', [SignupController::class, 'index'])->name('signup.index');
+Route::post('/signup', [SignupController::class, 'store'])->name('signup.store');
+Route::post('/verify', [SignupController::class, 'verify'])->name('signup.verify');
+Route::post('/resend-otp', [SignupController::class, 'resend'])->name('signup.resend');
+Route::get('/verify', [VerificationController::class, 'index'])->name('verify.index');
+
+// Applicant dashboard routes
+Route::middleware(['auth:applicant'])->group(function () {
+    Route::get('/profile', [UserProfileController::class, 'showProfileForm'])->name('userdash.profile');
+    Route::post('/profile', [UserProfileController::class, 'storeUserProfile'])->name('userdash.storeUserProfile');
 });
+
 //basic info
 Route::get('signup/check-email', [SignupController::class, 'checkEmail'])->name('signup.checkEmail');
 Route::get('signup', [SignupController::class, 'index'])->name('signup.index');
@@ -63,13 +66,13 @@ Route::get('/userdash/pin/{job_id}', [UserDashController::class, 'pinJob'])->nam
 Route::get('/userdash/removePin/{job_id}', [UserDashController::class, 'removePin'])->name('userdash.removePin');
 
 
+Route::middleware(['auth:applicant'])->group(function () {
+    Route::get('/profile', [UserProfileController::class, 'showProfileForm'])->name('userdash.profile');
+    Route::post('/profile', [UserProfileController::class, 'storeUserProfile'])->name('userdash.storeUserProfile');
+    Route::get('/profile/edit', [UserProfileController::class, 'editProfile'])->name('userdash.editProfile');
+});
 
 
-// zoom
-Route::post('/zoom/create', [ZoomController::class, 'create']);
-Route::get('/zoom/get', [ZoomController::class, 'getMeeting']);
-Route::post('/zoom/update', [ZoomController::class, 'update']);
-Route::delete('/zoom/delete', [ZoomController::class, 'delete']);
 // Other routes...
 Route::get('/userdash/conference', [UserDashController::class, 'conference'])->name('userdash.conference');
 Route::get('/userdash/settings', [UserDashController::class, 'settings'])->name('userdash.settings');

@@ -117,7 +117,7 @@
         }
     </style>
 </head>
-<body>
+<>
     <div class="signup-container">
         <div class="form-section">
             <div class="text-center mb-4">
@@ -257,20 +257,22 @@
         const passwordConfirmationInput = document.getElementById('password_confirmation');
         const passwordError = document.getElementById('passwordError');
 
-        document.getElementById('signupForm').addEventListener('submit', function(event) {
-            let valid = true;
-            // Check password length
-            if (passwordInput.value.length < 8) {
-                valid = false;
-                passwordError.style.display = 'block';
-            } else {
-                passwordError.style.display = 'none';
-            }
+// Update the form submission to handle the redirect
+document.getElementById('signupForm').addEventListener('submit', function(event) {
+    let valid = true;
+    // Check password length
+    if (passwordInput.value.length < 6) {
+        valid = false;
+        passwordError.style.display = 'block';
+    } else {
+        passwordError.style.display = 'none';
+    }
 
-            if (!valid) {
-                event.preventDefault(); // Prevent form submission
-            }
-        });
+    if (!valid) {
+        event.preventDefault();
+    }
+    // If valid, the form will submit and the server will redirect to verification
+});
     </script>
 </body>
 </html>

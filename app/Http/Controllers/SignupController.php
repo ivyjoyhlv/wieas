@@ -1,14 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Applicant;
-use App\Models\VerificationCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationEmail;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class SignupController extends Controller
 {
@@ -23,84 +21,75 @@ class SignupController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:applicants,email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:6|confirmed',
         ]);
 
-        $applicant = Applicant::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        // Generate OTP
+        $otp = Str::random(6); // Or use rand(100000, 999999) for numeric OTP
 
-        $this->generateAndSendVerificationCode($applicant->email);
+        // Create applicant but mark as unverified
+        $applicant = new Applicant();
+        $applicant->first_name = $request->first_name;
+        $applicant->last_name = $request->last_name;
+        $applicant->email = $request->email;
+        $applicant->password = Hash::make($request->password);
+        $applicant->otp = $otp;
+        $applicant->otp_expires_at = now()->addMinutes(15);
+        $applicant->save();
 
-        return redirect()->route('signup.verification', ['email' => $applicant->email]);
-    }
+        // Send verification email
+        Mail::to($applicant->email)->send(new VerificationEmail($otp));
 
-    public function checkEmail(Request $request)
-    {
-        $email = $request->input('email');
-        $exists = Applicant::where('email', $email)->exists();
-        return response()->json(['exists' => $exists]);
-    }
-
-    public function showVerificationForm(Request $request)
-    {
-        if (!$request->email) {
-            return redirect()->route('signup.index');
-        }
-
-        return view('signup.verification', ['email' => $request->email]);
+        // Redirect to OTP verification page
+        return redirect()->route('verify.index')->with('email', $applicant->email);
     }
 
     public function verify(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
-            'otp' => 'required|digits:6'
+            'otp' => 'required|string|size:6',
         ]);
 
-        $verification = VerificationCode::where('email', $request->email)
-            ->where('code', $request->otp)
-            ->where('expires_at', '>', now())
+        $applicant = Applicant::where('email', $request->email)
+            ->where('otp', $request->otp)
+            ->where('otp_expires_at', '>', now())
             ->first();
 
-        if (!$verification) {
-            return back()->withErrors(['otp' => 'Invalid or expired verification code']);
+        if ($applicant) {
+            // Mark as verified
+            $applicant->is_verified = true;
+            $applicant->otp = null;
+            $applicant->otp_expires_at = null;
+            $applicant->save();
+
+            return redirect()->route('signin.index')->with('success', 'Account verified successfully! Please log in.');
         }
 
-        $applicant = Applicant::where('email', $request->email)->firstOrFail();
-        $applicant->email_verified_at = now();
-        $applicant->save();
-        $verification->delete();
-
-        return redirect()->route('dashboard')->with('success', 'Email verified successfully!');
+        return back()->with('error', 'Invalid or expired OTP.');
     }
 
     public function resend(Request $request)
-    {
-        $request->validate(['email' => 'required|email']);
-        
-        $this->generateAndSendVerificationCode($request->email);
-        
-        return back()->with('success', 'A new verification code has been sent to your email.');
+{
+    $request->validate([
+        'email' => 'required|email|exists:applicants,email',
+    ]);
+
+    $applicant = Applicant::where('email', $request->email)->first();
+
+    if ($applicant && $applicant->is_verified) {
+        return response()->json(['error' => 'Account is already verified.'], 400);
     }
 
-    private function generateAndSendVerificationCode($email)
-    {
-        VerificationCode::where('email', $email)->delete();
+    // Generate new OTP
+    $otp = Str::random(6);
+    $applicant->otp = $otp;
+    $applicant->otp_expires_at = now()->addMinutes(15);
+    $applicant->save();
 
-        $code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+    // Resend email
+    Mail::to($applicant->email)->send(new VerificationEmail($otp));
 
-        VerificationCode::create([
-            'email' => $email,
-            'code' => $code,
-            'expires_at' => Carbon::now()->addMinutes(15),
-        ]);
-
-        Mail::to($email)->send(new VerificationEmail($code));
-
-        return $code;
-    }
+    return response()->json(['message' => 'OTP resent successfully.']);
+}
 }

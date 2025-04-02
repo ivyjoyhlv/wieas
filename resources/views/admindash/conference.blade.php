@@ -105,55 +105,26 @@
             width: 100%;
         }
 
-        .content .card {
-            margin-bottom: 20px;
-        }
-
-        .card-body {
-            padding: 1.5rem;
-        }
-
-        .stat-card {
+        /* Video Conference Specific Styles */
+        .video-conference-container {
             background-color: white;
-            color: black;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .video-conference-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
-        .stat-card .text {
-            font-size: 1.2rem;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .stat-card .number {
-            font-size: 3rem;
-            font-weight: bold;
-        }
-
-        .stat-card .icon {
-            width: 35px;
-            height: 35px;
-            object-fit: contain;
-            margin-left: 10px;
-        }
-
-        .upcoming-section {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .upcoming-section .card {
-            width: 48%;
-        }
-
-        .posted-jobs {
-            margin-top: 20px;
+        .video-conference-header h2 {
+            font-size: 20px;
+            margin: 0;
+            color: #333;
         }
 
         .video-conference-btn {
@@ -164,6 +135,7 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         .video-conference-btn:hover {
@@ -174,6 +146,69 @@
             background-color: #cccccc;
             cursor: not-allowed;
         }
+
+        #jitsi-container {
+            height: 500px;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f1f3f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .jitsi-placeholder {
+            text-align: center;
+            color: #666;
+        }
+
+        .jitsi-placeholder i {
+            font-size: 50px;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        .jitsi-placeholder h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .meeting-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .meeting-code {
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .copy-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -183,7 +218,7 @@
         <span>WIEAS</span>
     </div>
     <ul class="nav flex-column">
-        <li class="nav-item active">
+        <li class="nav-item">
             <a href="{{ route('admindash.index') }}">
                 <i class="fas fa-tachometer-alt"></i>
                 Dashboard
@@ -201,7 +236,7 @@
                 Analytics
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
             <a href="{{ route('admindash.conference') }}">
                 <i class="fas fa-calendar-alt"></i>
                 Conference
@@ -240,27 +275,42 @@
         </div>
     </div>
 </div>
+
 <div class="content">
-    <div class="container mt-5">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <button class="video-conference-btn" id="create-meeting-btn">Create a Video Meeting</button>
+    <div class="video-conference-container">
+        <div class="video-conference-header">
+            <h2>Video Conference</h2>
+            <button class="video-conference-btn" id="create-meeting-btn">
+                <i class="fas fa-plus"></i> Create Meeting
+            </button>
+        </div>
+        
+        <div id="jitsi-container">
+            <div class="jitsi-placeholder">
+                <i class="fas fa-video"></i>
+                <h3>No Active Meeting</h3>
+                <p>Click the button above to start a new meeting</p>
             </div>
         </div>
-        <div id="jitsi-container" style="height: 500px; margin-top: 20px;"></div>
+        
+        <div class="meeting-info" id="meeting-info">
+            <h4>Meeting Information</h4>
+            <div class="meeting-code" id="meeting-code">WEIAS-XXXXXX</div>
+            <button class="copy-btn" id="copy-btn">Copy Meeting Code</button>
+        </div>
     </div>
 </div>
 
 <!-- Jitsi Meet API script -->
 <script src="https://8x8.vc/vpaas-magic-cookie-07f8c9196c1f484596722e4c94f6558e/external_api.js"></script>
 <script>
-    let meetingCreated = false; // Flag to track if a meeting has been created
-    let api = null; // Variable to store the Jitsi Meet API instance
+    let meetingCreated = false;
+    let api = null;
 
     function generateRoomCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let result = '';
-        const length = 10;
+        const length = 6;
         for (let i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * characters.length));
         }
@@ -269,38 +319,71 @@
 
     document.getElementById('create-meeting-btn').addEventListener('click', function () {
         if (meetingCreated) {
-            alert('A meeting has already been created!');
+            alert('A meeting is already in progress.');
             return;
         }
 
         const roomCode = generateRoomCode();
         const domain = "8x8.vc";
+        const roomName = `vpaas-magic-cookie-07f8c9196c1f484596722e4c94f6558e/WEIAS${roomCode}`;
+        
         const options = {
-            roomName: `vpaas-magic-cookie-07f8c9196c1f484596722e4c94f6558e/WEIAS${roomCode}`,
+            roomName: roomName,
             width: "100%",
-            height: 500,
+            height: "100%",
             parentNode: document.getElementById('jitsi-container'),
-            configOverwrite: { startWithAudioMuted: true, startWithVideoMuted: false },
-            interfaceConfigOverwrite: { filmStripOnly: false }
+            configOverwrite: { 
+                startWithAudioMuted: true, 
+                startWithVideoMuted: false
+            },
+            interfaceConfigOverwrite: { 
+                filmStripOnly: false
+            }
         };
 
         api = new JitsiMeetExternalAPI(domain, options);
         
-        meetingCreated = true; // Set flag to true when a meeting is created
-        document.getElementById('create-meeting-btn').disabled = true; // Disable the button after the meeting is created
-        document.getElementById('create-meeting-btn').textContent = "Meeting Created"; // Update the button text
+        meetingCreated = true;
+        const btn = document.getElementById('create-meeting-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-video"></i> Meeting Active';
+        
+        // Show meeting info with just WEIAS and code
+        document.getElementById('meeting-code').textContent = `WEIAS-${roomCode}`;
+        document.getElementById('meeting-info').style.display = 'block';
+        
+        // Clear placeholder
+        document.querySelector('.jitsi-placeholder').style.display = 'none';
 
-        // Listen for the readyToClose event
+        // Copy code functionality
+        document.getElementById('copy-btn').addEventListener('click', function() {
+            const code = document.getElementById('meeting-code').textContent;
+            navigator.clipboard.writeText(code);
+            
+            const originalText = this.textContent;
+            this.textContent = 'Copied!';
+            setTimeout(() => {
+                this.textContent = originalText;
+            }, 2000);
+        });
+
         api.on('readyToClose', () => {
-            // Clear the container
-            document.getElementById('jitsi-container').innerHTML = '';
-            // Reset the button
-            document.getElementById('create-meeting-btn').disabled = false;
-            document.getElementById('create-meeting-btn').textContent = "Create a Video Meeting";
-            meetingCreated = false; // Reset the flag
-            api = null; // Clear the API instance
+            // Clean up
+            document.getElementById('jitsi-container').innerHTML = `
+                <div class="jitsi-placeholder">
+                    <i class="fas fa-video"></i>
+                    <h3>Meeting Ended</h3>
+                    <p>Click the button above to start a new meeting</p>
+                </div>
+            `;
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-plus"></i> Create Meeting';
+            meetingCreated = false;
+            api = null;
+            document.getElementById('meeting-info').style.display = 'none';
         });
     });
 </script>
 </body>
-</html>
+</html> 

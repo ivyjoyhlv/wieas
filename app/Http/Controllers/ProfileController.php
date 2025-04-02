@@ -2,59 +2,99 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Models\ApplicantProfile;
+use App\Models\Applicant;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    // Method to store user profile data
+    public function storeUserProfile(Request $request)
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
+        $request->validate([
+            'salutation' => 'required|string',
+            'gender' => 'required|string',
+            'marital_status' => 'required|string',
+            'experience' => 'required|string',
+            'education' => 'required|string',
+            'contact' => 'required|string|max:15',
+            'region' => 'required|string',
+            'province' => 'required|string',
+            'city' => 'required|string',
+            'barangay' => 'required|string',
+            'street' => 'required|string',
+            'place_of_birth' => 'required|string',
+            'dob' => 'required|date',
+            'religion' => 'required|string',
+            'passport_no' => 'nullable|string',
+            'passport_date_of_issue' => 'nullable|date',
+            'passport_place_of_issue' => 'nullable|string',
+            'profile_picture' => 'nullable|image|max:5000',
+            'professional_resume' => 'nullable|file|mimes:pdf,doc,docx|max:5000',
+            'valid_id' => 'nullable|file|mimes:pdf,doc,docx|max:5000',
+            'passport' => 'nullable|file|mimes:pdf,doc,docx|max:5000',
+            'birth_certificate' => 'nullable|file|mimes:pdf,doc,docx|max:5000',
         ]);
-    }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+        // Fetch applicant by ID (ensure the applicant is authenticated or passed as a parameter)
+        $applicant = Applicant::find(auth()->id());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Handle file uploads
+        $profilePicture = null;
+        if ($request->hasFile('profile_picture')) {
+            $profilePicture = $request->file('profile_picture')->store('profile_pictures', 'public');
         }
 
-        $request->user()->save();
+        $professionalResume = null;
+        if ($request->hasFile('professional_resume')) {
+            $professionalResume = $request->file('professional_resume')->store('resumes', 'public');
+        }
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
+        $validId = null;
+        if ($request->hasFile('valid_id')) {
+            $validId = $request->file('valid_id')->store('valid_ids', 'public');
+        }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        $passport = null;
+        if ($request->hasFile('passport')) {
+            $passport = $request->file('passport')->store('passports', 'public');
+        }
 
-        $user = $request->user();
+        $birthCertificate = null;
+        if ($request->hasFile('birth_certificate')) {
+            $birthCertificate = $request->file('birth_certificate')->store('birth_certificates', 'public');
+        }
 
-        Auth::logout();
+        // Create or update the applicant profile
+        $applicantProfile = $applicant->profile()->updateOrCreate(
+            ['applicant_id' => $applicant->id],
+            [
+                'salutation' => $request->input('salutation'),
+                'gender' => $request->input('gender'),
+                'marital_status' => $request->input('marital_status'),
+                'experience' => $request->input('experience'),
+                'education' => $request->input('education'),
+                'contact' => $request->input('contact'),
+                'region' => $request->input('region'),
+                'province' => $request->input('province'),
+                'city' => $request->input('city'),
+                'barangay' => $request->input('barangay'),
+                'street' => $request->input('street'),
+                'place_of_birth' => $request->input('place_of_birth'),
+                'dob' => $request->input('dob'),
+                'religion' => $request->input('religion'),
+                'passport_no' => $request->input('passport_no'),
+                'passport_date_of_issue' => $request->input('passport_date_of_issue'),
+                'passport_place_of_issue' => $request->input('passport_place_of_issue'),
+                'profile_picture' => $profilePicture,
+                'professional_resume' => $professionalResume,
+                'valid_id' => $validId,
+                'passport' => $passport,
+                'birth_certificate' => $birthCertificate,
+            ]
+        );
 
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return redirect()->route('userProfile.show', $applicant->id)->with('success', 'Profile updated successfully!');
     }
 }

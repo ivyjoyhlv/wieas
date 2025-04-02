@@ -97,7 +97,7 @@ use Illuminate\Support\Str;
             <!-- Sidebar for Filters -->
             <div class="col-md-3 bg-white p-4">
                 <h5>Filters</h5>
-                <form>
+                <form id="filterForm">
                     <div class="mb-3">
                         <label for="role" class="form-label">Roles</label>
                         <input type="text" class="form-control" id="role" placeholder="E.g.: Welder">
@@ -141,6 +141,7 @@ use Illuminate\Support\Str;
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <button type="button" id="resetFilters" class="btn btn-outline-secondary ms-2">Reset</button>
                 </form>
             </div>
 
@@ -164,9 +165,11 @@ use Illuminate\Support\Str;
                 </div>
 
                 <div class="container">
-                    <div class="row">
+                    <div class="row" id="jobListings">
                         @foreach ($activeJobs as $job)
-                            <div class="col-md-12 mb-4">
+                            <div class="col-md-12 mb-4 job-item" 
+                                 data-role="{{ strtolower($job->job_title) }}"
+                                 data-country="{{ strtolower($job->country_origin) }}">
                                 <div class="job-card bg-white d-flex justify-content-between align-items-center p-4 border rounded">
                                     <!-- Left section (Job Title, Company, and Description) -->
                                     <div class="job-details">
@@ -220,6 +223,7 @@ use Illuminate\Support\Str;
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         const appliedJobs = new Set();
@@ -244,6 +248,45 @@ use Illuminate\Support\Str;
                 myModal.hide();
             }, 2000); // 2 seconds delay
         }
+
+        // Filter jobs based on input
+        function filterJobs() {
+            const roleFilter = $('#role').val().toLowerCase();
+            const countryFilter = $('#country').val().toLowerCase();
+            
+            $('.job-item').each(function() {
+                const jobRole = $(this).data('role');
+                const jobCountry = $(this).data('country');
+                
+                const roleMatch = jobRole.includes(roleFilter);
+                const countryMatch = jobCountry.includes(countryFilter);
+                
+                if ((roleFilter === '' || roleMatch) && (countryFilter === '' || countryMatch)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        // Apply filters when form is submitted
+        $('#filterForm').on('submit', function(e) {
+            e.preventDefault();
+            filterJobs();
+        });
+
+        // Apply filters when any filter input changes
+        $('#role, #country').on('input', function() {
+            filterJobs();
+        });
+
+        // Reset filters
+        $('#resetFilters').on('click', function() {
+            $('#role').val('');
+            $('#country').val('');
+            $('.form-check-input').prop('checked', false);
+            filterJobs();
+        });
     </script>
 
 </body>

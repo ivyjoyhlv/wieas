@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -11,16 +10,20 @@ class VerificationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $code;
+    public $otp;
 
-    public function __construct($code)
+    public function __construct($otp)
     {
-        $this->code = $code;
+        $this->otp = $otp;
     }
 
     public function build()
     {
-        return $this->subject('Email Verification Code')
-                    ->view('emails.verification');
+        return $this->subject('Your Account Verification Code')
+                    ->view('emails.verification')
+                    ->with([
+                        'otp' => $this->otp,
+                        'expires_at' => now()->addMinutes(15)->format('g:i A T')
+                    ]);
     }
 }

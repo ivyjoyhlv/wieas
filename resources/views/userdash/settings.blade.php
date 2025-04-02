@@ -122,6 +122,7 @@
                                         <select name="marital_status" class="form-select" required onchange="toggleSpouseFields()">
                                             <option value="" disabled selected>Select...</option>
                                             <option value="Single">Single</option>
+                                            <option value="Married">Single Parent</option>
                                             <option value="Married">Married</option>
                                             <option value="Separated">Separated</option>
                                             <option value="Divorced">Divorced</option>

@@ -222,9 +222,6 @@
         </div>
     </div>
 
-    <div id="successPopup" class="popup">
-        You have successfully SignUp!
-    </div>
 
     <script>
         function togglePasswordVisibility(fieldId) {

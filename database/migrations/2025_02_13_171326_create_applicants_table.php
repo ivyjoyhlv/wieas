@@ -13,13 +13,11 @@ class CreateApplicantsTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken(); // Adds 'remember_token' column for "remember me" functionality
+            $table->string('otp')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->timestamps();
-            
-            // Optional index for better performance on email verification queries
-            $table->index('email_verified_at');
         });
     }
 

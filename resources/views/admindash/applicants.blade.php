@@ -379,12 +379,14 @@
                     <div class="status-dropdown" onclick="toggleStatusDropdown(this)">
                         <span class="badge bg-warning">To Review</span>
                         <ul class="dropdown-menu">
-                            <li onclick="changeStatus(this, 'To Review', 'bg-warning')">To Review</li>
-                            <li onclick="changeStatus(this, 'Approved', 'bg-info')">Approved</li>
-                            <li onclick="changeStatus(this, 'To Interview', 'bg-danger')">To Interview</li>
-                            <li onclick="changeStatus(this, 'Passed', 'bg-success')">Passed</li>
-                            <li onclick="changeStatus(this, 'To Deploy', 'bg-secondary text-white')">To Deploy</li>
-                        </ul>
+    <li onclick="changeStatus(this, 'To Review', 'bg-warning')">To Review</li>
+    <li onclick="changeStatus(this, 'Approved', 'bg-info')">Approved</li>
+    <li onclick="changeStatus(this, 'To Interview', 'bg-danger')">To Interview</li>
+    <li onclick="changeStatus(this, 'Passed', 'bg-success')">Passed</li>
+    <li onclick="changeStatus(this, 'Not Qualified', 'bg-dark')">Not Qualified</li>
+    <li onclick="changeStatus(this, 'To Deploy', 'bg-secondary text-white')">To Deploy</li>
+</ul>
+
                     </div>
                 </td>
                 <td>

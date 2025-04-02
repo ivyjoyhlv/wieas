@@ -5,6 +5,7 @@ use App\Models\Applicant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use ReCaptcha\ReCaptcha;
 
 class LoginController extends Controller
@@ -23,29 +24,51 @@ class LoginController extends Controller
             'g-recaptcha-response' => 'required', // Validate reCAPTCHA field
         ]);
 
-        // Check if the reCAPTCHA field is missing
-        if (empty($request->input('g-recaptcha-response'))) {
-            return redirect()->route('signin.index')->with('error', 'Please complete the reCAPTCHA to proceed.');
-        }
-
         // Verify the reCAPTCHA response
-        $recaptcha = new ReCaptcha(env('RECAPTCHA_SECRET_KEY')); // Use the Secret Key from the .env file
+        $recaptcha = new ReCaptcha(env('RECAPTCHA_SECRET_KEY'));
         $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
 
         if (!$resp->isSuccess()) {
-            // If reCAPTCHA verification fails, redirect back with an error message
-            return redirect()->route('signin.index')->with('error', 'reCAPTCHA verification failed. Please try again.');
+            return redirect()->route('signin.index')
+                ->with('error', 'reCAPTCHA verification failed. Please try again.')
+                ->withInput($request->except('password'));
         }
 
-        // Continue with the normal login process if reCAPTCHA is valid
-        $applicant = Applicant::where('email', $request->email)->first();
+        // Attempt to authenticate using Laravel's Auth system
+        if (Auth::guard('applicant')->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ])) {
+            $applicant = Auth::guard('applicant')->user();
+            
+            // Check if email is verified
+            if (!$applicant->is_verified) {
+                Auth::guard('applicant')->logout();
+                return redirect()->route('signin.index')
+                    ->with('error', 'Please verify your email address first.')
+                    ->withInput($request->except('password'));
+            }
 
-        if ($applicant && Hash::check($request->password, $applicant->password)) {
-            // Store user data in session
+            // Store user data in session (if still needed)
             Session::put('applicant', $applicant);
-            return redirect()->route('userdash.index')->with('success', 'You have successfully logged in!');
-        } else {
-            return redirect()->route('signin.index')->with('error', 'Invalid email or password!');
+            
+            return redirect()->intended(route('userdash.index'))
+                ->with('success', 'You have successfully logged in!');
         }
+
+        // If authentication fails
+        return redirect()->route('signin.index')
+            ->with('error', 'Invalid email or password!')
+            ->withInput($request->except('password'));
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('applicant')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect()->route('signin.index')
+            ->with('success', 'You have been logged out successfully.');
     }
 }
