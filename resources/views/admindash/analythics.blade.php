@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Analytics</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -146,13 +146,29 @@
         }
         
         .view-all-btn {
-            color: var(--primary-color);
-            font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+        .view-all-btn:hover {
+            background-color: #2c5fb3;
+            color: white;
             text-decoration: none;
         }
-        
-        .view-all-btn:hover {
-            text-decoration: underline;
+    
+        .view-all-btn i {
+            margin-left: 5px;
+            font-size: 0.7rem;
         }
     </style>
 </head>
