@@ -18,13 +18,19 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f7fa;
+            padding-left: 250px; /* Account for fixed sidebar */
         }
         
         .sidebar {
             background-color: white;
-            min-height: 100vh;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
             color: black;
             border-right: 1px solid #ddd;
+            z-index: 1000; /* Ensure sidebar stays above other content */
         }
         
         .sidebar .nav-link {
@@ -40,22 +46,7 @@
         .sidebar .nav-link i {
             margin-right: 10px;
         }
-        
-        .search-box {
-            border-radius: 20px;
-            padding-left: 40px;
-            background-color: #f1f3f5;
-            border: none;
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-        }
-        
+               
         .stat-card {
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -163,44 +154,18 @@
         .view-all-btn:hover {
             text-decoration: underline;
         }
-        
-        .gender-chart-container {
-            position: relative;
-            height: 200px;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        
-        .gender-legend {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .chart-title {
-            text-align: center;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-        
-        .sidebar-profile {
-            padding: 15px;
-            border-top: 1px solid #eee;
-            margin-top: auto;
-        }
     </style>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-2 sidebar p-0">
+            <div class="sidebar">
                 <div class="d-flex flex-column p-3 h-100">
                     <div class="text-center mb-4">
                         <h4>W.I.E.A.S</h4>
                     </div>
-                    
+                                       
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
                             <a href="{{ route('admindash.index') }}" class="nav-link">
@@ -244,33 +209,67 @@
                                 Settings
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item mt-3">
                             <a href="{{ route('admin.signin') }}" class="nav-link">
                                 <i class="fas fa-sign-out-alt"></i>
                                 Logout
                             </a>
                         </li>
-                    </ul>
-                    
-                    <!-- Profile Section in Sidebar -->
-                    <div class="sidebar-profile">
-                        <div class="d-flex align-items-center">
-                            <img src="https://via.placeholder.com/40" alt="Profile" class="profile-img me-2">
-                            <div>
-                                <p class="mb-0 fw-bold">Bogart Batumbakal</p>
-                                <small class="text-muted">bogartb68@gmail.com</small>
+                        
+                        <!-- Profile Section positioned right below Logout -->
+                        <li class="nav-item mt-3">
+                            <div class="d-flex align-items-center ps-3">
+                                <img src="https://via.placeholder.com/40" alt="Profile" class="profile-img me-2">
+                                <div>
+                                    <p class="mb-0 fw-bold">Bogart Batumbakal</p>
+                                    <small class="text-muted">bogartb68@gmail.com</small>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
             
             <!-- Main Content -->
-            <div class="col-md-10 ms-sm-auto p-4">
-                <!-- Top Bar -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="mb-0">Analytics Overview</h2>
+            <div class="col-md-15 ms-sm-auto p-4">
+                
+                {{-- 
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card p-3">
+                            <div class="card-body text-center">
+                                <div class="stat-number">20</div>
+                                <div class="stat-title">Total Applicants</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card p-3">
+                            <div class="card-body text-center">
+                                <div class="stat-number">20</div>
+                                <div class="stat-title">Active Job Listing</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card p-3">
+                            <div class="card-body text-center">
+                                <div class="stat-number">20</div>
+                                <div class="stat-title">Upcoming Interviews</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card p-3">
+                            <div class="card-body text-center">
+                                <div class="stat-number">20</div>
+                                <div class="stat-title">For Placements</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                     --}}
 
                 <!-- Applicants Summary Main Card -->
                 <div class="main-card">
@@ -280,92 +279,125 @@
                     </div>
                     <div class="main-card-body">
                         <div class="row">
-                            <!-- Age Profile Sub Card (Now with Pie Chart) -->
+                            <!-- Age Profile Sub Card -->
                             <div class="col-md-4 mb-4">
                                 <div class="sub-card">
-                                    <h6 class="chart-title">Age Profile</h6>
-                                    <div class="gender-chart-container">
-                                        <canvas id="ageChart"></canvas>
+                                    <h6>Age Profile</h6>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>20-30</span>
+                                            <span>35%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 35%"></div>
+                                        </div>
                                     </div>
-                                    <div class="gender-legend">
-                                        <div><span class="gender-badge male-badge me-1"></span> 20-30</div>
-                                        <div><span class="gender-badge female-badge me-1"></span> 30-40</div>
-                                        <div><span class="gender-badge other-badge me-1"></span> 40-50</div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>30-40</span>
+                                            <span>19%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 19%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>40-50</span>
+                                            <span>63%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 63%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>50-60</span>
+                                            <span>38%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 38%"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Gender Profile Sub Card (Adjusted layout) -->
+                            <!-- Gender Profile Sub Card -->
                             <div class="col-md-4 mb-4">
                                 <div class="sub-card">
-                                    <h6 class="chart-title">Gender Profile</h6>
-                                    <div class="gender-chart-container">
+                                    <h6>Gender Profile</h6>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="gender-badge male-badge me-2">Male</span>
+                                        <span>65%</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="gender-badge female-badge me-2">Female</span>
+                                        <span>30%</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="gender-badge other-badge me-2">Others</span>
+                                        <span>25%</span>
+                                    </div>
+                                    <div class="chart-container mt-3">
                                         <canvas id="genderChart"></canvas>
                                     </div>
-                                    <div class="gender-legend">
-                                        <div><span class="gender-badge male-badge me-1"></span> Male</div>
-                                        <div><span class="gender-badge female-badge me-1"></span> Female</div>
-                                        <div><span class="gender-badge other-badge me-1"></span> Others</div>
-                                    </div>
                                 </div>
                             </div>
                             
-                            <!-- Location Profile Sub Card (Now with Pie Chart) -->
+                            <!-- Location Profile Sub Card -->
                             <div class="col-md-4 mb-4">
                                 <div class="sub-card">
-                                    <h6 class="chart-title">Location Profile</h6>
-                                    <div class="gender-chart-container">
-                                        <canvas id="locationChart"></canvas>
+                                    <h6>Location Profile</h6>
+                                    
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>Luzon</span>
+                                            <span>66%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 66%"></div>
+                                        </div>
                                     </div>
-                                    <div class="gender-legend">
-                                        <div><span class="gender-badge male-badge me-1"></span> Metro Manila</div>
-                                        <div><span class="gender-badge female-badge me-1"></span> Luzon</div>
-                                        <div><span class="gender-badge other-badge me-1"></span> Visayas</div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>Visayas</span>
+                                            <span>56%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 56%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>Mindanao</span>
+                                            <span>64%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 64%"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Experience Level (Now with Progress Bars) -->
+                        <!-- Subject Breakdown and Experience Level -->
                         <div class="row mt-3">
-                            <div class="col-md-12">
+                            <!-- Subject Breakdown Sub Card -->
+                            <div class="col-md-6 mb-3">
+                                <div class="sub-card">
+                                    <h6>Subject Breakdown</h6>
+                                    <div class="chart-container">
+                                        <canvas id="subjectChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Experience Level Sub Card -->
+                            <div class="col-md-6 mb-3">
                                 <div class="sub-card">
                                     <h6>Experience Level</h6>
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <span>Less than 1 year</span>
-                                            <span>25%</span>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <span>1-3 years</span>
-                                            <span>45%</span>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 45%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <span>3-5 years</span>
-                                            <span>20%</span>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 20%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <span>5+ years</span>
-                                            <span>10%</span>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 10%"></div>
-                                        </div>
+                                    <div class="chart-container">
+                                        <canvas id="experienceChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -435,38 +467,7 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Age Profile Chart (Pie)
-            const ageCtx = document.getElementById('ageChart').getContext('2d');
-            const ageChart = new Chart(ageCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['20-30', '30-40', '40-50'],
-                    datasets: [{
-                        data: [35, 19, 63],
-                        backgroundColor: [
-                            'rgba(58, 123, 213, 0.7)',
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(75, 192, 192, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(58, 123, 213, 1)',
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(75, 192, 192, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-
-            // Gender Chart (Pie) - Adjusted layout
+            // Gender Chart (Pie)
             const genderCtx = document.getElementById('genderChart').getContext('2d');
             const genderChart = new Chart(genderCtx, {
                 type: 'pie',
@@ -496,38 +497,69 @@
                     }
                 }
             });
-
-            // Location Profile Chart (Pie)
-            const locationCtx = document.getElementById('locationChart').getContext('2d');
-            const locationChart = new Chart(locationCtx, {
-                type: 'pie',
+            
+            // Subject Breakdown Chart (Horizontal Bar)
+            const subjectCtx = document.getElementById('subjectChart').getContext('2d');
+            const subjectChart = new Chart(subjectCtx, {
+                type: 'bar',
                 data: {
-                    labels: ['Metro Manila', 'Luzon', 'Visayas'],
+                    labels: ['Wider', 'Hello', 'Education', 'Wider', 'Hello', 'Education'],
                     datasets: [{
-                        data: [35, 66, 56],
-                        backgroundColor: [
-                            'rgba(58, 123, 213, 0.7)',
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(75, 192, 192, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(58, 123, 213, 1)',
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(75, 192, 192, 1)'
-                        ],
+                        label: '2023',
+                        data: [35, 19, 63, 38, 26, 15],
+                        backgroundColor: 'rgba(58, 123, 213, 0.7)',
+                        borderColor: 'rgba(58, 123, 213, 1)',
                         borderWidth: 1
                     }]
                 },
                 options: {
+                    indexAxis: 'y',
                     responsive: true,
                     plugins: {
                         legend: {
                             display: false
                         }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100
+                        }
                     }
                 }
             });
-
+            
+            // Experience Level Chart (Horizontal Bar)
+            const experienceCtx = document.getElementById('experienceChart').getContext('2d');
+            const experienceChart = new Chart(experienceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Major', 'Home', 'Education', 'Wider', 'Home', 'Education'],
+                    datasets: [{
+                        label: '2023',
+                        data: [35, 66, 56, 64, 68, 15],
+                        backgroundColor: 'rgba(0, 210, 255, 0.7)',
+                        borderColor: 'rgba(0, 210, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+            
             // Application Trends Chart (Line)
             const trendsCtx = document.getElementById('applicationTrendsChart').getContext('2d');
             const trendsChart = new Chart(trendsCtx, {
