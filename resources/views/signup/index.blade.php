@@ -117,7 +117,6 @@
         }
     </style>
 </head>
-<>
     <div class="signup-container">
         <div class="form-section">
             <div class="text-center mb-4">
@@ -160,10 +159,15 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </form>
-            <div class="text-center my-3">or sign up with</div>
-            <button class="google-btn btn d-flex align-items-center justify-content-center">
-                <img src="{{ asset('images/google.webp') }}" alt="Google" width="20" class="me-2"> Google
-            </button>
+            <div class="text-center my-3">
+                <label for="terms-checkbox">
+                    <input type="checkbox" id="terms-checkbox" required> 
+                    By signing in or creating an account, you agree to our 
+                    <a href="{{ route('signup.terms') }}" target="_blank">Terms and Conditions</a> and 
+                    <a href="{{ route('signup.terms') }}" target="_blank">Privacy Policy</a>.
+                </label>
+            </div>
+
             <div class="text-center mt-3">
                 <strong><small>Already have an account? <a href="{{ route('signin.index') }}" class="text-primary">Log in</a></small></strong>
             </div>

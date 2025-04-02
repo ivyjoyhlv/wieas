@@ -41,6 +41,7 @@ Route::post('/signup', [SignupController::class, 'store'])->name('signup.store')
 Route::post('/verify', [SignupController::class, 'verify'])->name('signup.verify');
 Route::post('/resend-otp', [SignupController::class, 'resend'])->name('signup.resend');
 Route::get('/verify', [VerificationController::class, 'index'])->name('verify.index');
+Route::get('/signup/terms', [SignupController::class, 'terms'])->name('signup.terms');
 
 // Applicant dashboard routes
 Route::middleware(['auth:applicant'])->group(function () {

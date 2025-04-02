@@ -91,5 +91,9 @@ class SignupController extends Controller
     Mail::to($applicant->email)->send(new VerificationEmail($otp));
 
     return response()->json(['message' => 'OTP resent successfully.']);
-}
+    }
+    public function terms()
+    {
+        return view('signup.terms');
+    }
 }

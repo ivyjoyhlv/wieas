@@ -309,16 +309,6 @@
         </div>
     </header>
 
-    <section class="logos py-4 bg-white">
-    <div class="container">
-        <div class="d-flex justify-content-around logos">
-            <img src="{{ asset('images/placeholder.jpg') }}" alt="Logo">
-            <img src="{{ asset('images/placeholder.jpg') }}" alt="Logo">
-            <img src="{{ asset('images/placeholder.jpg') }}" alt="Logo">
-            <img src="{{ asset('images/placeholder.jpg') }}" alt="Logo">
-            <img src="{{ asset('images/placeholder.jpg') }}" alt="Logo">
-        </div>
-    </div>
 </section>
 
 
